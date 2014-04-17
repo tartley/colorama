@@ -1,3 +1,8 @@
+0.2.8
+    Move repository to Git, https://github.com/tartley/colorama.
+    My Mercurial repo seemed to be corrupted, I couldn't commit nor view
+    patches of old commits, even on fresh checkouts.
+    Fix always-crash on non-Windows platforms, reported by Matt McCormick.
 0.2.7
     Fix problem under 64-bit windows due to ctypes HANDLE size.
     Submitted by the rather magnificent Ben Hoyt.
