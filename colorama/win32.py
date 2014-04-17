@@ -4,8 +4,12 @@
 STDOUT = -11
 STDERR = -12
 
+import ctypes
+from ctypes import LibraryLoader
+
+windll = LibraryLoader(ctypes.WinDLL)
+
 try:
-    from ctypes import windll
     from ctypes import wintypes
 except ImportError:
     windll = None
