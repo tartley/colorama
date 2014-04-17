@@ -1,7 +1,7 @@
 Download and docs:
     http://pypi.python.org/pypi/colorama
 Development:
-    http://code.google.com/p/colorama
+    https://github.com/tartley/colorama
 Discussion group:
      https://groups.google.com/forum/#!forum/python-colorama
 
@@ -37,12 +37,12 @@ Demo scripts in the source code repository prints some colored text using
 ANSI sequences. Compare their output under Gnome-terminal's built in ANSI
 handling, versus on Windows Command-Prompt using Colorama:
 
-.. image:: http://colorama.googlecode.com/hg/screenshots/ubuntu-demo.png
+.. image:: https://github.com/tartley/colorama/raw/master/screenshots/ubuntu-demo.png
     :width: 661
     :height: 357
     :alt: ANSI sequences on Ubuntu under gnome-terminal.
 
-.. image:: http://colorama.googlecode.com/hg/screenshots/windows-demo.png
+.. image:: https://github.com/tartley/colorama/raw/master/screenshots/windows-demo.png
     :width: 668
     :height: 325
     :alt: Same ANSI sequences on Windows, using Colorama.
@@ -192,7 +192,7 @@ I've personally only tested it on WinXP (CMD, Console2), Ubuntu
 Some presumably valid ANSI sequences aren't recognised (see details below)
 but to my knowledge nobody has yet complained about this. Puzzling.
 
-See outstanding issues and wishlist at:
+See outstanding issues and wishlist, still on Google code for the time being:
 http://code.google.com/p/colorama/issues/list
 
 If anything doesn't work for you, or doesn't do what you expected or hoped for,

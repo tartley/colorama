@@ -22,7 +22,7 @@ setup(
     keywords='color colour terminal text ansi windows crossplatform xplatform',
     author='Jonathan Hartley',
     author_email='tartley@tartley.com',
-    url='http://code.google.com/p/colorama/',
+    url='https://pypi.python.org/pypi/colorama',
     license='BSD',
     packages=[NAME],
     # see classifiers http://pypi.python.org/pypi?%3Aaction=list_classifiers
