@@ -81,9 +81,9 @@ class InitTest(TestCase):
     def testAutoResetPassedOn(self, mockATW32, _):
         with platform('windows'):
             init(autoreset=True)
-            self.assertEquals(len(mockATW32.call_args_list), 2)
-            self.assertEquals(mockATW32.call_args_list[1][1]['autoreset'], True)
-            self.assertEquals(mockATW32.call_args_list[0][1]['autoreset'], True)
+            self.assertEqual(len(mockATW32.call_args_list), 2)
+            self.assertEqual(mockATW32.call_args_list[1][1]['autoreset'], True)
+            self.assertEqual(mockATW32.call_args_list[0][1]['autoreset'], True)
 
     @patch('colorama.initialise.AnsiToWin32')
     def testAutoResetChangeable(self, mockATW32):
@@ -91,15 +91,15 @@ class InitTest(TestCase):
             init()
 
             init(autoreset=True)
-            self.assertEquals(len(mockATW32.call_args_list), 4)
-            self.assertEquals(mockATW32.call_args_list[2][1]['autoreset'], True)
-            self.assertEquals(mockATW32.call_args_list[3][1]['autoreset'], True)
+            self.assertEqual(len(mockATW32.call_args_list), 4)
+            self.assertEqual(mockATW32.call_args_list[2][1]['autoreset'], True)
+            self.assertEqual(mockATW32.call_args_list[3][1]['autoreset'], True)
 
             init()
-            self.assertEquals(len(mockATW32.call_args_list), 6)
-            self.assertEquals(
+            self.assertEqual(len(mockATW32.call_args_list), 6)
+            self.assertEqual(
                 mockATW32.call_args_list[4][1]['autoreset'], False)
-            self.assertEquals(
+            self.assertEqual(
                 mockATW32.call_args_list[5][1]['autoreset'], False)
 
 

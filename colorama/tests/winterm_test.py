@@ -17,9 +17,9 @@ class WinTermTest(TestCase):
         mockAttr.wAttributes = 7 + 6 * 16 + 8
         mockWin32.GetConsoleScreenBufferInfo.return_value = mockAttr
         term = WinTerm()
-        self.assertEquals(term._fore, 7)
-        self.assertEquals(term._back, 6)
-        self.assertEquals(term._style, 8)
+        self.assertEqual(term._fore, 7)
+        self.assertEqual(term._back, 6)
+        self.assertEqual(term._style, 8)
 
     def testGetAttrs(self):
         term = WinTerm()
@@ -27,18 +27,18 @@ class WinTermTest(TestCase):
         term._fore = 0
         term._back = 0
         term._style = 0
-        self.assertEquals(term.get_attrs(), 0)
+        self.assertEqual(term.get_attrs(), 0)
 
         term._fore = WinColor.YELLOW
-        self.assertEquals(term.get_attrs(), WinColor.YELLOW)
+        self.assertEqual(term.get_attrs(), WinColor.YELLOW)
 
         term._back = WinColor.MAGENTA
-        self.assertEquals(
+        self.assertEqual(
             term.get_attrs(),
             WinColor.YELLOW + WinColor.MAGENTA * 16)
 
         term._style = WinStyle.BRIGHT
-        self.assertEquals(
+        self.assertEqual(
             term.get_attrs(),
             WinColor.YELLOW + WinColor.MAGENTA * 16 + WinStyle.BRIGHT)
 
@@ -56,10 +56,10 @@ class WinTermTest(TestCase):
 
         term.reset_all()
 
-        self.assertEquals(term._fore, 1)
-        self.assertEquals(term._back, 2)
-        self.assertEquals(term._style, 8)
-        self.assertEquals(term.set_console.called, True)
+        self.assertEqual(term._fore, 1)
+        self.assertEqual(term._back, 2)
+        self.assertEqual(term._style, 8)
+        self.assertEqual(term.set_console.called, True)
 
     def testFore(self):
         term = WinTerm()
@@ -68,8 +68,8 @@ class WinTermTest(TestCase):
 
         term.fore(5)
 
-        self.assertEquals(term._fore, 5)
-        self.assertEquals(term.set_console.called, True)
+        self.assertEqual(term._fore, 5)
+        self.assertEqual(term.set_console.called, True)
     
     def testBack(self):
         term = WinTerm()
@@ -78,8 +78,8 @@ class WinTermTest(TestCase):
 
         term.back(5)
 
-        self.assertEquals(term._back, 5)
-        self.assertEquals(term.set_console.called, True)
+        self.assertEqual(term._back, 5)
+        self.assertEqual(term.set_console.called, True)
         
     def testStyle(self):
         term = WinTerm()
@@ -88,8 +88,8 @@ class WinTermTest(TestCase):
 
         term.style(22)
 
-        self.assertEquals(term._style, 22)
-        self.assertEquals(term.set_console.called, True)
+        self.assertEqual(term._style, 22)
+        self.assertEqual(term.set_console.called, True)
 
     @patch('colorama.winterm.win32')
     def testSetConsole(self, mockWin32):
@@ -101,7 +101,7 @@ class WinTermTest(TestCase):
 
         term.set_console()
 
-        self.assertEquals(
+        self.assertEqual(
             mockWin32.SetConsoleTextAttribute.call_args,
             ((mockWin32.STDOUT, term.get_attrs()), {})
         )
@@ -116,7 +116,7 @@ class WinTermTest(TestCase):
 
         term.set_console(on_stderr=True)
         
-        self.assertEquals(
+        self.assertEqual(
             mockWin32.SetConsoleTextAttribute.call_args,
             ((mockWin32.STDERR, term.get_attrs()), {})
         )

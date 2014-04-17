@@ -33,8 +33,8 @@ class AnsiToWin32Test(TestCase):
         mockStdout = object()
         auto = object()
         stream = AnsiToWin32(mockStdout, autoreset=auto)
-        self.assertEquals(stream.wrapped, mockStdout)
-        self.assertEquals(stream.autoreset, auto)
+        self.assertEqual(stream.wrapped, mockStdout)
+        self.assertEqual(stream.autoreset, auto)
 
     @patch('colorama.ansitowin32.winterm', None)
     def testStripIsTrueOnWindows(self):
@@ -58,7 +58,7 @@ class AnsiToWin32Test(TestCase):
         stream.write('abc')
 
         self.assertFalse(stream.wrapped.write.called)
-        self.assertEquals(stream.write_and_convert.call_args, (('abc',), {}))
+        self.assertEqual(stream.write_and_convert.call_args, (('abc',), {}))
 
 
     def testWriteDoesNotStripAnsi(self):
@@ -72,7 +72,7 @@ class AnsiToWin32Test(TestCase):
         stream.write('abc')
         
         self.assertFalse(stream.write_and_convert.called)
-        self.assertEquals(stream.wrapped.write.call_args, (('abc',), {}))
+        self.assertEqual(stream.wrapped.write.call_args, (('abc',), {}))
 
 
     def assert_autoresets(self, convert, autoreset=True):
@@ -84,7 +84,7 @@ class AnsiToWin32Test(TestCase):
 
         stream.write('abc')
         
-        self.assertEquals(stream.reset_all.called, autoreset)
+        self.assertEqual(stream.reset_all.called, autoreset)
 
     def testWriteAutoresets(self):
         self.assert_autoresets(convert=True)
@@ -95,7 +95,7 @@ class AnsiToWin32Test(TestCase):
     def testWriteAndConvertWritesPlainText(self):
         stream = AnsiToWin32(Mock())
         stream.write_and_convert( 'abc' )
-        self.assertEquals( stream.wrapped.write.call_args, (('abc',), {}) )
+        self.assertEqual( stream.wrapped.write.call_args, (('abc',), {}) )
 
     def testWriteAndConvertStripsAllValidAnsi(self):
         stream = AnsiToWin32(Mock())
@@ -118,7 +118,7 @@ class AnsiToWin32Test(TestCase):
         for datum in data:
             stream.wrapped.write.reset_mock()
             stream.write_and_convert( datum )
-            self.assertEquals(
+            self.assertEqual(
                [args[0] for args in stream.wrapped.write.call_args_list],
                [ ('abc',), ('def',) ]
             )
@@ -144,7 +144,7 @@ class AnsiToWin32Test(TestCase):
         for datum, expected in data.items():
             stream.call_win32.reset_mock()
             stream.write_and_convert( datum )
-            self.assertEquals( stream.call_win32.call_args[0], expected )
+            self.assertEqual( stream.call_win32.call_args[0], expected )
 
     def testExtractParams(self):
         stream = AnsiToWin32(Mock())
@@ -158,7 +158,7 @@ class AnsiToWin32Test(TestCase):
             '11;22;33;44;55': (11, 22, 33, 44, 55),
         }
         for datum, expected in data.items():
-            self.assertEquals(stream.extract_params(datum), expected)
+            self.assertEqual(stream.extract_params(datum), expected)
 
     def testCallWin32UsesLookup(self):
         listener = Mock()
@@ -169,7 +169,7 @@ class AnsiToWin32Test(TestCase):
             3: (lambda *_, **__: listener(33),),
         }
         stream.call_win32('m', (3, 1, 99, 2))
-        self.assertEquals(
+        self.assertEqual(
             [a[0][0] for a in listener.call_args_list],
             [33, 11, 22] )
 

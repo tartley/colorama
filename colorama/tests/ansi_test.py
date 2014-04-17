@@ -27,33 +27,33 @@ class AnsiTest(TestCase):
 
 
     def testForeAttributes(self):
-        self.assertEquals(Fore.BLACK, '\033[30m')
-        self.assertEquals(Fore.RED, '\033[31m')
-        self.assertEquals(Fore.GREEN, '\033[32m')
-        self.assertEquals(Fore.YELLOW, '\033[33m')
-        self.assertEquals(Fore.BLUE, '\033[34m')
-        self.assertEquals(Fore.MAGENTA, '\033[35m')
-        self.assertEquals(Fore.CYAN, '\033[36m')
-        self.assertEquals(Fore.WHITE, '\033[37m')
-        self.assertEquals(Fore.RESET, '\033[39m')
+        self.assertEqual(Fore.BLACK, '\033[30m')
+        self.assertEqual(Fore.RED, '\033[31m')
+        self.assertEqual(Fore.GREEN, '\033[32m')
+        self.assertEqual(Fore.YELLOW, '\033[33m')
+        self.assertEqual(Fore.BLUE, '\033[34m')
+        self.assertEqual(Fore.MAGENTA, '\033[35m')
+        self.assertEqual(Fore.CYAN, '\033[36m')
+        self.assertEqual(Fore.WHITE, '\033[37m')
+        self.assertEqual(Fore.RESET, '\033[39m')
 
 
     def testBackAttributes(self):
-        self.assertEquals(Back.BLACK, '\033[40m')
-        self.assertEquals(Back.RED, '\033[41m')
-        self.assertEquals(Back.GREEN, '\033[42m')
-        self.assertEquals(Back.YELLOW, '\033[43m')
-        self.assertEquals(Back.BLUE, '\033[44m')
-        self.assertEquals(Back.MAGENTA, '\033[45m')
-        self.assertEquals(Back.CYAN, '\033[46m')
-        self.assertEquals(Back.WHITE, '\033[47m')
-        self.assertEquals(Back.RESET, '\033[49m')
+        self.assertEqual(Back.BLACK, '\033[40m')
+        self.assertEqual(Back.RED, '\033[41m')
+        self.assertEqual(Back.GREEN, '\033[42m')
+        self.assertEqual(Back.YELLOW, '\033[43m')
+        self.assertEqual(Back.BLUE, '\033[44m')
+        self.assertEqual(Back.MAGENTA, '\033[45m')
+        self.assertEqual(Back.CYAN, '\033[46m')
+        self.assertEqual(Back.WHITE, '\033[47m')
+        self.assertEqual(Back.RESET, '\033[49m')
 
 
     def testStyleAttributes(self):
-        self.assertEquals(Style.DIM, '\033[2m')
-        self.assertEquals(Style.NORMAL, '\033[22m')
-        self.assertEquals(Style.BRIGHT, '\033[1m')
+        self.assertEqual(Style.DIM, '\033[2m')
+        self.assertEqual(Style.NORMAL, '\033[22m')
+        self.assertEqual(Style.BRIGHT, '\033[1m')
 
 
 if __name__ == '__main__':
