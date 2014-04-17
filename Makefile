@@ -24,7 +24,7 @@ upload: clean
 .PHONY: release
 
 test:
-	-nosetests -s
+	python -m unittest discover -p *_test.py
 .PHONY: test
 
 tags:
