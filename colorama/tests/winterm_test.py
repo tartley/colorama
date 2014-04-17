@@ -1,9 +1,10 @@
 # Copyright Jonathan Hartley 2013. BSD 3-Clause license, see LICENSE file.
 from mock import Mock, patch
+import sys
 try:
-    from unittest2 import TestCase, main
+    from unittest2 import TestCase, main, skipUnless
 except ImportError:
-    from unittest import TestCase, main
+    from unittest import TestCase, main, skipUnless
 
 
 from ..winterm import WinColor, WinStyle, WinTerm
@@ -21,6 +22,7 @@ class WinTermTest(TestCase):
         self.assertEqual(term._back, 6)
         self.assertEqual(term._style, 8)
 
+    @skipUnless(sys.platform.startswith("win"), "requires Windows")
     def testGetAttrs(self):
         term = WinTerm()
 
@@ -61,6 +63,7 @@ class WinTermTest(TestCase):
         self.assertEqual(term._style, 8)
         self.assertEqual(term.set_console.called, True)
 
+    @skipUnless(sys.platform.startswith("win"), "requires Windows")
     def testFore(self):
         term = WinTerm()
         term.set_console = Mock()
@@ -70,7 +73,8 @@ class WinTermTest(TestCase):
 
         self.assertEqual(term._fore, 5)
         self.assertEqual(term.set_console.called, True)
-    
+
+    @skipUnless(sys.platform.startswith("win"), "requires Windows")
     def testBack(self):
         term = WinTerm()
         term.set_console = Mock()
@@ -80,7 +84,8 @@ class WinTermTest(TestCase):
 
         self.assertEqual(term._back, 5)
         self.assertEqual(term.set_console.called, True)
-        
+
+    @skipUnless(sys.platform.startswith("win"), "requires Windows")
     def testStyle(self):
         term = WinTerm()
         term.set_console = Mock()
