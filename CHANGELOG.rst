@@ -1,5 +1,6 @@
 0.3.1
   * Fixed crash on exit with closed stdout, with thanks to Marc Abramowitz.
+  * Now uses setuptools if available, and falls back to distutils if not.
 0.3.0
   * Move repository to Git, https://github.com/tartley/colorama. (My Mercurial
     repo seemed to be corrupted, I couldn't commit nor view patches of old
