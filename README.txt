@@ -294,6 +294,7 @@ Created by Jonathan Hartley, tartley@tartley.com
 
 Thanks
 ======
+| Marc Abramowitz, for reporting and fixing a crash on exit with closed stdout.
 | User 'eryksun', for guidance on correctly instantiating ctypes.windll.
 | Matthew McCormick for politely pointing out a longstanding crash on non-Win.
 | Ben Hoyt, for a magnificent fix under 64-bit Windows.

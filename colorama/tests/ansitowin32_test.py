@@ -1,9 +1,19 @@
 # Copyright Jonathan Hartley 2013. BSD 3-Clause license, see LICENSE file.
-from mock import Mock, patch
 try:
+    # python3
+    from io import StringIO
+except ImportError:
+    # python2
+    import StringIO
+
+try:
+    # with unittest2 installed, presumably is Python <= 2.6
     from unittest2 import TestCase, main
 except ImportError:
+    # without unittest2 installed, hopefully is Python > 2.6
     from unittest import TestCase, main
+
+from mock import Mock, patch
 
 from .utils import platform
 
@@ -145,6 +155,14 @@ class AnsiToWin32Test(TestCase):
             stream.call_win32.reset_mock()
             stream.write_and_convert( datum )
             self.assertEqual( stream.call_win32.call_args[0], expected )
+
+    def test_reset_all_shouldnt_raise_on_closed_orig_stdout(self):
+        stream = StringIO()
+        converter = AnsiToWin32(stream)
+        stream.close()
+
+        converter.reset_all()
+
 
     def testExtractParams(self):
         stream = AnsiToWin32(Mock())
