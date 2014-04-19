@@ -1,28 +1,40 @@
 #!/usr/bin/env python
 # Copyright Jonathan Hartley 2013. BSD 3-Clause license, see LICENSE file.
-from os.path import dirname, join
-
+import os
+import re
 try:
     from setuptools import setup
 except ImportError:
     from distutils.core import setup
-
-from colorama import VERSION
 
 
 NAME = 'colorama'
 
 
 def get_long_description(filename):
-    readme = join(dirname(__file__), filename)
+    readme = os.path.join(os.path.dirname(__file__), filename)
     return open(readme).read()
 
+def read_file(path):
+    with open(os.path.join(os.path.dirname(__file__), path)) as fp:
+        return fp.read()
+
+def _get_version_match(content):
+    # Search for lines of the form: # __version__ = 'ver'
+    regex = r"^__version__ = ['\"]([^'\"]*)['\"]"
+    version_match = re.search(regex, content, re.M)
+    if version_match:
+        return version_match.group(1)
+    raise RuntimeError("Unable to find version string.")
+
+def get_version(path):
+    return _get_version_match(read_file(path))
 
 setup(
     name=NAME,
-    version=VERSION,
+    version=get_version(os.path.join('colorama', '__init__.py')),
     description='Cross-platform colored terminal text.',
-    long_description=get_long_description('README.txt'),
+    long_description=read_file('README.txt'),
     keywords='color colour terminal text ansi windows crossplatform xplatform',
     author='Jonathan Hartley',
     author_email='tartley@tartley.com',
