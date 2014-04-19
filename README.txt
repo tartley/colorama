@@ -276,12 +276,14 @@ Running tests requires:
   be run either using Python2.7 or greater, or else to have Michael Foord's
   'unittest2' module installed.
 
-unittest2 test discovery doesn't work for colorama, so I use 'nose'::
+To run tests::
 
-    nosetests -s
+   python -m unittest discover -p *_test.py 
 
-The -s is required because 'nosetests' otherwise applies a proxy of its own to
-stdout, which confuses the unit tests.
+This, like a few other handy commands, is captured in a Makefile.
+
+If using nose to run the tests, pass the -s flag required because 'nosetests'
+otherwise applies a proxy of its own to stdout, which confuses the unit tests.
 
 
 Contact
@@ -292,6 +294,8 @@ Created by Jonathan Hartley, tartley@tartley.com
 
 Thanks
 ======
+| User 'eryksun', for guidance on correctly instantiating ctypes.windll.
+| Matthew McCormick for politely pointing out a longstanding crash on non-Win.
 | Ben Hoyt, for a magnificent fix under 64-bit Windows.
 | Jesse@EmptySquare for submitting a fix for examples in the README.
 | User 'jamessp', an observant documentation fix for cursor positioning.
