@@ -109,6 +109,7 @@ class AnsiToWin32(object):
                 AnsiBack.WHITE: (winterm.back, WinColor.GREY),
                 AnsiBack.RESET: (winterm.back, ),
             }
+        return dict()
 
 
     def write(self, text):
