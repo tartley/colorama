@@ -94,7 +94,7 @@ class WinTerm(object):
         adjusted_position = (position.Y - num_rows, position.X)
         self.set_cursor_position(adjusted_position, on_stderr)
 
-    def erase_data(self, mode=0, on_stderr=False):
+    def erase_screen(self, mode=0, on_stderr=False):
         # 0 should clear from the cursor to the end of the screen.
         # 1 should clear from the cursor to the beginning of the screen.
         # 2 should clear the entire screen, and move cursor to (1,1)
@@ -110,10 +110,10 @@ class WinTerm(object):
             from_coord = csbi.dwCursorPosition
             cells_to_erase = cells_in_screen - cells_before_cursor
         if mode == 1:
-            from_coord = win32.COORD(0,0)
+            from_coord = win32.COORD(0, 0)
             cells_to_erase = cells_before_cursor
         elif mode == 2:
-            from_coord = win32.COORD(0,0)
+            from_coord = win32.COORD(0, 0)
             cells_to_erase = cells_in_screen
         # fill the entire screen with blanks
         win32.FillConsoleOutputCharacter(handle, ' ', cells_to_erase, from_coord)
@@ -121,4 +121,26 @@ class WinTerm(object):
         win32.FillConsoleOutputAttribute(handle, self.get_attrs(), cells_to_erase, from_coord)
         if mode == 2:
             # put the cursor where needed
-            win32.SetConsoleCursorPosition(handle, (1,1))
+            win32.SetConsoleCursorPosition(handle, (1, 1))
+
+    def erase_line(self, mode=0, on_stderr=False):
+        # 0 should clear from the cursor to the end of the line.
+        # 1 should clear from the cursor to the beginning of the line.
+        # 2 should clear the entire line.
+        handle = win32.STDOUT
+        if on_stderr:
+            handle = win32.STDERR
+        csbi = win32.GetConsoleScreenBufferInfo(handle)
+        if mode == 0:
+            from_coord = csbi.dwCursorPosition
+            cells_to_erase = csbi.dwSize.X - csbi.dwCursorPosition.X
+        if mode == 1:
+            from_coord = win32.COORD(0, csbi.dwCursorPosition.Y)
+            cells_to_erase = csbi.dwCursorPosition.X
+        elif mode == 2:
+            from_coord = win32.COORD(0, csbi.dwCursorPosition.Y)
+            cells_to_erase = csbi.dwSize.X
+        # fill the entire screen with blanks
+        win32.FillConsoleOutputCharacter(handle, ' ', cells_to_erase, from_coord)
+        # now set the buffer's attributes accordingly
+        win32.FillConsoleOutputAttribute(handle, self.get_attrs(), cells_to_erase, from_coord)

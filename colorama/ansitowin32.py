@@ -178,8 +178,11 @@ class AnsiToWin32(object):
         elif command in ('H', 'f'): # set cursor position
             func = winterm.set_cursor_position
             func(params, on_stderr=self.on_stderr)
-        elif command in ('J'):
-            func = winterm.erase_data
+        elif command in 'J':
+            func = winterm.erase_screen
+            func(params[0], on_stderr=self.on_stderr)
+        elif command in 'K':
+            func = winterm.erase_line
             func(params[0], on_stderr=self.on_stderr)
         elif command == 'A':
             if params == () or params == None:
