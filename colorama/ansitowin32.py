@@ -180,7 +180,7 @@ class AnsiToWin32(object):
             func(params, on_stderr=self.on_stderr)
         elif command in ('J'):
             func = winterm.erase_data
-            func(params, on_stderr=self.on_stderr)
+            func(params[0], on_stderr=self.on_stderr)
         elif command == 'A':
             if params == () or params == None:
                 num_rows = 1
