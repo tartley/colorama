@@ -17,14 +17,16 @@ else:
         byref, Structure, c_char, c_short, c_uint32, c_ushort, POINTER
     )
 
+    COORD = wintypes._COORD
+
     class CONSOLE_SCREEN_BUFFER_INFO(Structure):
         """struct in wincon.h."""
         _fields_ = [
-            ("dwSize", wintypes._COORD),
-            ("dwCursorPosition", wintypes._COORD),
+            ("dwSize", COORD),
+            ("dwCursorPosition", COORD),
             ("wAttributes", wintypes.WORD),
             ("srWindow", wintypes.SMALL_RECT),
-            ("dwMaximumWindowSize", wintypes._COORD),
+            ("dwMaximumWindowSize", COORD),
         ]
         def __str__(self):
             return '(%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d)' % (
@@ -58,7 +60,7 @@ else:
     _SetConsoleCursorPosition = windll.kernel32.SetConsoleCursorPosition
     _SetConsoleCursorPosition.argtypes = [
         wintypes.HANDLE,
-        wintypes._COORD,
+        COORD,
     ]
     _SetConsoleCursorPosition.restype = wintypes.BOOL
 
@@ -67,7 +69,7 @@ else:
         wintypes.HANDLE,
         c_char,
         wintypes.DWORD,
-        wintypes._COORD,
+        COORD,
         POINTER(wintypes.DWORD),
     ]
     _FillConsoleOutputCharacterA.restype = wintypes.BOOL
@@ -77,7 +79,7 @@ else:
         wintypes.HANDLE,
         wintypes.WORD,
         wintypes.DWORD,
-        wintypes._COORD,
+        COORD,
         POINTER(wintypes.DWORD),
     ]
     _FillConsoleOutputAttribute.restype = wintypes.BOOL
@@ -99,14 +101,14 @@ else:
         return _SetConsoleTextAttribute(handle, attrs)
 
     def SetConsoleCursorPosition(stream_id, position):
-        position = wintypes._COORD(*position)
+        position = COORD(*position)
         # If the position is out of range, do nothing.
         if position.Y <= 0 or position.X <= 0:
             return
         # Adjust for Windows' SetConsoleCursorPosition:
         #    1. being 0-based, while ANSI is 1-based.
         #    2. expecting (x,y), while ANSI uses (y,x).
-        adjusted_position = wintypes._COORD(position.Y - 1, position.X - 1)
+        adjusted_position = COORD(position.Y - 1, position.X - 1)
         # Adjust for viewport's scroll position
         sr = GetConsoleScreenBufferInfo(STDOUT).srWindow
         adjusted_position.Y += sr.Top
