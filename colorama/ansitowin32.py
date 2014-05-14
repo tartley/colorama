@@ -165,7 +165,7 @@ class AnsiToWin32(object):
 
 
     def call_win32(self, command, params):
-        if params == []:
+        if len(params) == 0:
             params = [0]
         if command == 'm':
             for param in params:
