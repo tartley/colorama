@@ -119,7 +119,7 @@ else:
 
     def FillConsoleOutputCharacter(stream_id, char, length, start):
         handle = handles[stream_id]
-        char = c_char(char)
+        char = c_char(char.encode())
         length = wintypes.DWORD(length)
         num_written = wintypes.DWORD(0)
         # Note that this is hard-coded for ANSI (vs wide) bytes.
