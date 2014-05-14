@@ -73,7 +73,7 @@ class WinTerm(object):
         position.X += 1
         position.Y += 1
         return position
-    
+
     def set_cursor_position(self, position=None, on_stderr=False):
         if position is None:
             #I'm not currently tracking the position, so there is no default.
@@ -97,7 +97,7 @@ class WinTerm(object):
     def erase_data(self, mode=0, on_stderr=False):
         # 0 (or None) should clear from the cursor to the end of the screen.
         # 1 should clear from the cursor to the beginning of the screen.
-        # 2 should clear the entire screen. (And maybe move cursor to (1,1)?)
+        # 2 should clear the entire screen, and move cursor to (1,1)
         #
         # At the moment, I only support mode 2. From looking at the API, it
         #    should be possible to calculate a different number of bytes to clear,
@@ -115,6 +115,6 @@ class WinTerm(object):
         # fill the entire screen with blanks
         win32.FillConsoleOutputCharacter(handle, ' ', dw_con_size, coord_screen)
         # now set the buffer's attributes accordingly
-        win32.FillConsoleOutputAttribute(handle, self.get_attrs(), dw_con_size, coord_screen );
+        win32.FillConsoleOutputAttribute(handle, self.get_attrs(), dw_con_size, coord_screen);
         # put the cursor at (0, 0)
-        win32.SetConsoleCursorPosition(handle, (coord_screen.X, coord_screen.Y))
+        win32.SetConsoleCursorPosition(handle, (coord_screen.X+1, coord_screen.Y+1))
