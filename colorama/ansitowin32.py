@@ -1,6 +1,7 @@
 # Copyright Jonathan Hartley 2013. BSD 3-Clause license, see LICENSE file.
 import re
 import sys
+import os
 
 from .ansi import AnsiFore, AnsiBack, AnsiStyle, Style
 from .winterm import WinTerm, WinColor, WinStyle
@@ -55,15 +56,16 @@ class AnsiToWin32(object):
         self.stream = StreamWrapper(wrapped, self)
 
         on_windows = sys.platform.startswith('win')
+        on_emulated_windows = on_windows and 'TERM' in os.environ
 
         # should we strip ANSI sequences from our output?
         if strip is None:
-            strip = on_windows
+            strip = on_windows and not on_emulated_windows
         self.strip = strip
 
         # should we should convert ANSI sequences into win32 calls?
         if convert is None:
-            convert = on_windows and not wrapped.closed and is_a_tty(wrapped)
+            convert = on_windows and not wrapped.closed and not on_emulated_windows and is_a_tty(wrapped)
         self.convert = convert
 
         # dict of ansi codes to win32 functions and parameters
