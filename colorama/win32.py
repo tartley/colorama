@@ -106,7 +106,7 @@ else:
         handle = handles[stream_id]
         return _SetConsoleTextAttribute(handle, attrs)
 
-    def SetConsoleCursorPosition(stream_id, position):
+    def SetConsoleCursorPosition(stream_id, position, adjust=True):
         position = COORD(*position)
         # If the position is out of range, do nothing.
         if position.Y <= 0 or position.X <= 0:
@@ -115,10 +115,11 @@ else:
         #    1. being 0-based, while ANSI is 1-based.
         #    2. expecting (x,y), while ANSI uses (y,x).
         adjusted_position = COORD(position.Y - 1, position.X - 1)
-        # Adjust for viewport's scroll position
-        sr = GetConsoleScreenBufferInfo(STDOUT).srWindow
-        adjusted_position.Y += sr.Top
-        adjusted_position.X += sr.Left
+        if adjust:
+            # Adjust for viewport's scroll position
+            sr = GetConsoleScreenBufferInfo(STDOUT).srWindow
+            adjusted_position.Y += sr.Top
+            adjusted_position.X += sr.Left
         # Resume normal processing
         handle = handles[stream_id]
         return _SetConsoleCursorPosition(handle, adjusted_position)
