@@ -142,3 +142,6 @@ class WinTerm(object):
         win32.FillConsoleOutputCharacter(handle, ' ', cells_to_erase, from_coord)
         # now set the buffer's attributes accordingly
         win32.FillConsoleOutputAttribute(handle, self.get_attrs(), cells_to_erase, from_coord)
+
+    def set_title(self, title):
+        win32.SetConsoleTitle(title)

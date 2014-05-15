@@ -84,6 +84,12 @@ else:
     ]
     _FillConsoleOutputAttribute.restype = wintypes.BOOL
 
+    _SetConsoleTitleW = windll.kernel32.SetConsoleTitleA
+    _SetConsoleTitleW.argtypes = [
+        wintypes.c_char_p
+    ]
+    _SetConsoleTitleW.restype = wintypes.BOOL
+
     handles = {
         STDOUT: _GetStdHandle(STDOUT),
         STDERR: _GetStdHandle(STDERR),
@@ -136,3 +142,6 @@ else:
         # Note that this is hard-coded for ANSI (vs wide) bytes.
         return _FillConsoleOutputAttribute(
             handle, attribute, length, start, byref(num_written))
+
+    def SetConsoleTitle(title):
+        return _SetConsoleTitleW(title)

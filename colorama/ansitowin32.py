@@ -41,7 +41,8 @@ class AnsiToWin32(object):
     sequences from the text, and if outputting to a tty, will convert them into
     win32 function calls.
     '''
-    ANSI_RE = re.compile('\033\[((?:\d|;)*)([a-zA-Z])')
+    ANSI_CSI_RE = re.compile('\033\[((?:\d|;)*)([a-zA-Z])')     # Control Sequence Introducer
+    ANSI_OSC_RE = re.compile('\033\]((?:.|;)*?)(\x07)')         # Operating System Command
 
     def __init__(self, wrapped, convert=None, strip=None, autoreset=False):
         # The wrapped stream (normally sys.stdout or sys.stderr)
@@ -136,7 +137,8 @@ class AnsiToWin32(object):
         calls.
         '''
         cursor = 0
-        for match in self.ANSI_RE.finditer(text):
+        text = self.convert_osc(text)
+        for match in self.ANSI_CSI_RE.finditer(text):
             start, end = match.span()
             self.write_plain_text(text, cursor, start)
             self.convert_ansi(*match.groups())
@@ -194,3 +196,17 @@ class AnsiToWin32(object):
             func = winterm.cursor_adjust
             func(x, y, on_stderr=self.on_stderr)
 
+
+    def convert_osc(self, text):
+        for match in self.ANSI_OSC_RE.finditer(text):
+            start, end = match.span()
+            text = text[:start] + text[end:]
+            paramstring, command = match.groups()
+            if command in '\x07':       # \x07 = BEL
+                params = paramstring.split(";")
+                # 0 - change title and icon (we will only change title)
+                # 1 - change icon (we don't support this)
+                # 2 - change title
+                if params[0] in '02':
+                    winterm.set_title(params[1])
+        return text
