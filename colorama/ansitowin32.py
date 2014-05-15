@@ -157,11 +157,7 @@ class AnsiToWin32(object):
 
 
     def extract_params(self, paramstring):
-        def split(paramstring):
-            for p in paramstring.split(';'):
-                if p != '':
-                    yield int(p)
-        return tuple(split(paramstring))
+        return tuple(int(p) for p in paramstring.split(';') if len(p) != 0)
 
 
     def call_win32(self, command, params):
