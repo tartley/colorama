@@ -166,7 +166,11 @@ class AnsiToWin32(object):
 
     def call_win32(self, command, params):
         if len(params) == 0:
-            params = [0]
+            # defaults:
+            if command in 'JKm':
+                params = (0,)
+            elif command in 'ABCD':
+                params = (1,)
         if command == 'm':
             for param in params:
                 if param in self.win32_calls:
@@ -175,20 +179,22 @@ class AnsiToWin32(object):
                     args = func_args[1:]
                     kwargs = dict(on_stderr=self.on_stderr)
                     func(*args, **kwargs)
-        elif command in ('H', 'f'): # set cursor position
-            func = winterm.set_cursor_position
-            func(params, on_stderr=self.on_stderr)
         elif command in 'J':
             func = winterm.erase_screen
             func(params[0], on_stderr=self.on_stderr)
         elif command in 'K':
             func = winterm.erase_line
             func(params[0], on_stderr=self.on_stderr)
-        elif command == 'A':
-            if params == () or params == None:
-                num_rows = 1
-            else:
-                num_rows = params[0]
-            func = winterm.cursor_up
-            func(num_rows, on_stderr=self.on_stderr)
+        elif command in 'Hf':     # cursor position - absolute
+            while len(params) < 2:
+                # defaults:
+                params = (1,) + params
+            func = winterm.set_cursor_position
+            func(params, on_stderr=self.on_stderr)
+        elif command in 'ABCD':   # cursor position - relative
+            n = params[0]
+            # A - up, B - down, C - forward, D - back
+            x, y = {'A': (0, -n), 'B': (0, n), 'C': (n, 0), 'D': (-n, 0)}[command]
+            func = winterm.cursor_adjust
+            func(x, y, on_stderr=self.on_stderr)
 

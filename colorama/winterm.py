@@ -84,15 +84,13 @@ class WinTerm(object):
             handle = win32.STDERR
         win32.SetConsoleCursorPosition(handle, position)
 
-    def cursor_up(self, num_rows=0, on_stderr=False):
-        if num_rows == 0:
-            return
+    def cursor_adjust(self, x, y, on_stderr=False):
         handle = win32.STDOUT
         if on_stderr:
             handle = win32.STDERR
         position = self.get_position(handle)
-        adjusted_position = (position.Y - num_rows, position.X)
-        self.set_cursor_position(adjusted_position, on_stderr)
+        adjusted_position = (position.Y + y, position.X + x)
+        win32.SetConsoleCursorPosition(handle, adjusted_position)
 
     def erase_screen(self, mode=0, on_stderr=False):
         # 0 should clear from the cursor to the end of the screen.
