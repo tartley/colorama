@@ -16,6 +16,19 @@ class AnsiCodes(object):
                 value = getattr(codes, name)
                 setattr(self, name, code_to_chars(value))
 
+
+class AnsiCursor(object):
+    def UP(self, n=1):
+        return CSI + str(n) + "A"
+    def DOWN(self, n=1):
+        return CSI + str(n) + "B"
+    def FORWARD(self, n=1):
+        return CSI + str(n) + "C"
+    def BACK(self, n=1):
+        return CSI + str(n) + "D"
+    def POS(self, x=1, y=1):
+        return CSI + str(y) + ";" + str(x) + "H"
+
 class AnsiFore:
     BLACK   = 30
     RED     = 31
@@ -47,4 +60,4 @@ class AnsiStyle:
 Fore = AnsiCodes( AnsiFore )
 Back = AnsiCodes( AnsiBack )
 Style = AnsiCodes( AnsiStyle )
-
+Cursor = AnsiCursor()
