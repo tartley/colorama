@@ -178,23 +178,19 @@ class AnsiToWin32(object):
                     kwargs = dict(on_stderr=self.on_stderr)
                     func(*args, **kwargs)
         elif command in 'J':
-            func = winterm.erase_screen
-            func(params[0], on_stderr=self.on_stderr)
+            winterm.erase_screen(params[0], on_stderr=self.on_stderr)
         elif command in 'K':
-            func = winterm.erase_line
-            func(params[0], on_stderr=self.on_stderr)
+            winterm.erase_line(params[0], on_stderr=self.on_stderr)
         elif command in 'Hf':     # cursor position - absolute
             while len(params) < 2:
                 # defaults:
                 params = (1,) + params
-            func = winterm.set_cursor_position
-            func(params, on_stderr=self.on_stderr)
+            winterm.set_cursor_position(params, on_stderr=self.on_stderr)
         elif command in 'ABCD':   # cursor position - relative
             n = params[0]
             # A - up, B - down, C - forward, D - back
             x, y = {'A': (0, -n), 'B': (0, n), 'C': (n, 0), 'D': (-n, 0)}[command]
-            func = winterm.cursor_adjust
-            func(x, y, on_stderr=self.on_stderr)
+            winterm.cursor_adjust(x, y, on_stderr=self.on_stderr)
 
 
     def convert_osc(self, text):
