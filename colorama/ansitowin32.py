@@ -154,21 +154,29 @@ class AnsiToWin32(object):
 
     def convert_ansi(self, paramstring, command):
         if self.convert:
-            params = self.extract_params(paramstring)
+            params = self.extract_params(command, paramstring)
             self.call_win32(command, params)
 
 
-    def extract_params(self, paramstring):
-        return tuple(int(p) for p in paramstring.split(';') if len(p) != 0)
+    def extract_params(self, command, paramstring):
+        if command in 'Hf':
+            params = tuple(int(p) if len(p) != 0 else 1 for p in paramstring.split(';'))
+            while len(params) < 2:
+                # defaults:
+                params = params + (1,)
+        else:
+            params = tuple(int(p) for p in paramstring.split(';') if len(p) != 0)
+            if len(params) == 0:
+                # defaults:
+                if command in 'JKm':
+                    params = (0,)
+                elif command in 'ABCD':
+                    params = (1,)
+
+        return params
 
 
     def call_win32(self, command, params):
-        if len(params) == 0:
-            # defaults:
-            if command in 'JKm':
-                params = (0,)
-            elif command in 'ABCD':
-                params = (1,)
         if command == 'm':
             for param in params:
                 if param in self.win32_calls:
@@ -182,9 +190,6 @@ class AnsiToWin32(object):
         elif command in 'K':
             winterm.erase_line(params[0], on_stderr=self.on_stderr)
         elif command in 'Hf':     # cursor position - absolute
-            while len(params) < 2:
-                # defaults:
-                params = (1,) + params
             winterm.set_cursor_position(params, on_stderr=self.on_stderr)
         elif command in 'ABCD':   # cursor position - relative
             n = params[0]
