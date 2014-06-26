@@ -1,6 +1,7 @@
 # Copyright Jonathan Hartley 2013. BSD 3-Clause license, see LICENSE file.
 import re
 import sys
+import os
 
 from .ansi import AnsiFore, AnsiBack, AnsiStyle, Style
 from .winterm import WinTerm, WinColor, WinStyle
@@ -53,7 +54,7 @@ class AnsiToWin32(object):
         # create the proxy wrapping our output stream
         self.stream = StreamWrapper(wrapped, self)
 
-        on_windows = sys.platform.startswith('win')
+        on_windows = sys.platform.startswith('win') or (sys.platform == 'cli' and os.name == 'nt')
 
         # should we strip ANSI sequences from our output?
         if strip is None:
