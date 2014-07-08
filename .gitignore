@@ -5,3 +5,5 @@ dist
 tags
 virtualenv
 
+# PyCharm
+.idea
