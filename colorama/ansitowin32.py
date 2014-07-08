@@ -71,7 +71,6 @@ class AnsiToWin32(object):
         # are we wrapping stderr?
         self.on_stderr = self.wrapped is sys.stderr
 
-
     def should_wrap(self):
         '''
         True if this class is actually needed. If false, then the output
@@ -81,7 +80,6 @@ class AnsiToWin32(object):
         autoreset has been requested using kwargs to init()
         '''
         return self.convert or self.strip or self.autoreset
-
 
     def get_win32_calls(self):
         if self.convert and winterm:
@@ -109,7 +107,6 @@ class AnsiToWin32(object):
                 AnsiBack.WHITE: (winterm.back, WinColor.GREY),
                 AnsiBack.RESET: (winterm.back, ),
             }
-
 
     def write(self, text):
         if self.strip or self.convert:
