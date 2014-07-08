@@ -8,8 +8,10 @@ CSI = '\033['
 OSC = '\033]'
 BEL = '\007'
 
+
 def code_to_chars(code):
     return CSI + str(code) + 'm'
+
 
 class AnsiCodes(object):
     def __init__(self, codes):
@@ -40,6 +42,7 @@ def clear_screen(mode=2):
 def clear_line(mode=2):
     return CSI + str(mode) + "K"
 
+
 class AnsiFore:
     BLACK   = 30
     RED     = 31
@@ -51,6 +54,7 @@ class AnsiFore:
     WHITE   = 37
     RESET   = 39
 
+
 class AnsiBack:
     BLACK   = 40
     RED     = 41
@@ -61,6 +65,7 @@ class AnsiBack:
     CYAN    = 46
     WHITE   = 47
     RESET   = 49
+
 
 class AnsiStyle:
     BRIGHT    = 1
