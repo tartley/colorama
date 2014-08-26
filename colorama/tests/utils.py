@@ -19,3 +19,12 @@ def redirected_output():
     yield
     sys.stdout = orig
 
+@contextmanager
+def replace_by_none():
+    orig_stdout = sys.stdout
+    orig_stderr = sys.stderr
+    sys.stdout = None
+    sys.stderr = None
+    yield
+    sys.stdout = orig_stdout
+    sys.stderr = orig_stderr

@@ -7,7 +7,7 @@ except ImportError:
 
 from mock import patch
 
-from .utils import platform, redirected_output
+from .utils import platform, redirected_output, replace_by_none
 
 from ..initialise import init
 from ..ansitowin32 import StreamWrapper
@@ -49,6 +49,14 @@ class InitTest(TestCase):
         with platform('darwin'):
             init()
             self.assertNotWrapped()
+
+    def testInitDoesntWrapIfNone(self):
+        with replace_by_none():
+            init()
+            # We can't use assertNotWrapped here because replace_by_none
+            # changes stdout/stderr already.
+            self.assertIsNone(sys.stdout)
+            self.assertIsNone(sys.stderr)
 
     def testInitAutoresetOnWrapsOnAllPlatforms(self):
         with platform('darwin'):
