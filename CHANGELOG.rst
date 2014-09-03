@@ -1,5 +1,14 @@
 0.3.2 (not released yet)
   * Thanks to Marc Schlaich (schlamar) for a setup.py fix for Python2.5
+  * Thanks to Jurko for fix on 64-bit Windows CPython2.5 w/o ctypes (issue #56)
+  * Thanks to Remi Rampin for:
+    * better github integration, incl rendered README and Travis config.
+    * fixed forward slashes in README
+  * Thanks to Florian Bruhin for fix when stdout or stderr are None
+  * Thanks to Simeon Visser for:
+    * closing a file handle using 'with'
+    * updating classifiers to include Python 3.3 and 3.4
+  * Thanks to Thomas Weininger for fix ValueError on Windows (issue #50)
 0.3.1
   * Fixed crash on exit with closed stdout, with thanks to Marc Abramowitz.
   * Now uses setuptools if available, and falls back to distutils if not.
