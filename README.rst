@@ -1,3 +1,6 @@
+.. image:: https://travis-ci.org/tartley/colorama.svg?branch=double-indent
+    :target: https://travis-ci.org/tartley/colorama
+
 Download and docs:
     http://pypi.python.org/pypi/colorama
 Development:
