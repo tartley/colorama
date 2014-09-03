@@ -38,7 +38,7 @@ setup(
     name=NAME,
     version=get_version(os.path.join('colorama', '__init__.py')),
     description='Cross-platform colored terminal text.',
-    long_description=read_file('README.txt'),
+    long_description=read_file('README.rst'),
     keywords='color colour terminal text ansi windows crossplatform xplatform',
     author='Jonathan Hartley',
     author_email='tartley@tartley.com',
