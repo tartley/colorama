@@ -294,6 +294,7 @@ Created by Jonathan Hartley, tartley@tartley.com
 
 Thanks
 ======
+| Marc Schlaich (schlamar) for a setup.py fix for Python2.5.
 | Marc Abramowitz, for reporting and fixing a crash on exit with closed stdout.
 |   and for providing a solution to issue #7's setuptools/distutils debate.
 | User 'eryksun', for guidance on correctly instantiating ctypes.windll.

@@ -1,3 +1,5 @@
+0.3.2 (not released yet)
+  * Thanks to Marc Schlaich (schlamar) for a setup.py fix for Python2.5
 0.3.1
   * Fixed crash on exit with closed stdout, with thanks to Marc Abramowitz.
   * Now uses setuptools if available, and falls back to distutils if not.
