@@ -11,7 +11,7 @@ from .utils import platform, redirected_output, replace_by_none
 
 from ..initialise import init
 from ..ansitowin32 import StreamWrapper
-
+import os
 
 orig_stdout = sys.stdout
 orig_stderr = sys.stderr
@@ -40,10 +40,19 @@ class InitTest(TestCase):
         self.assertIs(sys.stderr, orig_stderr, 'stderr should not be wrapped')
 
     @patch('colorama.initialise.reset_all')
+    @patch('os.environ', dict())
     def testInitWrapsOnWindows(self, _):
         with platform('windows'):
             init()
             self.assertWrapped()
+
+    @patch('colorama.initialise.reset_all')
+    @patch('os.environ', dict(TERM=''))
+    def testInitDoesntWrapOnEmulatedWindows(self, _):
+        with platform('windows'):
+            os.environ['TERM']
+            init()
+            self.assertNotWrapped()
 
     def testInitDoesntWrapOnNonWindows(self):
         with platform('darwin'):
@@ -78,6 +87,7 @@ class InitTest(TestCase):
         self.assertRaises(ValueError, lambda: init(autoreset=True, wrap=False))
 
     @patch('colorama.ansitowin32.winterm', None)
+    @patch('os.environ', dict())
     def testInitOnlyWrapsOnce(self):
         with platform('windows'):
             init()
