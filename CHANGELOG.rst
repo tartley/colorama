@@ -1,4 +1,4 @@
-0.3.2 (not released yet)
+0.3.2
   * Thanks to Marc Schlaich (schlamar) for a setup.py fix for Python2.5
   * Thanks to Jurko for fix on 64-bit Windows CPython2.5 w/o ctypes (issue #56)
   * Thanks to Remi Rampin for:
