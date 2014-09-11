@@ -65,7 +65,7 @@ Copyright Jonathan Hartley 2013. BSD 3-Clause license, see LICENSE file.
 Dependencies
 ============
 
-None, other than Python. Tested on Python 2.5.5, 2.6.5, 2.7, 3.1.2, and 3.2
+None, other than Python. Tested on Python 2.5.5, 2.6.5, 2.7, 3.1.2, 3.2, 3.3, 3.4.
 
 Usage
 =====
