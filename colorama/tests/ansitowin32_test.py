@@ -80,7 +80,7 @@ class AnsiToWin32Test(TestCase):
         stream.convert = False
 
         stream.write('abc')
-        
+
         self.assertFalse(stream.write_and_convert.called)
         self.assertEqual(stream.wrapped.write.call_args, (('abc',), {}))
 
@@ -93,7 +93,7 @@ class AnsiToWin32Test(TestCase):
         stream.winterm = Mock()
 
         stream.write('abc')
-        
+
         self.assertEqual(stream.reset_all.called, autoreset)
 
     def testWriteAutoresets(self):
@@ -167,8 +167,8 @@ class AnsiToWin32Test(TestCase):
     def testExtractParams(self):
         stream = AnsiToWin32(Mock())
         data = {
-            '':               (),
-            ';;':             (),
+            '':               (0,),
+            ';;':             (0,),
             '2':              (2,),
             ';;002;;':        (2,),
             '0;1':            (0, 1),
@@ -176,7 +176,7 @@ class AnsiToWin32Test(TestCase):
             '11;22;33;44;55': (11, 22, 33, 44, 55),
         }
         for datum, expected in data.items():
-            self.assertEqual(stream.extract_params(datum), expected)
+            self.assertEqual(stream.extract_params('m', datum), expected)
 
     def testCallWin32UsesLookup(self):
         listener = Mock()
@@ -190,15 +190,6 @@ class AnsiToWin32Test(TestCase):
         self.assertEqual(
             [a[0][0] for a in listener.call_args_list],
             [33, 11, 22] )
-
-    def testCallWin32DefaultsToParams0(self):
-        mockStdout = Mock()
-        stream = AnsiToWin32(mockStdout)
-        stream.win32_calls = {0: (mockStdout.reset,)}
-        
-        stream.call_win32('m', [])
-
-        self.assertTrue(mockStdout.reset.called)
 
 
 if __name__ == '__main__':

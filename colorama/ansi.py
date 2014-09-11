@@ -5,6 +5,8 @@ See: http://en.wikipedia.org/wiki/ANSI_escape_code
 '''
 
 CSI = '\033['
+OSC = '\033]'
+BEL = '\007'
 
 def code_to_chars(code):
     return CSI + str(code) + 'm'
@@ -15,6 +17,28 @@ class AnsiCodes(object):
             if not name.startswith('_'):
                 value = getattr(codes, name)
                 setattr(self, name, code_to_chars(value))
+
+
+class AnsiCursor(object):
+    def UP(self, n=1):
+        return CSI + str(n) + "A"
+    def DOWN(self, n=1):
+        return CSI + str(n) + "B"
+    def FORWARD(self, n=1):
+        return CSI + str(n) + "C"
+    def BACK(self, n=1):
+        return CSI + str(n) + "D"
+    def POS(self, x=1, y=1):
+        return CSI + str(y) + ";" + str(x) + "H"
+
+def set_title(title):
+    return OSC + "2;" + title + BEL
+
+def clear_screen(mode=2):
+    return CSI + str(mode) + "J"
+
+def clear_line(mode=2):
+    return CSI + str(mode) + "K"
 
 class AnsiFore:
     BLACK   = 30
@@ -47,4 +71,4 @@ class AnsiStyle:
 Fore = AnsiCodes( AnsiFore )
 Back = AnsiCodes( AnsiBack )
 Style = AnsiCodes( AnsiStyle )
-
+Cursor = AnsiCursor()

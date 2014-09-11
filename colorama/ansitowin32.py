@@ -41,7 +41,8 @@ class AnsiToWin32(object):
     sequences from the text, and if outputting to a tty, will convert them into
     win32 function calls.
     '''
-    ANSI_RE = re.compile('\033\[((?:\d|;)*)([a-zA-Z])')
+    ANSI_CSI_RE = re.compile('\033\[((?:\d|;)*)([a-zA-Z])')     # Control Sequence Introducer
+    ANSI_OSC_RE = re.compile('\033\]((?:.|;)*?)(\x07)')         # Operating System Command
 
     def __init__(self, wrapped, convert=None, strip=None, autoreset=False):
         # The wrapped stream (normally sys.stdout or sys.stderr)
@@ -136,7 +137,8 @@ class AnsiToWin32(object):
         calls.
         '''
         cursor = 0
-        for match in self.ANSI_RE.finditer(text):
+        text = self.convert_osc(text)
+        for match in self.ANSI_CSI_RE.finditer(text):
             start, end = match.span()
             self.write_plain_text(text, cursor, start)
             self.convert_ansi(*match.groups())
@@ -152,21 +154,29 @@ class AnsiToWin32(object):
 
     def convert_ansi(self, paramstring, command):
         if self.convert:
-            params = self.extract_params(paramstring)
+            params = self.extract_params(command, paramstring)
             self.call_win32(command, params)
 
 
-    def extract_params(self, paramstring):
-        def split(paramstring):
-            for p in paramstring.split(';'):
-                if p != '':
-                    yield int(p)
-        return tuple(split(paramstring))
+    def extract_params(self, command, paramstring):
+        if command in 'Hf':
+            params = tuple(int(p) if len(p) != 0 else 1 for p in paramstring.split(';'))
+            while len(params) < 2:
+                # defaults:
+                params = params + (1,)
+        else:
+            params = tuple(int(p) for p in paramstring.split(';') if len(p) != 0)
+            if len(params) == 0:
+                # defaults:
+                if command in 'JKm':
+                    params = (0,)
+                elif command in 'ABCD':
+                    params = (1,)
+
+        return params
 
 
     def call_win32(self, command, params):
-        if params == []:
-            params = [0]
         if command == 'm':
             for param in params:
                 if param in self.win32_calls:
@@ -175,17 +185,29 @@ class AnsiToWin32(object):
                     args = func_args[1:]
                     kwargs = dict(on_stderr=self.on_stderr)
                     func(*args, **kwargs)
-        elif command in ('H', 'f'): # set cursor position
-            func = winterm.set_cursor_position
-            func(params, on_stderr=self.on_stderr)
-        elif command in ('J'):
-            func = winterm.erase_data
-            func(params, on_stderr=self.on_stderr)
-        elif command == 'A':
-            if params == () or params == None:
-                num_rows = 1
-            else:
-                num_rows = params[0]
-            func = winterm.cursor_up
-            func(num_rows, on_stderr=self.on_stderr)
+        elif command in 'J':
+            winterm.erase_screen(params[0], on_stderr=self.on_stderr)
+        elif command in 'K':
+            winterm.erase_line(params[0], on_stderr=self.on_stderr)
+        elif command in 'Hf':     # cursor position - absolute
+            winterm.set_cursor_position(params, on_stderr=self.on_stderr)
+        elif command in 'ABCD':   # cursor position - relative
+            n = params[0]
+            # A - up, B - down, C - forward, D - back
+            x, y = {'A': (0, -n), 'B': (0, n), 'C': (n, 0), 'D': (-n, 0)}[command]
+            winterm.cursor_adjust(x, y, on_stderr=self.on_stderr)
 
+
+    def convert_osc(self, text):
+        for match in self.ANSI_OSC_RE.finditer(text):
+            start, end = match.span()
+            text = text[:start] + text[end:]
+            paramstring, command = match.groups()
+            if command in '\x07':       # \x07 = BEL
+                params = paramstring.split(";")
+                # 0 - change title and icon (we will only change title)
+                # 1 - change icon (we don't support this)
+                # 2 - change title
+                if params[0] in '02':
+                    winterm.set_title(params[1])
+        return text
