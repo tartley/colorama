@@ -54,7 +54,7 @@ class AnsiToWin32(object):
         # create the proxy wrapping our output stream
         self.stream = StreamWrapper(wrapped, self)
 
-        on_windows = sys.platform.startswith('win') or (sys.platform == 'cli' and os.name == 'nt')
+        on_windows = os.name == 'nt'
 
         # should we strip ANSI sequences from our output?
         if strip is None:
