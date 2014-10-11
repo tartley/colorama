@@ -15,9 +15,9 @@ class WinColor(object):
 
 # from wincon.h
 class WinStyle(object):
-    NORMAL = 0x00 # dim text, dim background
-    BRIGHT = 0x08 # bright text, dim background
-
+    NORMAL              = 0x00 # dim text, dim background
+    BRIGHT              = 0x08 # bright text, dim background
+    BRIGHT_BACKGROUND   = 0x80 # dim text, bright background
 
 class WinTerm(object):
 
@@ -34,22 +34,26 @@ class WinTerm(object):
     def set_attrs(self, value):
         self._fore = value & 7
         self._back = (value >> 4) & 7
-        self._style = value & WinStyle.BRIGHT
+        self._style = value & (WinStyle.BRIGHT | WinStyle.BRIGHT_BACKGROUND)
 
     def reset_all(self, on_stderr=None):
         self.set_attrs(self._default)
         self.set_console(attrs=self._default)
 
-    def fore(self, fore=None, on_stderr=False):
+    def fore(self, fore=None, light=False, on_stderr=False):
         if fore is None:
             fore = self._default_fore
         self._fore = fore
+        if light:
+            self._style |= WinStyle.BRIGHT
         self.set_console(on_stderr=on_stderr)
 
-    def back(self, back=None, on_stderr=False):
+    def back(self, back=None, light=False, on_stderr=False):
         if back is None:
             back = self._default_back
         self._back = back
+        if light:
+            self._style |= WinStyle.BRIGHT_BACKGROUND
         self.set_console(on_stderr=on_stderr)
 
     def style(self, style=None, on_stderr=False):
