@@ -7,7 +7,7 @@ except ImportError:
 
 from mock import patch
 
-from .utils import platform, redirected_output, replace_by_none
+from .utils import osname, redirected_output, replace_by_none
 
 from ..initialise import init
 from ..ansitowin32 import StreamWrapper
@@ -42,20 +42,20 @@ class InitTest(TestCase):
     @patch('colorama.initialise.reset_all')
     @patch('os.environ', dict())
     def testInitWrapsOnWindows(self, _):
-        with platform('windows'):
+        with osname("nt"):
             init()
             self.assertWrapped()
 
     @patch('colorama.initialise.reset_all')
     @patch('os.environ', dict(TERM=''))
     def testInitDoesntWrapOnEmulatedWindows(self, _):
-        with platform('windows'):
+        with osname("nt"):
             os.environ['TERM']
             init()
             self.assertNotWrapped()
 
     def testInitDoesntWrapOnNonWindows(self):
-        with platform('darwin'):
+        with osname("posix"):
             init()
             self.assertNotWrapped()
 
@@ -68,17 +68,17 @@ class InitTest(TestCase):
             self.assertIsNone(sys.stderr)
 
     def testInitAutoresetOnWrapsOnAllPlatforms(self):
-        with platform('darwin'):
+        with osname("posix"):
             init(autoreset=True)
             self.assertWrapped()
 
     def testInitWrapOffDoesntWrapOnWindows(self):
-        with platform('windows'):
+        with osname("nt"):
             init(wrap=False)
             self.assertNotWrapped()
 
     def testInitWrapOffWillUnwrapIfRequired(self):
-        with platform('windows'):
+        with osname("nt"):
             init()
             init(wrap=False)
             self.assertNotWrapped()
@@ -89,7 +89,7 @@ class InitTest(TestCase):
     @patch('colorama.ansitowin32.winterm', None)
     @patch('os.environ', dict())
     def testInitOnlyWrapsOnce(self):
-        with platform('windows'):
+        with osname("nt"):
             init()
             init()
             self.assertWrapped()
@@ -97,7 +97,7 @@ class InitTest(TestCase):
     @patch('colorama.win32.SetConsoleTextAttribute')
     @patch('colorama.initialise.AnsiToWin32')
     def testAutoResetPassedOn(self, mockATW32, _):
-        with platform('windows'):
+        with osname("nt"):
             init(autoreset=True)
             self.assertEqual(len(mockATW32.call_args_list), 2)
             self.assertEqual(mockATW32.call_args_list[1][1]['autoreset'], True)
@@ -105,7 +105,7 @@ class InitTest(TestCase):
 
     @patch('colorama.initialise.AnsiToWin32')
     def testAutoResetChangeable(self, mockATW32):
-        with platform('windows'):
+        with osname("nt"):
             init()
 
             init(autoreset=True)

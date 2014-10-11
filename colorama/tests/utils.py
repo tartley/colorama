@@ -1,15 +1,16 @@
 # Copyright Jonathan Hartley 2013. BSD 3-Clause license, see LICENSE file.
 from contextlib import contextmanager
 import sys
+import os
 
 from mock import Mock
 
 @contextmanager
-def platform(name):
-    orig = sys.platform
-    sys.platform = name
+def osname(name):
+    orig = os.name
+    os.name = name
     yield
-    sys.platform = orig
+    os.name = orig
 
 @contextmanager
 def redirected_output():

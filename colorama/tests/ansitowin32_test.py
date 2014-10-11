@@ -15,7 +15,7 @@ except ImportError:
 
 from mock import Mock, patch
 
-from .utils import platform
+from .utils import osname
 
 from ..ansi import Style
 from ..ansitowin32 import AnsiToWin32, StreamWrapper
@@ -47,14 +47,15 @@ class AnsiToWin32Test(TestCase):
         self.assertEqual(stream.autoreset, auto)
 
     @patch('colorama.ansitowin32.winterm', None)
+    @patch('os.environ', dict())
     def testStripIsTrueOnWindows(self):
-        with platform('windows'):
+        with osname('nt'):
             mockStdout = Mock()
             stream = AnsiToWin32(mockStdout)
             self.assertTrue(stream.strip)
 
     def testStripIsFalseOffWindows(self):
-        with platform('darwin'):
+        with osname('posix'):
             stream = AnsiToWin32(None)
             self.assertFalse(stream.strip)
 
