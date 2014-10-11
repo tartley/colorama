@@ -49,7 +49,8 @@ class AnsiToWin32Test(TestCase):
     @patch('colorama.ansitowin32.winterm', None)
     def testStripIsTrueOnWindows(self):
         with platform('windows'):
-            stream = AnsiToWin32(None)
+            mockStdout = Mock()
+            stream = AnsiToWin32(mockStdout)
             self.assertTrue(stream.strip)
 
     def testStripIsFalseOffWindows(self):
