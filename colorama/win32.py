@@ -13,9 +13,7 @@ except (AttributeError, ImportError):
     windll = None
     SetConsoleTextAttribute = lambda *_: None
 else:
-    from ctypes import (
-        byref, Structure, c_char, c_short, c_uint32, c_ushort, POINTER
-    )
+    from ctypes import byref, Structure, c_char, POINTER
 
     COORD = wintypes._COORD
 
