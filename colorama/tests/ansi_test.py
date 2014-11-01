@@ -37,6 +37,16 @@ class AnsiTest(TestCase):
         self.assertEqual(Fore.WHITE, '\033[37m')
         self.assertEqual(Fore.RESET, '\033[39m')
 
+        # Check the light, extended versions.
+        self.assertEqual(Fore.LIGHTBLACK_EX, '\033[90m')
+        self.assertEqual(Fore.LIGHTRED_EX, '\033[91m')
+        self.assertEqual(Fore.LIGHTGREEN_EX, '\033[92m')
+        self.assertEqual(Fore.LIGHTYELLOW_EX, '\033[93m')
+        self.assertEqual(Fore.LIGHTBLUE_EX, '\033[94m')
+        self.assertEqual(Fore.LIGHTMAGENTA_EX, '\033[95m')
+        self.assertEqual(Fore.LIGHTCYAN_EX, '\033[96m')
+        self.assertEqual(Fore.LIGHTWHITE_EX, '\033[97m')
+
 
     def testBackAttributes(self):
         self.assertEqual(Back.BLACK, '\033[40m')
@@ -48,6 +58,16 @@ class AnsiTest(TestCase):
         self.assertEqual(Back.CYAN, '\033[46m')
         self.assertEqual(Back.WHITE, '\033[47m')
         self.assertEqual(Back.RESET, '\033[49m')
+
+        # Check the light, extended versions.
+        self.assertEqual(Back.LIGHTBLACK_EX, '\033[100m')
+        self.assertEqual(Back.LIGHTRED_EX, '\033[101m')
+        self.assertEqual(Back.LIGHTGREEN_EX, '\033[102m')
+        self.assertEqual(Back.LIGHTYELLOW_EX, '\033[103m')
+        self.assertEqual(Back.LIGHTBLUE_EX, '\033[104m')
+        self.assertEqual(Back.LIGHTMAGENTA_EX, '\033[105m')
+        self.assertEqual(Back.LIGHTCYAN_EX, '\033[106m')
+        self.assertEqual(Back.LIGHTWHITE_EX, '\033[107m')
 
 
     def testStyleAttributes(self):
