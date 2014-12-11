@@ -29,4 +29,4 @@ python demo05.py
 python demo06.py
 
 :: demo07.py not shown
-:: Demonstrate cursor releative movement: UP, DOWN, FORWARD, and BACK in colorama.CURSOR
+:: Demonstrate cursor relative movement: UP, DOWN, FORWARD, and BACK in colorama.CURSOR
