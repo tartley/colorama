@@ -1,5 +1,7 @@
 import colorama
 
+# Demonstrate cursor relative movement: UP, DOWN, FORWARD, and BACK in colorama.CURSOR
+
 up = colorama.Cursor.UP
 down = colorama.Cursor.DOWN
 forward = colorama.Cursor.FORWARD
