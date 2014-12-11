@@ -26,8 +26,8 @@ cat demo04.out
 # Demonstrate the difference between colorama intialized with wrapping on and off.
 python demo05.py
 
-# Fore, Back and Style are convenience classes for the constant ANSI strings that set
+# Demonstrate printing colored, random characters at random positions on the screen
 python demo06.py
 
 # demo07.py not shown
-# Demonstrates cursor releative movement: UP, DOWN, FORWARD, and BACK in colorama.CURSOR
+# Demonstrate cursor releative movement: UP, DOWN, FORWARD, and BACK in colorama.CURSOR
