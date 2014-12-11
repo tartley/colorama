@@ -6,6 +6,8 @@ from colorama import Fore, Back, Style
 from random import randint, choice
 from string import printable
 
+# Demonstrate printing colored, random characters at random positions on the screen
+
 # Fore, Back and Style are convenience classes for the constant ANSI strings that set
 #     the foreground, background and style. The don't have any magic of their own.
 FORES = [ Fore.BLACK, Fore.RED, Fore.GREEN, Fore.YELLOW, Fore.BLUE, Fore.MAGENTA, Fore.CYAN, Fore.WHITE ]
