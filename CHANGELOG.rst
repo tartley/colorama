@@ -1,3 +1,20 @@
+0.3.3
+  * Fix Google Code issue #13 - support changing the console title with OSC
+    escape sequence
+  * Fix Google Code issue #16 - Add support for Windows xterm emulators
+  * Fix Google Code issue #30 - implement \033[nK (clear line)
+  * Fix Google Code issue #49 - no need to adjust for scroll when new position
+    is already relative (CSI n A\B\C\D)
+  * Fix Google Code issue #55 - erase_data fails on Python 3.x
+  * Fix Google Code issue #46 - win32.COORD definition missing
+  * Implement \033[0J and \033[1J (clear screen options)
+  * Fix default ANSI parameters
+  * Fix position after \033[2J (clear screen)
+  * Add command shortcuts: colorama.Cursor, colorama.ansi.set_title,
+    colorama.ansi.clear_line, colorama.ansi.clear_screen
+  * Fix issue #22 - Importing fails for python3 on Windows
+  * Thanks to John Szakmeister for adding support for light colors
+  * Thanks to Charles Merriam for adding documentation to demos
 0.3.2
   * Thanks to Marc Schlaich (schlamar) for a setup.py fix for Python2.5
   * Thanks to Jurko for fix on 64-bit Windows CPython2.5 w/o ctypes (issue #56)
