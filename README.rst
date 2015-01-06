@@ -73,7 +73,9 @@ Usage
 Initialisation
 --------------
 
-Applications should initialise Colorama using::
+Applications should initialise Colorama using:
+
+.. code-block:: python
 
     from colorama import init
     init()
@@ -98,7 +100,9 @@ Colored Output
 --------------
 
 Cross-platform printing of colored text can then be done using Colorama's
-constant shorthand for ANSI escape sequences::
+constant shorthand for ANSI escape sequences:
+
+.. code-block:: python
 
     from colorama import Fore, Back, Style
     print(Fore.RED + 'some red text')
@@ -107,13 +111,17 @@ constant shorthand for ANSI escape sequences::
     print(Fore.RESET + Back.RESET + Style.RESET_ALL)
     print('back to normal now')
 
-or simply by manually printing ANSI sequences from your own code::
+or simply by manually printing ANSI sequences from your own code:
+
+.. code-block:: python
 
     print('\033[31m' + 'some red text')
     print('\033[30m' # and reset to default color)
 
 or Colorama can be used happily in conjunction with existing ANSI libraries
-such as Termcolor::
+such as Termcolor:
+
+.. code-block:: python
 
     from colorama import init
     from termcolor import colored
@@ -149,7 +157,9 @@ Init Keyword Args
 init(autoreset=False):
     If you find yourself repeatedly sending reset sequences to turn off color
     changes at the end of every print, then ``init(autoreset=True)`` will
-    automate that::
+    automate that:
+
+    .. code-block:: python
 
         from colorama import init
         init(autoreset=True)
@@ -174,7 +184,9 @@ init(wrap=True):
 
     When wrapping is disabled, colored printing on non-Windows platforms will
     continue to work as normal. To do cross-platform colored output, you can
-    use Colorama's ``AnsiToWin32`` proxy directly::
+    use Colorama's ``AnsiToWin32`` proxy directly:
+
+    .. code-block:: python
 
         import sys
         from colorama import init, AnsiToWin32
@@ -313,4 +325,3 @@ Thanks
 | Oscar Lesta for valuable fix to stop ANSI chars being sent to non-tty output.
 | Roger Binns, for many suggestions, valuable feedback, & bug reports.
 | Tim Golden for thought and much appreciated feedback on the initial idea.
-
