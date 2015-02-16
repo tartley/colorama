@@ -1,6 +1,7 @@
-.. image:: https://travis-ci.org/tartley/colorama.svg?branch=double-indent
+.. image:: https://travis-ci.org/tartley/colorama.svg?branch=master
     :target: https://travis-ci.org/tartley/colorama
-
+    :alt: Build Status
+    
 Download and docs:
     http://pypi.python.org/pypi/colorama
 Source code & Development:
