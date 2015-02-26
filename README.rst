@@ -1,13 +1,13 @@
 .. image:: https://travis-ci.org/tartley/colorama.svg?branch=master
     :target: https://travis-ci.org/tartley/colorama
     :alt: Build Status
-    
+
 Download and docs:
     http://pypi.python.org/pypi/colorama
 Source code & Development:
     https://github.com/tartley/colorama
 Issues:
-    https://code.google.com/p/colorama/issues/list
+    https://github.com/tartley/colorama/issues
 Discussion group:
      https://groups.google.com/forum/#!forum/python-colorama
 
@@ -210,8 +210,8 @@ I've personally only tested it on WinXP (CMD, Console2), Ubuntu
 Some presumably valid ANSI sequences aren't recognised (see details below)
 but to my knowledge nobody has yet complained about this. Puzzling.
 
-See outstanding issues and wishlist, still on Google code for the time being:
-http://code.google.com/p/colorama/issues/list
+See outstanding issues and wishlist:
+https://github.com/tartley/colorama/issues
 
 If anything doesn't work for you, or doesn't do what you expected or hoped for,
 I'd love to hear about it on that issues list, would be delighted by patches,
@@ -262,11 +262,17 @@ The only ANSI sequences that colorama converts into win32 calls are::
 
     # cursor positioning
     ESC [ y;x H     # position cursor at x across, y down
+    ESC [ y;x f     # position cursor at x across, y down
+    ESC [ n A       # move cursor n lines up
+    ESC [ n B       # move cursor n lines down
+    ESC [ n C       # move cursor n characters forward
+    ESC [ n D       # move cursor n characters backward
 
     # clear the screen
-    ESC [ mode J    # clear the screen. Only mode 2 (clear entire screen)
-                    # is supported. It should be easy to add other modes,
-                    # let me know if that would be useful.
+    ESC [ mode J    # clear the screen
+
+    # clear the line
+    ESC [ mode K    # clear the line
 
 Multiple numeric params to the 'm' command can be combined into a single
 sequence, eg::
@@ -279,7 +285,7 @@ are silently stripped from the output on Windows.
 Any other form of ANSI sequence, such as single-character codes or alternative
 initial characters, are not recognised nor stripped. It would be cool to add
 them though. Let me know if it would be useful for you, via the issues on
-google code.
+Github.
 
 
 Development
@@ -296,7 +302,7 @@ Running tests requires:
 
 To run tests::
 
-   python -m unittest discover -p *_test.py 
+   python -m unittest discover -p *_test.py
 
 This, like a few other handy commands, is captured in a Makefile.
 
