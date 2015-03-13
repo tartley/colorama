@@ -1,3 +1,7 @@
+.. image:: https://pypip.in/version/colorama/badge.svg
+    :target: https://pypi.python.org/pypi/colorama/
+    :alt: Latest Version
+    
 .. image:: https://travis-ci.org/tartley/colorama.svg?branch=master
     :target: https://travis-ci.org/tartley/colorama
     :alt: Build Status
