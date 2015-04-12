@@ -16,11 +16,13 @@ sdist: clean
 .PHONY: sdist
 
 register: clean
-	python setup.py sdist --formats=zip,gztar register 
+	python setup.py sdist --formats=zip,gztar register
+	python setup.py bdist_wheel register
 .PHONY: release
 
 upload: clean
 	python setup.py sdist --formats=zip,gztar register upload
+	python setup.py bdist_wheel register upload
 .PHONY: release
 
 test:
