@@ -141,7 +141,7 @@ class AnsiToWin32(object):
     def reset_all(self):
         if self.convert:
             self.call_win32('m', (0,))
-        elif not self.wrapped.closed and is_a_tty(self.wrapped):
+        elif not self.strip and not self.wrapped.closed:
             self.wrapped.write(Style.RESET_ALL)
 
 
