@@ -1,3 +1,4 @@
+  * Fix issue #47 - autoreset now works on Linux with stream redirection
 0.3.3
   * Fix Google Code issue #13 - support changing the console title with OSC
     escape sequence
@@ -17,7 +18,8 @@
   * Thanks to Charles Merriam for adding documentation to demos
 0.3.2
   * Thanks to Marc Schlaich (schlamar) for a setup.py fix for Python2.5
-  * Thanks to Jurko for fix on 64-bit Windows CPython2.5 w/o ctypes (issue #56)
+  * Thanks to Jurko for fix on 64-bit Windows CPython2.5 w/o ctypes
+    (Google Code issue #56)
   * Thanks to Remi Rampin for:
     * better github integration, incl rendered README and Travis config.
     * fixed forward slashes in README
@@ -25,7 +27,8 @@
   * Thanks to Simeon Visser for:
     * closing a file handle using 'with'
     * updating classifiers to include Python 3.3 and 3.4
-  * Thanks to Thomas Weininger for fix ValueError on Windows (issue #50)
+  * Thanks to Thomas Weininger for fix ValueError on Windows
+    (Google Code issue #50)
 0.3.1
   * Fixed crash on exit with closed stdout, with thanks to Marc Abramowitz.
   * Now uses setuptools if available, and falls back to distutils if not.
@@ -35,11 +38,11 @@
     repo seemed to be corrupted, I couldn't commit nor view patches of old
     commits, even on fresh checkouts.)
   * Fix always-crash on non-Windows platforms, reported by Matt McCormick.
-  * Fix issue #47, incompatible with pyreadline.
+  * Fix Google Code issue #47, incompatible with pyreadline.
 0.2.7
     Fix problem under 64-bit windows due to ctypes HANDLE size.
     Submitted by the rather magnificent Ben Hoyt.
-    This fixes issue 43 (http://code.google.com/p/colorama/issues/detail?id=43)
+    This fixes Google Code issue #43
 0.2.6
     Add copyright & licensing info to every file, as requested by a large
     downstream project which has problems making sure that all 3rd party

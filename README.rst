@@ -1,7 +1,7 @@
 .. image:: https://pypip.in/version/colorama/badge.svg
     :target: https://pypi.python.org/pypi/colorama/
     :alt: Latest Version
-    
+
 .. image:: https://travis-ci.org/tartley/colorama.svg?branch=master
     :target: https://travis-ci.org/tartley/colorama
     :alt: Build Status
@@ -96,7 +96,7 @@ ANSI output should just work.
 
 To stop using colorama before your program exits, simply call ``deinit()``.
 This will restore ``stdout`` and ``stderr`` to their original values, so that Colorama
-is disabled. To resume using Colorama again, call ``reinit()``; it is cheaper 
+is disabled. To resume using Colorama again, call ``reinit()``; it is cheaper
 to calling ``init()`` again (but does the same thing).
 
 
@@ -331,6 +331,15 @@ Thanks
 * User 'vaal1239', Dave Mckee & Lackner Kristof for a tiny but much-needed Win7 fix.
 * Julien Stuyck, for wisely suggesting Python3 compatible updates to README.
 * Daniel Griffith for multiple fabulous patches.
-* Oscar Lesta for valuable fix to stop ANSI chars being sent to non-tty output.
+* Oscar Lesta for a valuable fix to stop ANSI chars being sent to non-tty output.
 * Roger Binns, for many suggestions, valuable feedback, & bug reports.
 * Tim Golden for thought and much appreciated feedback on the initial idea.
+* User 'Zearin' for updates to the README file.
+* John Szakmeister for adding support for light colors
+* Charles Merriam for adding documentation to demos
+* Jurko for a fix on 64-bit Windows CPython2.5 w/o ctypes
+* Florian Bruhin for a fix when stdout or stderr are None
+* Thomas Weininger for fixing ValueError on Windows
+* Remi Rampin for better Github integration and fixes to the README file
+* Simeon Visser for closing a file handle using 'with' and updating classifiers
+  to include Python 3.3 and 3.4
