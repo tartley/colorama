@@ -24,13 +24,13 @@ cursor positioning work under MS Windows.
 ANSI escape character sequences have long been used to produce colored terminal
 text and cursor positioning on Unix and Macs. Colorama makes this work on
 Windows, too, by wrapping stdout, stripping ANSI sequences it finds (which
-otherwise show up as gobbledygook in your output), and converting them into the
+would appear as gobbledygook in the output), and converting them into the
 appropriate win32 calls to modify the state of the terminal. On other platforms,
 Colorama does nothing.
 
 Colorama also provides some shortcuts to help generate ANSI sequences
 but works fine in conjunction with any other ANSI sequence generation library,
-such as Termcolor (http://pypi.python.org/pypi/termcolor.)
+such as Termcolor (http://pypi.python.org/pypi/termcolor).
 
 This has the upshot of providing a simple cross-platform API for printing
 colored terminal text from Python, and has the happy side-effect that existing
@@ -38,9 +38,9 @@ applications or libraries which use ANSI sequences to produce colored output on
 Linux or Macs can now also work on Windows, simply by calling
 ``colorama.init()``.
 
-An alternative approach is to install 'ansi.sys' on Windows machines, which
+An alternative approach is to install ``ansi.sys`` on Windows machines, which
 provides the same behaviour for all applications running in terminals. Colorama
-is intended for situations where that isn't easy (e.g. maybe your app doesn't
+is intended for situations where that isn't easy (e.g., maybe your app doesn't
 have an installer.)
 
 Demo scripts in the source code repository prints some colored text using
@@ -57,8 +57,8 @@ handling, versus on Windows Command-Prompt using Colorama:
     :height: 325
     :alt: Same ANSI sequences on Windows, using Colorama.
 
-These screengrabs show that Colorama on Windows does not support ANSI 'dim
-text': it looks the same as 'normal text'.
+These screengrabs show that on Windows, Colorama does not support ANSI 'dim
+text'; it looks the same as 'normal text'.
 
 
 License
@@ -85,20 +85,19 @@ Applications should initialise Colorama using:
     from colorama import init
     init()
 
-If you are on Windows, the call to ``init()`` will start filtering ANSI escape
-sequences out of any text sent to stdout or stderr, and will replace them with
+On Windows, calling ``init()`` will filter ANSI escape
+sequences out of any text sent to stdout or stderr, and replace them with
 equivalent Win32 calls.
 
-Calling ``init()`` has no effect on other platforms (unless you request other
-optional functionality, see keyword args below.) The intention is that
-applications can call ``init()`` unconditionally on all platforms, after which
+On other platforms, calling ``init()`` has no effect (unless you request other
+optional functionality; see “Init Keyword Args”, below). By design, this permits
+applications to call ``init()`` unconditionally on all platforms, after which
 ANSI output should just work.
 
 To stop using colorama before your program exits, simply call ``deinit()``.
 This will restore stdout and stderr to their original values, so that Colorama
-is disabled. To start using Colorama again, call ``reinit()``, which wraps
-stdout and stderr again, but is cheaper to call than doing ``init()`` all over
-again.
+is disabled. To resume using Colorama again, call ``reinit()``; it is cheaper 
+to calling ``init()`` again (but does the same thing).
 
 
 Colored Output
@@ -116,14 +115,14 @@ constant shorthand for ANSI escape sequences:
     print(Fore.RESET + Back.RESET + Style.RESET_ALL)
     print('back to normal now')
 
-or simply by manually printing ANSI sequences from your own code:
+…or simply by manually printing ANSI sequences from your own code:
 
 .. code-block:: python
 
     print('\033[31m' + 'some red text')
     print('\033[30m' # and reset to default color)
 
-or Colorama can be used happily in conjunction with existing ANSI libraries
+…or, Colorama can be used happily in conjunction with existing ANSI libraries
 such as Termcolor:
 
 .. code-block:: python
@@ -143,14 +142,14 @@ Available formatting constants are::
     Back: BLACK, RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE, RESET.
     Style: DIM, NORMAL, BRIGHT, RESET_ALL
 
-Style.RESET_ALL resets foreground, background and brightness. Colorama will
+``Style.RESET_ALL`` resets foreground, background, and brightness. Colorama will
 perform this reset automatically on program exit.
 
 
 Cursor Positioning
 ------------------
 
-ANSI codes to reposition the cursor are supported. See demos/demo06.py for
+ANSI codes to reposition the cursor are supported. See ``demos/demo06.py`` for
 an example of how to generate them.
 
 
@@ -182,10 +181,10 @@ init(convert=None):
 
 init(wrap=True):
     On Windows, colorama works by replacing ``sys.stdout`` and ``sys.stderr``
-    with proxy objects, which override the .write() method to do their work. If
-    this wrapping causes you problems, then this can be disabled by passing
-    ``init(wrap=False)``. The default behaviour is to wrap if autoreset or
-    strip or convert are True.
+    with proxy objects, which override the ``.write()`` method to do their work.
+    If this wrapping causes you problems, then this can be disabled by passing
+    ``init(wrap=False)``. The default behaviour is to wrap if ``autoreset`` or
+    ``strip`` or ``convert`` are True.
 
     When wrapping is disabled, colored printing on non-Windows platforms will
     continue to work as normal. To do cross-platform colored output, you can
@@ -209,9 +208,9 @@ Status & Known Problems
 =======================
 
 I've personally only tested it on WinXP (CMD, Console2), Ubuntu
-(gnome-terminal, xterm), and OSX.
+(gnome-terminal, xterm), and OS X.
 
-Some presumably valid ANSI sequences aren't recognised (see details below)
+Some presumably valid ANSI sequences aren't recognised (see details below),
 but to my knowledge nobody has yet complained about this. Puzzling.
 
 See outstanding issues and wishlist:
@@ -230,10 +229,10 @@ ANSI sequences generally take the form:
 
     ESC [ <param> ; <param> ... <command>
 
-Where <param> is an integer, and <command> is a single letter. Zero or more
-params are passed to a <command>. If no params are passed, it is generally
-synonymous with passing a single zero. No spaces exist in the sequence, they
-have just been inserted here to make it easy to read.
+Where ``<param>`` is an integer, and ``<command>`` is a single letter. Zero or more
+params are passed to a ``<command>``. If no params are passed, it is generally
+synonymous with passing a single zero. No spaces exist in the sequence; they
+have been inserted here simply to read more easily.
 
 The only ANSI sequences that colorama converts into win32 calls are::
 
@@ -278,8 +277,8 @@ The only ANSI sequences that colorama converts into win32 calls are::
     # clear the line
     ESC [ mode K    # clear the line
 
-Multiple numeric params to the 'm' command can be combined into a single
-sequence, eg::
+Multiple numeric params to the ``'m'`` command can be combined into a single
+sequence::
 
     ESC [ 36 ; 45 ; 1 m     # bright cyan text on magenta background
 
@@ -288,7 +287,7 @@ are silently stripped from the output on Windows.
 
 Any other form of ANSI sequence, such as single-character codes or alternative
 initial characters, are not recognised nor stripped. It would be cool to add
-them though. Let me know if it would be useful for you, via the issues on
+them though. Let me know if it would be useful for you, via the Issues on
 Github.
 
 
@@ -300,9 +299,8 @@ Help and fixes welcome! Ask Jonathan for commit rights, you'll get them.
 Running tests requires:
 
 - Michael Foord's 'mock' module to be installed.
-- Tests are written using the 2010 era updates to 'unittest', and require to
-  be run either using Python2.7 or greater, or else to have Michael Foord's
-  'unittest2' module installed.
+- Tests are written using 2010-era updates to ``unittest``, and require
+  Python 2.7 or greater, OR to have Michael Foord's ``unittest2`` module installed.
 
 To run tests::
 
@@ -310,8 +308,8 @@ To run tests::
 
 This, like a few other handy commands, is captured in a Makefile.
 
-If using nose to run the tests, pass the -s flag required because 'nosetests'
-otherwise applies a proxy of its own to stdout, which confuses the unit tests.
+If you use nose to run the tests, you must pass the ``-s`` flag; otherwise, ``nosetests``
+applies its own proxy to stdout, which confuses the unit tests.
 
 
 Contact
@@ -322,10 +320,10 @@ Created by Jonathan Hartley, tartley@tartley.com
 
 Thanks
 ======
-| Marc Schlaich (schlamar) for a setup.py fix for Python2.5.
+| Marc Schlaich (schlamar) for a ``setup.py`` fix for Python2.5.
 | Marc Abramowitz, for reporting and fixing a crash on exit with closed stdout.
 |   and for providing a solution to issue #7's setuptools/distutils debate.
-| User 'eryksun', for guidance on correctly instantiating ctypes.windll.
+| User 'eryksun', for guidance on correctly instantiating ``ctypes.windll``.
 | Matthew McCormick for politely pointing out a longstanding crash on non-Win.
 | Ben Hoyt, for a magnificent fix under 64-bit Windows.
 | Jesse@EmptySquare for submitting a fix for examples in the README.
