@@ -18,12 +18,12 @@ Discussion group:
 Description
 ===========
 
-Makes ANSI escape character sequences for producing colored terminal text and
-cursor positioning work under MS Windows.
+Makes ANSI escape character sequences (for producing colored terminal text and
+cursor positioning) work under MS Windows.
 
 ANSI escape character sequences have long been used to produce colored terminal
 text and cursor positioning on Unix and Macs. Colorama makes this work on
-Windows, too, by wrapping stdout, stripping ANSI sequences it finds (which
+Windows, too, by wrapping ``stdout``, stripping ANSI sequences it finds (which
 would appear as gobbledygook in the output), and converting them into the
 appropriate win32 calls to modify the state of the terminal. On other platforms,
 Colorama does nothing.
@@ -43,7 +43,7 @@ provides the same behaviour for all applications running in terminals. Colorama
 is intended for situations where that isn't easy (e.g., maybe your app doesn't
 have an installer.)
 
-Demo scripts in the source code repository prints some colored text using
+Demo scripts in the source code repository print some colored text using
 ANSI sequences. Compare their output under Gnome-terminal's built in ANSI
 handling, versus on Windows Command-Prompt using Colorama:
 
@@ -57,20 +57,20 @@ handling, versus on Windows Command-Prompt using Colorama:
     :height: 325
     :alt: Same ANSI sequences on Windows, using Colorama.
 
-These screengrabs show that on Windows, Colorama does not support ANSI 'dim
+These screengrabs show that, on Windows, Colorama does not support ANSI 'dim
 text'; it looks the same as 'normal text'.
 
 
 License
 =======
 
-Copyright Jonathan Hartley 2013. BSD 3-Clause license, see LICENSE file.
+Copyright Jonathan Hartley 2013. BSD 3-Clause license; see LICENSE file.
 
 
 Dependencies
 ============
 
-None, other than Python. Tested on Python 2.5.5, 2.6.5, 2.7, 3.1.2, 3.2, 3.3, 3.4.
+None, other than Python. Tested on Python 2.5.5, 2.6.5, 2.7, 3.1.2, 3.2, 3.3, and 3.4.
 
 Usage
 =====
@@ -86,7 +86,7 @@ Applications should initialise Colorama using:
     init()
 
 On Windows, calling ``init()`` will filter ANSI escape
-sequences out of any text sent to stdout or stderr, and replace them with
+sequences out of any text sent to ``stdout`` or ``stderr``, and replace them with
 equivalent Win32 calls.
 
 On other platforms, calling ``init()`` has no effect (unless you request other
@@ -95,7 +95,7 @@ applications to call ``init()`` unconditionally on all platforms, after which
 ANSI output should just work.
 
 To stop using colorama before your program exits, simply call ``deinit()``.
-This will restore stdout and stderr to their original values, so that Colorama
+This will restore ``stdout`` and ``stderr`` to their original values, so that Colorama
 is disabled. To resume using Colorama again, call ``reinit()``; it is cheaper 
 to calling ``init()`` again (but does the same thing).
 
@@ -156,7 +156,7 @@ an example of how to generate them.
 Init Keyword Args
 -----------------
 
-``init()`` accepts some kwargs to override default behaviour.
+``init()`` accepts some ``**kwargs`` to override default behaviour.
 
 init(autoreset=False):
     If you find yourself repeatedly sending reset sequences to turn off color
@@ -175,7 +175,7 @@ init(strip=None):
     stripped from the output. The default behaviour is to strip if on Windows.
 
 init(convert=None):
-    Pass ``True`` or ``False`` to override whether to convert ansi codes in the
+    Pass ``True`` or ``False`` to override whether to convert ANSI codes in the
     output into win32 calls. The default behaviour is to convert if on Windows
     and output is to a tty (terminal).
 
@@ -207,7 +207,7 @@ init(wrap=True):
 Status & Known Problems
 =======================
 
-I've personally only tested it on WinXP (CMD, Console2), Ubuntu
+I've personally only tested it on Windows XP (CMD, Console2), Ubuntu
 (gnome-terminal, xterm), and OS X.
 
 Some presumably valid ANSI sequences aren't recognised (see details below),
@@ -286,9 +286,9 @@ All other ANSI sequences of the form ``ESC [ <param> ; <param> ... <command>``
 are silently stripped from the output on Windows.
 
 Any other form of ANSI sequence, such as single-character codes or alternative
-initial characters, are not recognised nor stripped. It would be cool to add
+initial characters, are not recognised or stripped. It would be cool to add
 them though. Let me know if it would be useful for you, via the Issues on
-Github.
+GitHub.
 
 
 Development
@@ -298,7 +298,7 @@ Help and fixes welcome! Ask Jonathan for commit rights, you'll get them.
 
 Running tests requires:
 
-- Michael Foord's 'mock' module to be installed.
+- Michael Foord's ``mock`` module to be installed.
 - Tests are written using 2010-era updates to ``unittest``, and require
   Python 2.7 or greater, OR to have Michael Foord's ``unittest2`` module installed.
 
@@ -306,10 +306,10 @@ To run tests::
 
    python -m unittest discover -p *_test.py
 
-This, like a few other handy commands, is captured in a Makefile.
+This, like a few other handy commands, is captured in a ``Makefile``.
 
 If you use nose to run the tests, you must pass the ``-s`` flag; otherwise, ``nosetests``
-applies its own proxy to stdout, which confuses the unit tests.
+applies its own proxy to ``stdout``, which confuses the unit tests.
 
 
 Contact
@@ -320,17 +320,17 @@ Created by Jonathan Hartley, tartley@tartley.com
 
 Thanks
 ======
-| Marc Schlaich (schlamar) for a ``setup.py`` fix for Python2.5.
-| Marc Abramowitz, for reporting and fixing a crash on exit with closed stdout.
-|   and for providing a solution to issue #7's setuptools/distutils debate.
-| User 'eryksun', for guidance on correctly instantiating ``ctypes.windll``.
-| Matthew McCormick for politely pointing out a longstanding crash on non-Win.
-| Ben Hoyt, for a magnificent fix under 64-bit Windows.
-| Jesse@EmptySquare for submitting a fix for examples in the README.
-| User 'jamessp', an observant documentation fix for cursor positioning.
-| User 'vaal1239', Dave Mckee & Lackner Kristof for a tiny but much-needed Win7 fix.
-| Julien Stuyck, for wisely suggesting Python3 compatible updates to README.
-| Daniel Griffith for multiple fabulous patches.
-| Oscar Lesta for valuable fix to stop ANSI chars being sent to non-tty output.
-| Roger Binns, for many suggestions, valuable feedback, & bug reports.
-| Tim Golden for thought and much appreciated feedback on the initial idea.
+* Marc Schlaich (schlamar) for a ``setup.py`` fix for Python2.5.
+* Marc Abramowitz, for reporting and fixing a crash on exit with closed ``stdout``,
+  and for providing a solution to issue #7's setuptools/distutils debate.
+* User 'eryksun', for guidance on correctly instantiating ``ctypes.windll``.
+* Matthew McCormick for politely pointing out a longstanding crash on non-Win.
+* Ben Hoyt, for a magnificent fix under 64-bit Windows.
+* Jesse@EmptySquare for submitting a fix for examples in the README.
+* User 'jamessp', an observant documentation fix for cursor positioning.
+* User 'vaal1239', Dave Mckee & Lackner Kristof for a tiny but much-needed Win7 fix.
+* Julien Stuyck, for wisely suggesting Python3 compatible updates to README.
+* Daniel Griffith for multiple fabulous patches.
+* Oscar Lesta for valuable fix to stop ANSI chars being sent to non-tty output.
+* Roger Binns, for many suggestions, valuable feedback, & bug reports.
+* Tim Golden for thought and much appreciated feedback on the initial idea.
