@@ -90,7 +90,7 @@ sequences out of any text sent to stdout or stderr, and replace them with
 equivalent Win32 calls.
 
 On other platforms, calling ``init()`` has no effect (unless you request other
-optional functionality; see “Init Keyword Args”, below). By design, this permits
+optional functionality; see "Init Keyword Args", below). By design, this permits
 applications to call ``init()`` unconditionally on all platforms, after which
 ANSI output should just work.
 
@@ -115,14 +115,14 @@ constant shorthand for ANSI escape sequences:
     print(Fore.RESET + Back.RESET + Style.RESET_ALL)
     print('back to normal now')
 
-…or simply by manually printing ANSI sequences from your own code:
+...or simply by manually printing ANSI sequences from your own code:
 
 .. code-block:: python
 
     print('\033[31m' + 'some red text')
     print('\033[30m' # and reset to default color)
 
-…or, Colorama can be used happily in conjunction with existing ANSI libraries
+...or, Colorama can be used happily in conjunction with existing ANSI libraries
 such as Termcolor:
 
 .. code-block:: python
@@ -208,7 +208,7 @@ Status & Known Problems
 =======================
 
 I've personally only tested it on WinXP (CMD, Console2), Ubuntu
-(gnome-terminal, xterm), and OS X.
+(gnome-terminal, xterm), and OS X.
 
 Some presumably valid ANSI sequences aren't recognised (see details below),
 but to my knowledge nobody has yet complained about this. Puzzling.
@@ -300,7 +300,7 @@ Running tests requires:
 
 - Michael Foord's 'mock' module to be installed.
 - Tests are written using 2010-era updates to ``unittest``, and require
-  Python 2.7 or greater, OR to have Michael Foord's ``unittest2`` module installed.
+  Python 2.7 or greater, OR to have Michael Foord's ``unittest2`` module installed.
 
 To run tests::
 
