@@ -14,8 +14,12 @@ wrapped_stderr = sys.stderr
 atexit_done = False
 
 
-def reset_all():
-    AnsiToWin32(orig_stdout).reset_all()
+def reset_all(autoreset, convert, strip):
+    def callback():
+        AnsiToWin32(orig_stdout,
+                    convert=convert,
+                    strip=strip,
+                    autoreset=autoreset).reset_all()
 
 
 def init(autoreset=False, convert=None, strip=None, wrap=True):
@@ -36,8 +40,8 @@ def init(autoreset=False, convert=None, strip=None, wrap=True):
             wrap_stream(orig_stderr, convert, strip, autoreset, wrap)
 
     global atexit_done
-    if not atexit_done:
-        atexit.register(reset_all)
+    if not atexit_done and wrap:
+        atexit.register(reset_all(autoreset, convert, strip))
         atexit_done = True
 
 
