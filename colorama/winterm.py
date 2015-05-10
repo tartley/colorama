@@ -46,6 +46,8 @@ class WinTerm(object):
         self._fore = fore
         if light:
             self._style |= WinStyle.BRIGHT
+        else:
+            self._style &= ~WinStyle.BRIGHT
         self.set_console(on_stderr=on_stderr)
 
     def back(self, back=None, light=False, on_stderr=False):
@@ -54,6 +56,8 @@ class WinTerm(object):
         self._back = back
         if light:
             self._style |= WinStyle.BRIGHT_BACKGROUND
+        else:
+            self._style &= ~WinStyle.BRIGHT
         self.set_console(on_stderr=on_stderr)
 
     def style(self, style=None, on_stderr=False):
