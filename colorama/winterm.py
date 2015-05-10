@@ -27,9 +27,10 @@ class WinTerm(object):
         self._default_fore = self._fore
         self._default_back = self._back
         self._default_style = self._style
+        self._light = 0
 
     def get_attrs(self):
-        return self._fore + self._back * 16 + self._style
+        return self._fore + self._back * 16 + (self._style | self._light)
 
     def set_attrs(self, value):
         self._fore = value & 7
@@ -45,9 +46,9 @@ class WinTerm(object):
             fore = self._default_fore
         self._fore = fore
         if light:
-            self._style |= WinStyle.BRIGHT
+            self._light |= WinStyle.BRIGHT
         else:
-            self._style &= ~WinStyle.BRIGHT
+            self._light &= ~WinStyle.BRIGHT
         self.set_console(on_stderr=on_stderr)
 
     def back(self, back=None, light=False, on_stderr=False):
@@ -55,9 +56,9 @@ class WinTerm(object):
             back = self._default_back
         self._back = back
         if light:
-            self._style |= WinStyle.BRIGHT_BACKGROUND
+            self._light |= WinStyle.BRIGHT_BACKGROUND
         else:
-            self._style &= ~WinStyle.BRIGHT
+            self._light &= ~WinStyle.BRIGHT_BACKGROUND
         self.set_console(on_stderr=on_stderr)
 
     def style(self, style=None, on_stderr=False):
