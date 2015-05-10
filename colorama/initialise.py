@@ -5,11 +5,11 @@ import sys
 from .ansitowin32 import AnsiToWin32
 
 
-orig_stdout = sys.stdout
-orig_stderr = sys.stderr
+orig_stdout = None
+orig_stderr = None
 
-wrapped_stdout = sys.stdout
-wrapped_stderr = sys.stderr
+wrapped_stdout = None
+wrapped_stderr = None
 
 atexit_done = False
 
@@ -24,6 +24,11 @@ def init(autoreset=False, convert=None, strip=None, wrap=True):
         raise ValueError('wrap=False conflicts with any other arg=True')
 
     global wrapped_stdout, wrapped_stderr
+    global orig_stdout, orig_stderr
+
+    orig_stdout = sys.stdout
+    orig_stderr = sys.stderr
+
     if sys.stdout is None:
         wrapped_stdout = None
     else:
