@@ -27,6 +27,10 @@ class WinTerm(object):
         self._default_fore = self._fore
         self._default_back = self._back
         self._default_style = self._style
+        #In order to emulate LIGHT_EX in windows, we borrow the BRIGHT style.
+        #So that LIGHT_EX colors and BRIGHT style do not clobber each other,
+        #we track them separately, since LIGHT_EX is overwritten by Fore/Back
+        #and BRIGHT is overwritten by Style codes.
         self._light = 0
 
     def get_attrs(self):
@@ -45,6 +49,7 @@ class WinTerm(object):
         if fore is None:
             fore = self._default_fore
         self._fore = fore
+        #Emulate LIGHT_EX with BRIGHT Style
         if light:
             self._light |= WinStyle.BRIGHT
         else:
@@ -55,6 +60,7 @@ class WinTerm(object):
         if back is None:
             back = self._default_back
         self._back = back
+        #Emulate LIGHT_EX with BRIGHT_BACKGROUND Style
         if light:
             self._light |= WinStyle.BRIGHT_BACKGROUND
         else:
