@@ -1,4 +1,9 @@
   * Fix issue #47 - autoreset now works on Linux with stream redirection
+  * Fix issue #53 - strip readline markers
+  * Fix issue #32 - assign orig_stdout and orig_stderr when initialising
+  * Fix issue #57 - Fore.RESET did not reset style of LIGHT_EX colors.
+    Fixed by Andy Neff
+  * Changes to readme and other improvements by Marc Abramowitz and Zearin
 0.3.3
   * Fix Google Code issue #13 - support changing the console title with OSC
     escape sequence

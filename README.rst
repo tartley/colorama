@@ -322,7 +322,7 @@ Thanks
 ======
 * Marc Schlaich (schlamar) for a ``setup.py`` fix for Python2.5.
 * Marc Abramowitz, for reporting and fixing a crash on exit with closed ``stdout``,
-  and for providing a solution to issue #7's setuptools/distutils debate.
+  providing a solution to issue #7's setuptools/distutils debate, and other fixes.
 * User 'eryksun', for guidance on correctly instantiating ``ctypes.windll``.
 * Matthew McCormick for politely pointing out a longstanding crash on non-Win.
 * Ben Hoyt, for a magnificent fix under 64-bit Windows.
@@ -343,3 +343,4 @@ Thanks
 * Remi Rampin for better Github integration and fixes to the README file
 * Simeon Visser for closing a file handle using 'with' and updating classifiers
   to include Python 3.3 and 3.4
+* Andy Neff for fixing RESET of LIGHT_EX colors.
