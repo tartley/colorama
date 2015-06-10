@@ -120,7 +120,7 @@ constant shorthand for ANSI escape sequences:
 .. code-block:: python
 
     print('\033[31m' + 'some red text')
-    print('\033[30m' # and reset to default color)
+    print('\033[30m') # and reset to default color
 
 ...or, Colorama can be used happily in conjunction with existing ANSI libraries
 such as Termcolor:
