@@ -10,8 +10,6 @@ Download and docs:
     http://pypi.python.org/pypi/colorama
 Source code & Development:
     https://github.com/tartley/colorama
-Issues:
-    https://github.com/tartley/colorama/issues
 Discussion group:
      https://groups.google.com/forum/#!forum/python-colorama
 
