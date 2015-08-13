@@ -28,7 +28,8 @@ Colorama does nothing.
 
 Colorama also provides some shortcuts to help generate ANSI sequences
 but works fine in conjunction with any other ANSI sequence generation library,
-such as Termcolor (http://pypi.python.org/pypi/termcolor).
+such as the venerable Termcolor (http://pypi.python.org/pypi/termcolor)
+or the fabulous Blessings (https://pypi.python.org/pypi/blessings).
 
 This has the upshot of providing a simple cross-platform API for printing
 colored terminal text from Python, and has the happy side-effect that existing
