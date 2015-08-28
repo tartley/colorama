@@ -56,8 +56,10 @@ def deinit():
 @contextlib.contextmanager
 def colorama_text(*args):
     init(*args)
-    yield
-    deinit()
+    try:
+        yield
+    finally:
+        deinit()
 
 def reinit():
     if wrapped_stdout is not None:
