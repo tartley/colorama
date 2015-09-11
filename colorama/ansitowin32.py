@@ -56,7 +56,7 @@ class AnsiToWin32(object):
         self.stream = StreamWrapper(wrapped, self)
 
         on_windows = os.name == 'nt'
-        on_emulated_windows = on_windows and 'TERM' in os.environ
+        on_emulated_windows = on_windows and 'TERM' in os.environ and os.environ['TERM'] != 'cygwin'
 
         # should we strip ANSI sequences from our output?
         if strip is None:
