@@ -1,5 +1,6 @@
 # Copyright Jonathan Hartley 2013. BSD 3-Clause license, see LICENSE file.
 import atexit
+import contextlib
 import sys
 
 from .ansitowin32 import AnsiToWin32
@@ -51,6 +52,15 @@ def deinit():
         sys.stdout = orig_stdout
     if orig_stderr is not None:
         sys.stderr = orig_stderr
+
+
+@contextlib.contextmanager
+def colorama_text(*args, **kwargs):
+    init(*args, **kwargs)
+    try:
+        yield
+    finally:
+        deinit()
 
 
 def reinit():

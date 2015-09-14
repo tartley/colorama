@@ -31,3 +31,6 @@ python demo06.py
 
 # demo07.py not shown
 # Demonstrate cursor relative movement: UP, DOWN, FORWARD, and BACK in colorama.CURSOR
+
+#Demonstrate the use of a context manager instead of manually using init and deinit
+python demo08.py
