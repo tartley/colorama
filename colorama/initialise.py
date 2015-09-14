@@ -18,6 +18,7 @@ atexit_done = False
 def reset_all():
     AnsiToWin32(orig_stdout).reset_all()
 
+
 def init(autoreset=False, convert=None, strip=None, wrap=True):
 
     if not wrap and any([autoreset, convert, strip]):
@@ -54,12 +55,13 @@ def deinit():
 
 
 @contextlib.contextmanager
-def colorama_text(*args):
-    init(*args)
+def colorama_text(*args, **kwargs):
+    init(*args, **kwargs)
     try:
         yield
     finally:
         deinit()
+
 
 def reinit():
     if wrapped_stdout is not None:
