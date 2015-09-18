@@ -47,7 +47,7 @@ class AnsiToWin32Test(TestCase):
         self.assertEqual(stream.autoreset, auto)
 
     @patch('colorama.ansitowin32.winterm', None)
-    @patch('os.environ', dict())
+    @patch('colorama.ansitowin32.winapi_test', lambda *_: True)
     def testStripIsTrueOnWindows(self):
         with osname('nt'):
             mockStdout = Mock()

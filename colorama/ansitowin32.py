@@ -5,7 +5,7 @@ import os
 
 from .ansi import AnsiFore, AnsiBack, AnsiStyle, Style
 from .winterm import WinTerm, WinColor, WinStyle
-from .win32 import windll
+from .win32 import windll, winapi_test
 
 
 winterm = None
@@ -56,16 +56,20 @@ class AnsiToWin32(object):
         self.stream = StreamWrapper(wrapped, self)
 
         on_windows = os.name == 'nt'
-        on_emulated_windows = on_windows and 'TERM' in os.environ
+        # We test if the WinAPI works, because even if we are on Windows
+        # we may be using a terminal that doesn't support the WinAPI
+        # (e.g. Cygwin Terminal). In this case it's up to the terminal
+        # to support the ANSI codes.
+        conversion_supported = on_windows and winapi_test()
 
         # should we strip ANSI sequences from our output?
         if strip is None:
-            strip = on_windows and not on_emulated_windows
+            strip = conversion_supported
         self.strip = strip
 
         # should we should convert ANSI sequences into win32 calls?
         if convert is None:
-            convert = on_windows and not wrapped.closed and not on_emulated_windows and is_a_tty(wrapped)
+            convert = conversion_supported and not wrapped.closed and is_a_tty(wrapped)
         self.convert = convert
 
         # dict of ansi codes to win32 functions and parameters

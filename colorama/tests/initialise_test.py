@@ -40,17 +40,16 @@ class InitTest(TestCase):
         self.assertIs(sys.stderr, orig_stderr, 'stderr should not be wrapped')
 
     @patch('colorama.initialise.reset_all')
-    @patch('os.environ', dict())
+    @patch('colorama.ansitowin32.winapi_test', lambda *_: True)
     def testInitWrapsOnWindows(self, _):
         with osname("nt"):
             init()
             self.assertWrapped()
 
     @patch('colorama.initialise.reset_all')
-    @patch('os.environ', dict(TERM=''))
+    @patch('colorama.ansitowin32.winapi_test', lambda *_: False)
     def testInitDoesntWrapOnEmulatedWindows(self, _):
         with osname("nt"):
-            os.environ['TERM']
             init()
             self.assertNotWrapped()
 
@@ -87,7 +86,7 @@ class InitTest(TestCase):
         self.assertRaises(ValueError, lambda: init(autoreset=True, wrap=False))
 
     @patch('colorama.ansitowin32.winterm', None)
-    @patch('os.environ', dict())
+    @patch('colorama.ansitowin32.winapi_test', lambda *_: True)
     def testInitOnlyWrapsOnce(self):
         with osname("nt"):
             init()
