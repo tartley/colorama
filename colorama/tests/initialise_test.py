@@ -76,12 +76,6 @@ class InitTest(TestCase):
             init(wrap=False)
             self.assertNotWrapped()
 
-    def testInitWrapOffWillUnwrapIfRequired(self):
-        with osname("nt"):
-            init()
-            init(wrap=False)
-            self.assertNotWrapped()
-
     def testInitWrapOffIncompatibleWithAutoresetOn(self):
         self.assertRaises(ValueError, lambda: init(autoreset=True, wrap=False))
 

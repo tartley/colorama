@@ -40,8 +40,8 @@ class StreamWrapperTest(TestCase):
 class AnsiToWin32Test(TestCase):
 
     def testInit(self):
-        mockStdout = object()
-        auto = object()
+        mockStdout = Mock()
+        auto = Mock()
         stream = AnsiToWin32(mockStdout, autoreset=auto)
         self.assertEqual(stream.wrapped, mockStdout)
         self.assertEqual(stream.autoreset, auto)
