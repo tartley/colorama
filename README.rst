@@ -325,7 +325,7 @@ Thanks
 * User 'eryksun', for guidance on correctly instantiating ``ctypes.windll``.
 * Matthew McCormick for politely pointing out a longstanding crash on non-Win.
 * Ben Hoyt, for a magnificent fix under 64-bit Windows.
-* Jesse@EmptySquare for submitting a fix for examples in the README.
+* Jesse at Empty Square for submitting a fix for examples in the README.
 * User 'jamessp', an observant documentation fix for cursor positioning.
 * User 'vaal1239', Dave Mckee & Lackner Kristof for a tiny but much-needed Win7 fix.
 * Julien Stuyck, for wisely suggesting Python3 compatible updates to README.
