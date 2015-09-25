@@ -10,7 +10,7 @@ Download and docs:
     http://pypi.python.org/pypi/colorama
 Source code & Development:
     https://github.com/tartley/colorama
-Discussion group:
+Contact / Discussion group:
      https://groups.google.com/forum/#!forum/python-colorama
 
 Description
@@ -314,12 +314,6 @@ If you use nose to run the tests, you must pass the ``-s`` flag; otherwise,
 tests.
 
 
-Contact
-=======
-
-Created by Jonathan Hartley, tartley@tartley.com
-
-
 Thanks
 ======
 * Marc Schlaich (schlamar) for a ``setup.py`` fix for Python2.5.
@@ -349,4 +343,5 @@ Thanks
 * Simeon Visser for closing a file handle using 'with' and updating classifiers
   to include Python 3.3 and 3.4
 * Andy Neff for fixing RESET of LIGHT_EX colors.
+* Jonathan Hartley for the initial idea and implementation.
 
