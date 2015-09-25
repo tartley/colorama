@@ -69,7 +69,8 @@ Copyright Jonathan Hartley 2013. BSD 3-Clause license; see LICENSE file.
 Dependencies
 ============
 
-None, other than Python. Tested on Python 2.5.5, 2.6.5, 2.7, 3.1.2, 3.2, 3.3, and 3.4.
+None, other than Python. Tested on Python 2.5.5, 2.6.5, 2.7, 3.1.2, 3.2, 3.3,
+and 3.4.
 
 Usage
 =====
@@ -84,9 +85,9 @@ Applications should initialise Colorama using:
     from colorama import init
     init()
 
-On Windows, calling ``init()`` will filter ANSI escape
-sequences out of any text sent to ``stdout`` or ``stderr``, and replace them with
-equivalent Win32 calls.
+On Windows, calling ``init()`` will filter ANSI escape sequences out of any
+text sent to ``stdout`` or ``stderr``, and replace them with equivalent Win32
+calls.
 
 On other platforms, calling ``init()`` has no effect (unless you request other
 optional functionality; see "Init Keyword Args", below). By design, this permits
@@ -94,9 +95,9 @@ applications to call ``init()`` unconditionally on all platforms, after which
 ANSI output should just work.
 
 To stop using colorama before your program exits, simply call ``deinit()``.
-This will restore ``stdout`` and ``stderr`` to their original values, so that Colorama
-is disabled. To resume using Colorama again, call ``reinit()``; it is cheaper
-to calling ``init()`` again (but does the same thing).
+This will restore ``stdout`` and ``stderr`` to their original values, so that
+Colorama is disabled. To resume using Colorama again, call ``reinit()``; it is
+cheaper to calling ``init()`` again (but does the same thing).
 
 
 Colored Output
@@ -228,10 +229,10 @@ ANSI sequences generally take the form:
 
     ESC [ <param> ; <param> ... <command>
 
-Where ``<param>`` is an integer, and ``<command>`` is a single letter. Zero or more
-params are passed to a ``<command>``. If no params are passed, it is generally
-synonymous with passing a single zero. No spaces exist in the sequence; they
-have been inserted here simply to read more easily.
+Where ``<param>`` is an integer, and ``<command>`` is a single letter. Zero or
+more params are passed to a ``<command>``. If no params are passed, it is
+generally synonymous with passing a single zero. No spaces exist in the
+sequence; they have been inserted here simply to read more easily.
 
 The only ANSI sequences that colorama converts into win32 calls are::
 
@@ -299,7 +300,8 @@ Running tests requires:
 
 - Michael Foord's ``mock`` module to be installed.
 - Tests are written using 2010-era updates to ``unittest``, and require
-  Python 2.7 or greater, OR to have Michael Foord's ``unittest2`` module installed.
+  Python 2.7 or greater, OR to have Michael Foord's ``unittest2`` module
+  installed.
 
 To run tests::
 
@@ -307,8 +309,9 @@ To run tests::
 
 This, like a few other handy commands, is captured in a ``Makefile``.
 
-If you use nose to run the tests, you must pass the ``-s`` flag; otherwise, ``nosetests``
-applies its own proxy to ``stdout``, which confuses the unit tests.
+If you use nose to run the tests, you must pass the ``-s`` flag; otherwise,
+``nosetests`` applies its own proxy to ``stdout``, which confuses the unit
+tests.
 
 
 Contact
@@ -320,17 +323,20 @@ Created by Jonathan Hartley, tartley@tartley.com
 Thanks
 ======
 * Marc Schlaich (schlamar) for a ``setup.py`` fix for Python2.5.
-* Marc Abramowitz, for reporting and fixing a crash on exit with closed ``stdout``,
-  providing a solution to issue #7's setuptools/distutils debate, and other fixes.
+* Marc Abramowitz, reported & fixed a crash on exit with closed ``stdout``,
+  providing a solution to issue #7's setuptools/distutils debate,
+  and other fixes.
 * User 'eryksun', for guidance on correctly instantiating ``ctypes.windll``.
 * Matthew McCormick for politely pointing out a longstanding crash on non-Win.
 * Ben Hoyt, for a magnificent fix under 64-bit Windows.
 * Jesse at Empty Square for submitting a fix for examples in the README.
 * User 'jamessp', an observant documentation fix for cursor positioning.
-* User 'vaal1239', Dave Mckee & Lackner Kristof for a tiny but much-needed Win7 fix.
+* User 'vaal1239', Dave Mckee & Lackner Kristof for a tiny but much-needed Win7
+  fix.
 * Julien Stuyck, for wisely suggesting Python3 compatible updates to README.
 * Daniel Griffith for multiple fabulous patches.
-* Oscar Lesta for a valuable fix to stop ANSI chars being sent to non-tty output.
+* Oscar Lesta for a valuable fix to stop ANSI chars being sent to non-tty
+  output.
 * Roger Binns, for many suggestions, valuable feedback, & bug reports.
 * Tim Golden for thought and much appreciated feedback on the initial idea.
 * User 'Zearin' for updates to the README file.
@@ -343,3 +349,4 @@ Thanks
 * Simeon Visser for closing a file handle using 'with' and updating classifiers
   to include Python 3.3 and 3.4
 * Andy Neff for fixing RESET of LIGHT_EX colors.
+
