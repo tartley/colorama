@@ -16,7 +16,8 @@ atexit_done = False
 
 
 def reset_all():
-    AnsiToWin32(orig_stdout).reset_all()
+    if orig_stdout:
+        AnsiToWin32(orig_stdout).reset_all()
 
 
 def init(autoreset=False, convert=None, strip=None, wrap=True):
