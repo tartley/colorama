@@ -8,6 +8,7 @@ python:
   - "3.4"
   - "3.3"
   - "3.2"
+sudo: false # Use container-based infrastructure
 install:
   - "if [ $unittest = unittest2 ]; then pip install unittest2; fi"
   - "pip install mock"
