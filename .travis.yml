@@ -4,9 +4,10 @@ env:
     testbin=unittest
 python:
   - "2.7"
-  - "3.2"
-  - "3.3"
+  - "3.5"
   - "3.4"
+  - "3.3"
+  - "3.2"
 install:
   - "if [ $unittest = unittest2 ]; then pip install unittest2; fi"
   - "pip install mock"
