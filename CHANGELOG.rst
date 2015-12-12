@@ -1,3 +1,4 @@
+0.3.4
   * Fix issue #47 and #80 - stream redirection now strips ANSI codes on Linux
   * Fix issue #53 - strip readline markers
   * Fix issue #32 - assign orig_stdout and orig_stderr when initialising
