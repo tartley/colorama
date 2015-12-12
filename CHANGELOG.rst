@@ -1,3 +1,5 @@
+0.3.5
+  * Bumping version to re-upload a wheel distribution
 0.3.4
   * Fix issue #47 and #80 - stream redirection now strips ANSI codes on Linux
   * Fix issue #53 - strip readline markers
