@@ -4,6 +4,7 @@ MANIFEST
 dist
 tags
 virtualenv
+build
 
 # PyCharm
 .idea
