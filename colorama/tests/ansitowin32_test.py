@@ -56,7 +56,8 @@ class AnsiToWin32Test(TestCase):
 
     def testStripIsFalseOffWindows(self):
         with osname('posix'):
-            stream = AnsiToWin32(None)
+            mockStdout = Mock()
+            stream = AnsiToWin32(mockStdout)
             self.assertFalse(stream.strip)
 
 

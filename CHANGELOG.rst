@@ -1,4 +1,4 @@
-  * Fix issue #47 - autoreset now works on Linux with stream redirection
+  * Fix issue #47 and #80 - stream redirection now strips ANSI codes on Linux
   * Fix issue #53 - strip readline markers
   * Fix issue #32 - assign orig_stdout and orig_stderr when initialising
   * Fix issue #57 - Fore.RESET did not reset style of LIGHT_EX colors.

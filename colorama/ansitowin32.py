@@ -64,7 +64,7 @@ class AnsiToWin32(object):
 
         # should we strip ANSI sequences from our output?
         if strip is None:
-            strip = conversion_supported
+            strip = conversion_supported or not is_a_tty(wrapped)
         self.strip = strip
 
         # should we should convert ANSI sequences into win32 calls?

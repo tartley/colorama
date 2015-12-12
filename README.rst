@@ -170,7 +170,8 @@ init(autoreset=False):
 
 init(strip=None):
     Pass ``True`` or ``False`` to override whether ansi codes should be
-    stripped from the output. The default behaviour is to strip if on Windows.
+    stripped from the output. The default behaviour is to strip if on Windows
+    or if output is redirected (not a tty).
 
 init(convert=None):
     Pass ``True`` or ``False`` to override whether to convert ANSI codes in the
