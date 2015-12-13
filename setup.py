@@ -42,12 +42,13 @@ setup(
     keywords='color colour terminal text ansi windows crossplatform xplatform',
     author='Jonathan Hartley',
     author_email='tartley@tartley.com',
+    maintainer='Arnon Yaari',
     url='https://github.com/tartley/colorama',
     license='BSD',
     packages=[NAME],
     # see classifiers http://pypi.python.org/pypi?%3Aaction=list_classifiers
     classifiers=[
-        'Development Status :: 4 - Beta',
+        'Development Status :: 5 - Production/Stable',
         'Environment :: Console',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
@@ -61,6 +62,7 @@ setup(
         'Programming Language :: Python :: 3.2',
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
         'Topic :: Terminals',
     ]
 )
