@@ -1,3 +1,5 @@
+0.3.6
+  * Fix issue #81: fix ValueError when a closed stream was used
 0.3.5
   * Bumping version to re-upload a wheel distribution
 0.3.4
