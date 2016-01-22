@@ -64,12 +64,16 @@ class AnsiToWin32(object):
 
         # should we strip ANSI sequences from our output?
         if strip is None:
-            strip = conversion_supported or (not wrapped.closed and not is_a_tty(wrapped))
+            strip = conversion_supported or (
+                hasattr(wrapped, 'closed') and not wrapped.closed and not
+                is_a_tty(wrapped))
         self.strip = strip
 
         # should we should convert ANSI sequences into win32 calls?
         if convert is None:
-            convert = conversion_supported and not wrapped.closed and is_a_tty(wrapped)
+            convert = (conversion_supported and
+                       hasattr(wrapped, 'closed') and not
+                       wrapped.closed and is_a_tty(wrapped))
         self.convert = convert
 
         # dict of ansi codes to win32 functions and parameters
