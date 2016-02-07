@@ -56,7 +56,7 @@ class AnsiToWin32Test(TestCase):
 
     def testStripIsFalseOffWindows(self):
         with osname('posix'):
-            mockStdout = Mock()
+            mockStdout = Mock(closed=False)
             stream = AnsiToWin32(mockStdout)
             self.assertFalse(stream.strip)
 
@@ -167,6 +167,13 @@ class AnsiToWin32Test(TestCase):
         stream = StringIO()
         stream.close()
         converter = AnsiToWin32(stream)
+        self.assertFalse(converter.strip)
+        self.assertFalse(converter.convert)
+
+    def test_wrap_shouldnt_raise_on_missing_closed_attr(self):
+        converter = AnsiToWin32(object())
+        self.assertFalse(converter.strip)
+        self.assertFalse(converter.convert)
 
     def testExtractParams(self):
         stream = AnsiToWin32(Mock())
