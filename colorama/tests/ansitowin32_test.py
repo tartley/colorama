@@ -166,7 +166,10 @@ class AnsiToWin32Test(TestCase):
     def test_wrap_shouldnt_raise_on_closed_orig_stdout(self):
         stream = StringIO()
         stream.close()
-        converter = AnsiToWin32(stream)
+        AnsiToWin32(stream)
+
+    def test_wrap_shouldnt_raise_on_missing_closed_attrib(self):
+        AnsiToWin32(object())
 
     def testExtractParams(self):
         stream = AnsiToWin32(Mock())
