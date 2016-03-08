@@ -1,3 +1,6 @@
+0.3.7
+  * Fix issue #84: check if stream has 'closed' attribute before testing it
+  * Fix issue #74: objects might become None at exit
 0.3.6
   * Fix issue #81: fix ValueError when a closed stream was used
 0.3.5
