@@ -94,12 +94,14 @@ else:
         STDERR: _GetStdHandle(STDERR),
     }
 
-    def winapi_test():
-        handle = handles[STDOUT]
+    def _winapi_test(handle):
         csbi = CONSOLE_SCREEN_BUFFER_INFO()
         success = _GetConsoleScreenBufferInfo(
             handle, byref(csbi))
         return bool(success)
+
+    def winapi_test():
+        return any(_winapi_test(h) for h in handles.values())
 
     def GetConsoleScreenBufferInfo(stream_id=STDOUT):
         handle = handles[stream_id]
