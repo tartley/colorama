@@ -22,7 +22,10 @@ def is_a_tty(stream):
 
 
 def check_win_10_ansi_support():
-    import winreg
+    try:
+        import winreg
+    except ImportError:
+        return False
 
     # Check the registry for release ID
     key = r"SOFTWARE\Microsoft\Windows NT\CurrentVersion"
