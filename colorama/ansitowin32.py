@@ -21,6 +21,20 @@ def is_a_tty(stream):
     return hasattr(stream, 'isatty') and stream.isatty()
 
 
+def check_win_10_ansi_support():
+    import winreg
+
+    # Check the registry for release ID
+    key = r"SOFTWARE\Microsoft\Windows NT\CurrentVersion"
+    val = r"ReleaseID"
+    key = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, key)
+    releaseId = int(winreg.QueryValueEx(key,val)[0])
+    winreg.CloseKey(key)
+
+    # Windows 10 supports ANSI cmd since release 1511
+    return releaseId >= 1511
+
+
 class StreamWrapper(object):
     '''
     Wraps a stream (such as stdout), acting as a transparent proxy for all
@@ -66,13 +80,16 @@ class AnsiToWin32(object):
         # to support the ANSI codes.
         conversion_supported = on_windows and winapi_test()
 
+        # Does this version of Win 10 support ANSI?
+        win_10_ansi_support = on_windows and check_win_10_ansi_support()
+
         # should we strip ANSI sequences from our output?
-        if strip is None:
+        if strip is None and not win_10_ansi_support:
             strip = conversion_supported or (not is_stream_closed(wrapped) and not is_a_tty(wrapped))
         self.strip = strip
 
         # should we should convert ANSI sequences into win32 calls?
-        if convert is None:
+        if convert is None and not win_10_ansi_support:
             convert = conversion_supported and not is_stream_closed(wrapped) and is_a_tty(wrapped)
         self.convert = convert
 
