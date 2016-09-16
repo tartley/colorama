@@ -1,4 +1,4 @@
-.. image:: https://pypip.in/version/colorama/badge.svg
+.. image:: https://img.shields.io/pypi/v/mixbox.svg
     :target: https://pypi.python.org/pypi/colorama/
     :alt: Latest Version
 
