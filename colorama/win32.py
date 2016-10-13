@@ -83,9 +83,9 @@ else:
     ]
     _FillConsoleOutputAttribute.restype = wintypes.BOOL
 
-    _SetConsoleTitleW = windll.kernel32.SetConsoleTitleA
+    _SetConsoleTitleW = windll.kernel32.SetConsoleTitleW
     _SetConsoleTitleW.argtypes = [
-        wintypes.LPCSTR
+        wintypes.LPCWSTR
     ]
     _SetConsoleTitleW.restype = wintypes.BOOL
 
