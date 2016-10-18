@@ -21,7 +21,7 @@ def is_a_tty(stream):
     return hasattr(stream, 'isatty') and stream.isatty()
 
 
-def check_win_10_ansi_support():
+def check_windows_ansi_support():
     try:
         import winreg
     except ImportError:
@@ -87,16 +87,16 @@ class AnsiToWin32(object):
         conversion_supported = on_windows and winapi_test()
 
         # Does this version of Win 10 support ANSI?
-        win_10_ansi_support = on_windows and check_win_10_ansi_support()
+        windows_ansi_support = on_windows and check_windows_ansi_support()
 
         # should we strip ANSI sequences from our output?
-        if strip is None and not win_10_ansi_support:
-            strip = conversion_supported or (not is_stream_closed(wrapped) and not is_a_tty(wrapped))
+        if strip is None:
+            strip = conversion_supported or not windows_ansi_support or (not is_stream_closed(wrapped) and not is_a_tty(wrapped))
         self.strip = strip
 
         # should we should convert ANSI sequences into win32 calls?
-        if convert is None and not win_10_ansi_support:
-            convert = conversion_supported and not is_stream_closed(wrapped) and is_a_tty(wrapped)
+        if convert is None:
+            convert = not windows_ansi_support or (conversion_supported and not is_stream_closed(wrapped) and is_a_tty(wrapped))
         self.convert = convert
 
         # dict of ansi codes to win32 functions and parameters
