@@ -21,6 +21,15 @@ def clear_screen(mode=2):
 def clear_line(mode=2):
     return CSI + str(mode) + 'K'
 
+def Word(word, fore=None, back=None, style=None):
+    ret = str(word) + code_to_chars(AnsiStyle.RESET_ALL)
+    if fore is not None:
+        ret = fore + ret
+    if back is not None:
+        ret = back + ret
+    if style is not None:
+        ret = style + ret
+    return ret
 
 class AnsiCodes(object):
     def __init__(self):

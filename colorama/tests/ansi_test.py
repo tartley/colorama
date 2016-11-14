@@ -5,7 +5,7 @@ try:
 except ImportError:
     from unittest import TestCase, main
 
-from ..ansi import Fore, Back, Style
+from ..ansi import Fore, Back, Style, Word
 from ..ansitowin32 import AnsiToWin32
 
 
@@ -74,7 +74,19 @@ class AnsiTest(TestCase):
         self.assertEqual(Style.DIM, '\033[2m')
         self.assertEqual(Style.NORMAL, '\033[22m')
         self.assertEqual(Style.BRIGHT, '\033[1m')
-
+    
+    def testWord(self):
+        self.assertEqual(Word('word', fore=Fore.WHITE, back=Back.BLACK, style=Style.DIM),
+                              '\033[2m\033[40m\033[37mword\033[0m')
+        self.assertEqual(Word('word', fore=Fore.WHITE, back=Back.BLACK),
+                         '\033[40m\033[37mword\033[0m')
+        self.assertEqual(Word('word', fore=Fore.WHITE, style=Style.DIM),
+                         '\033[2m\033[37mword\033[0m')
+        self.assertEqual(Word('word', back=Back.BLACK, style=Style.DIM),
+                         '\033[2m\033[40mword\033[0m')
+        self.assertEqual(Word('word', fore=Fore.WHITE), '\033[37mword\033[0m')
+        self.assertEqual(Word('word', back=Back.BLACK), '\033[40mword\033[0m')
+        self.assertEqual(Word('word', style=Style.DIM), '\033[2mword\033[0m')
 
 if __name__ == '__main__':
     main()

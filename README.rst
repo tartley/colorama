@@ -120,6 +120,14 @@ constant shorthand for ANSI escape sequences:
     print('\033[31m' + 'some red text')
     print('\033[30m') # and reset to default color
 
+...or by using ``Word()`` when you want to use ``.format()`` like this:
+
+.. code-block:: python
+
+    from colorama import Fore, Back, Style, Word
+    print('This {} will be formatted'.format(Word('word', fore=Fore.BLACK,
+                                             back=Back.WHITE, style=Style.DIM)))
+
 ...or, Colorama can be used happily in conjunction with existing ANSI libraries
 such as Termcolor:
 
