@@ -45,6 +45,12 @@ class WinTerm(object):
         self.set_attrs(self._default)
         self.set_console(attrs=self._default)
 
+    def reverse_fore_back(self, on_stderr=None):
+        self._back, self._fore = self._fore, self._back
+        self._style = ((self._style & 0xF) << 4) | ((self._style >> 4) & 0xF)
+        self._light = ((self._light & 0xF) << 4) | ((self._light >> 4) & 0xF)
+        self.set_console(on_stderr=on_stderr)
+
     def fore(self, fore=None, light=False, on_stderr=False):
         if fore is None:
             fore = self._default_fore
