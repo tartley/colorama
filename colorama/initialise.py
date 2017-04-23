@@ -1,4 +1,5 @@
 # Copyright Jonathan Hartley 2013. BSD 3-Clause license, see LICENSE file.
+import os
 import atexit
 import contextlib
 import sys
@@ -30,6 +31,13 @@ def init(autoreset=False, convert=None, strip=None, wrap=True):
 
     orig_stdout = sys.stdout
     orig_stderr = sys.stderr
+
+    if 'PYCHARM_HOSTED' in os.environ:
+        # Issue #107: Can not display color in PyCharm using default init()
+        if convert is None:
+            convert = False
+        if strip is None:
+            strip = False
 
     if sys.stdout is None:
         wrapped_stdout = None
