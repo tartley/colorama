@@ -39,9 +39,6 @@ class StreamWrapper(object):
     def write(self, text):
         self.__convertor.write(text)
 
-    def fileno():
-        raise OSError()
-
 
 class AnsiToWin32(object):
     '''
