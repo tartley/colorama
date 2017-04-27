@@ -1,3 +1,5 @@
+0.3.9
+  * Revert fix for issue #103 which causes problems for dependent applications
 0.3.8
   * Fix issue #121: "invalid escape sequence" deprecation fixes on Python 3.6+
   * Fix issue #110: fix "set console title" when working with unicode strings
