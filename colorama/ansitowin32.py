@@ -25,7 +25,12 @@ def check_windows_ansi_support():
     try:
         import winreg
     except ImportError:
-        return False
+        try:
+            import _winreg  # on Python 2
+        except ImportError:
+            return False
+        else:
+            winreg = _winreg
 
     # Check the registry for release ID
     key = r"SOFTWARE\Microsoft\Windows NT\CurrentVersion"
@@ -35,7 +40,14 @@ def check_windows_ansi_support():
     winreg.CloseKey(key)
 
     # Windows 10 supports ANSI cmd since release 1511
-    return releaseId >= 1511
+    if releaseId >= 1511:
+        # but only on powershell
+        import psutil
+        python_pid = psutil.Process(os.getpid())
+        shell_pid = psutil.Process(python_pid.ppid())
+        return shell_pid.name() == 'powershell.exe'
+    else:
+        return False
 
 
 class StreamWrapper(object):
@@ -91,12 +103,18 @@ class AnsiToWin32(object):
 
         # should we strip ANSI sequences from our output?
         if strip is None:
-            strip = conversion_supported or not windows_ansi_support or (not is_stream_closed(wrapped) and not is_a_tty(wrapped))
+            if windows_ansi_support:
+                strip = False
+            else:
+                strip = conversion_supported or (not is_stream_closed(wrapped) and not is_a_tty(wrapped))
         self.strip = strip
 
         # should we should convert ANSI sequences into win32 calls?
         if convert is None:
-            convert = not windows_ansi_support or (conversion_supported and not is_stream_closed(wrapped) and is_a_tty(wrapped))
+            if windows_ansi_support:
+                convert = False
+            else:
+                convert = conversion_supported and not is_stream_closed(wrapped) and is_a_tty(wrapped)
         self.convert = convert
 
         # dict of ansi codes to win32 functions and parameters

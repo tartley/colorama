@@ -64,6 +64,9 @@ setup(
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Topic :: Terminals',
-    ]
+    ],
+extras_require={
+    ':sys_platform=="win32"': ['psutil'],
+    },
 )
 
