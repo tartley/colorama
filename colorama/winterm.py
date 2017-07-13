@@ -113,9 +113,9 @@ class WinTerm(object):
         win32.SetConsoleCursorPosition(handle, position)
 
     def cursor_adjust(self, x, y, on_stderr=False):
+        (cy, cx) = self.get_cursor_position(on_stderr, adjust=False)
+        adjusted_position = (cy + y, cx + x)
         handle = self.get_handle(on_stderr)
-        position = self.get_position(handle)
-        adjusted_position = (position.Y + y, position.X + x)
         win32.SetConsoleCursorPosition(handle, adjusted_position, adjust=False)
 
     def erase_screen(self, mode=0, on_stderr=False):
