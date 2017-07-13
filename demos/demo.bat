@@ -30,3 +30,6 @@ python demo06.py
 
 :: demo07.py not shown
 :: Demonstrate cursor relative movement: UP, DOWN, FORWARD, and BACK in colorama.CURSOR
+
+:: Demonstrate cursor saving, loading and positioning: SAVE, LOAD and POS in colorama.Cursor
+python demo09.py
