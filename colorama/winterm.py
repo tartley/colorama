@@ -91,6 +91,19 @@ class WinTerm(object):
         position.Y += 1
         return position
 
+    def get_cursor_position(self, on_stderr=False, adjust=True):
+        handle = self.get_handle(on_stderr)
+        info = win32.GetConsoleScreenBufferInfo(handle)
+        position = info.dwCursorPosition
+        # Because Windows coordinates are 0-based,
+        # and win32.SetConsoleCursorPosition expects 1-based.
+        y, x = position.Y + 1, position.X + 1
+        if adjust:
+            window = info.srWindow
+            y -= window.Top
+            x -= window.Left
+        return y, x
+
     def set_cursor_position(self, position=None, on_stderr=False):
         if position is None:
             # I'm not currently tracking the position, so there is no default.
