@@ -5,7 +5,7 @@ try:
 except ImportError:
     from unittest import TestCase, main
 
-from ..ansi import Fore, Back, Style
+from ..ansi import Fore, Back, Style, Cursor
 from ..ansitowin32 import AnsiToWin32
 
 
@@ -74,6 +74,11 @@ class AnsiTest(TestCase):
         self.assertEqual(Style.DIM, '\033[2m')
         self.assertEqual(Style.NORMAL, '\033[22m')
         self.assertEqual(Style.BRIGHT, '\033[1m')
+
+
+    def testCursorMethods(self):
+        self.assertEqual(Cursor.SAVE(), '\033[s')
+        self.assertEqual(Cursor.RESTORE(), '\033[u')
 
 
 if __name__ == '__main__':

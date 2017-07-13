@@ -82,6 +82,9 @@ class AnsiToWin32(object):
         # are we wrapping stderr?
         self.on_stderr = self.wrapped is sys.stderr
 
+        # saved cursor positions
+        self.saved_positions = []
+
     def should_wrap(self):
         '''
         True if this class is actually needed. If false, then the output
@@ -219,6 +222,12 @@ class AnsiToWin32(object):
             # A - up, B - down, C - forward, D - back
             x, y = {'A': (0, -n), 'B': (0, n), 'C': (n, 0), 'D': (-n, 0)}[command]
             winterm.cursor_adjust(x, y, on_stderr=self.on_stderr)
+        elif command in 's':      # save cursor position
+            self.saved_positions.append(winterm.get_cursor_position(on_stderr=self.on_stderr))
+        elif command in 'u':      # restore cursor position
+            if self.saved_positions:
+                position = self.saved_positions.pop()
+                winterm.set_cursor_position(position, on_stderr=self.on_stderr)
 
 
     def convert_osc(self, text):
