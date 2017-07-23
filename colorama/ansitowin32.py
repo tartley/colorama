@@ -46,9 +46,6 @@ class StreamWrapper(object):
     def write(self, text):
         self.__convertor.write(text)
 
-    def fileno():
-        raise OSError()
-
 
 class AnsiToWin32(object):
     '''
@@ -56,8 +53,8 @@ class AnsiToWin32(object):
     sequences from the text, and if outputting to a tty, will convert them into
     win32 function calls.
     '''
-    ANSI_CSI_RE = re.compile('\001?\033\[((?:\d|;)*)([a-zA-Z])\002?')     # Control Sequence Introducer
-    ANSI_OSC_RE = re.compile('\001?\033\]((?:.|;)*?)(\x07)\002?')         # Operating System Command
+    ANSI_CSI_RE = re.compile('\001?\033\\[((?:\\d|;)*)([a-zA-Z])\002?')   # Control Sequence Introducer
+    ANSI_OSC_RE = re.compile('\001?\033\\]((?:.|;)*?)(\x07)\002?')        # Operating System Command
 
     def __init__(self, wrapped, convert=None, strip=None, autoreset=False):
         # The wrapped stream (normally sys.stdout or sys.stderr)
