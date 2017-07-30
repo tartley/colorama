@@ -16,6 +16,8 @@ except (AttributeError, ImportError):
 else:
     from ctypes import byref, Structure, c_char, POINTER
 
+    ENABLE_VIRTUAL_TERMINAL_PROCESSING = 0x0004
+
     COORD = wintypes._COORD
 
     class CONSOLE_SCREEN_BUFFER_INFO(Structure):
@@ -89,6 +91,20 @@ else:
     ]
     _SetConsoleTitleW.restype = wintypes.BOOL
 
+    _GetConsoleMode = windll.kernel32.GetConsoleMode
+    _GetConsoleMode.argtypes = [
+        wintypes.HANDLE,
+        POINTER(wintypes.DWORD)
+    ]
+    _GetConsoleMode.restype = wintypes.BOOL
+
+    _SetConsoleMode = windll.kernel32.SetConsoleMode
+    _SetConsoleMode.argtypes = [
+        wintypes.HANDLE,
+        wintypes.DWORD
+    ]
+    _SetConsoleMode.restype = wintypes.BOOL
+
     def _winapi_test(handle):
         csbi = CONSOLE_SCREEN_BUFFER_INFO()
         success = _GetConsoleScreenBufferInfo(
@@ -150,3 +166,13 @@ else:
 
     def SetConsoleTitle(title):
         return _SetConsoleTitleW(title)
+
+    def GetConsoleMode(stream_id):
+        handle = _GetStdHandle(stream_id)
+        mode = wintypes.DWORD()
+        success = _GetConsoleMode(handle, byref(mode))
+        return mode.value
+
+    def SetConsoleMode(stream_id, mode):
+        handle = _GetStdHandle(stream_id)
+        return _SetConsoleMode(handle, mode)

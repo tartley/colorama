@@ -4,7 +4,7 @@ import sys
 import os
 
 from .ansi import AnsiFore, AnsiBack, AnsiStyle, Style, BEL
-from .winterm import WinTerm, WinColor, WinStyle
+from .winterm import enable_vt_processing, WinTerm, WinColor, WinStyle
 from .win32 import windll, winapi_test
 
 
@@ -80,6 +80,8 @@ class AnsiToWin32(object):
         # create the proxy wrapping our output stream
         self.stream = StreamWrapper(wrapped, self)
 
+        vt_processing_supported = enable_vt_processing()
+
         on_windows = os.name == 'nt'
         # We test if the WinAPI works, because even if we are on Windows
         # we may be using a terminal that doesn't support the WinAPI
@@ -89,12 +91,14 @@ class AnsiToWin32(object):
 
         # should we strip ANSI sequences from our output?
         if strip is None:
-            strip = conversion_supported or (not self.stream.closed and not self.stream.isatty())
+            strip = ((not vt_processing_supported and conversion_supported) or
+                     (not self.stream.closed and not self.stream.isatty()))
         self.strip = strip
 
         # should we should convert ANSI sequences into win32 calls?
         if convert is None:
-            convert = conversion_supported and not self.stream.closed and self.stream.isatty()
+            convert = (not vt_processing_supported and conversion_supported and
+                       not self.stream.closed and self.stream.isatty())
         self.convert = convert
 
         # dict of ansi codes to win32 functions and parameters
