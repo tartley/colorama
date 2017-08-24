@@ -3,8 +3,8 @@
 This module generates ANSI character codes to printing colors to terminals.
 See: http://en.wikipedia.org/wiki/ANSI_escape_code
 '''
-import contextlib
 from __future__ import print_function
+import contextlib
 
 CSI = '\033['
 OSC = '\033]'
