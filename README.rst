@@ -134,6 +134,21 @@ such as Termcolor:
     # then use Termcolor for all colored text output
     print(colored('Hello, World!', 'green', 'on_red'))
 
+Colorama can also be used as a context manager:
+
+.. code-block:: python
+
+    from colorama import Fore, Back, colorama, init
+    init()
+    with colorama(Fore.RED):
+        print('some red text')
+        with colorama(Back.GREEN):
+            print('and with a green background')
+            with colorama(Style.DIM):
+                print('and in dim text'):
+    print('back to normal now')
+
+
 Available formatting constants are::
 
     Fore: BLACK, RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE, RESET.

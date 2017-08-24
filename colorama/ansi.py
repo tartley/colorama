@@ -3,6 +3,7 @@
 This module generates ANSI character codes to printing colors to terminals.
 See: http://en.wikipedia.org/wiki/ANSI_escape_code
 '''
+import contextlib
 
 CSI = '\033['
 OSC = '\033]'
@@ -100,3 +101,33 @@ Fore   = AnsiFore()
 Back   = AnsiBack()
 Style  = AnsiStyle()
 Cursor = AnsiCursor()
+
+fore_values = set(Fore.__dict__.values())
+back_values = set(Back.__dict__.values())
+style_values = set(AnsiStyle.__dict__.values())
+
+fore_stack = [Fore.RESET]
+back_stack = [Back.RESET]
+style_stack = [Style.NORMAL]
+
+@contextlib.contextmanager
+def colorama(*args):
+    for arg in args:
+        print(arg, end='');
+        if arg in fore_values:
+            fore_stack.append(arg)
+        elif arg in back_values:
+            back_stack.append(arg)
+        elif arg in style_values:
+            style_stack.append(arg)
+    yield
+    for arg in reversed(args):
+        if arg == fore_stack[-1]:
+            fore_stack.pop()
+            print(fore_stack[-1], end='')
+        elif arg == back_stack[-1]:
+            back_stack.pop()
+            print(back_stack[-1], end='')
+        elif arg == style_stack[-1]:
+            style_stack.pop()
+            print(style_stack[-1], end='')
