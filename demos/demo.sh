@@ -22,6 +22,7 @@ python demo03.py
 rm -f demo04.out
 python demo04.py 2> demo04.out
 cat demo04.out
+rm -f demo04.out
 
 # Demonstrate the difference between colorama intialized with wrapping on and off.
 python demo05.py
@@ -29,8 +30,8 @@ python demo05.py
 # Demonstrate printing colored, random characters at random positions on the screen
 python demo06.py
 
-# demo07.py not shown
 # Demonstrate cursor relative movement: UP, DOWN, FORWARD, and BACK in colorama.CURSOR
+python demo07.py
 
-#Demonstrate the use of a context manager instead of manually using init and deinit
+# Demonstrate the use of a context manager instead of manually using init and deinit
 python demo08.py
