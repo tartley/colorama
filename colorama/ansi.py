@@ -44,6 +44,10 @@ class AnsiCursor(object):
         return CSI + str(n) + 'D'
     def POS(self, x=1, y=1):
         return CSI + str(y) + ';' + str(x) + 'H'
+    def SAVE(self):
+        return CSI + 's'
+    def RESTORE(self):
+        return CSI + 'u'
 
 
 class AnsiFore(AnsiCodes):
