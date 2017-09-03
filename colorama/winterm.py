@@ -44,6 +44,7 @@ class WinTerm(object):
     def reset_all(self, on_stderr=None):
         self.set_attrs(self._default)
         self.set_console(attrs=self._default)
+        self._light = 0
 
     def fore(self, fore=None, light=False, on_stderr=False):
         if fore is None:
