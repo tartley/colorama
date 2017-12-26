@@ -1,13 +1,9 @@
 # Copyright Jonathan Hartley 2013. BSD 3-Clause license, see LICENSE file.
 import sys
-try:
-    from unittest2 import TestCase, main
-except ImportError:
-    from unittest import TestCase, main
+from unittest import TestCase, main
 
-from ..ansi import Fore, Back, Style
+from ..ansi import Back, Fore, Style
 from ..ansitowin32 import AnsiToWin32
-
 
 stdout_orig = sys.stdout
 stderr_orig = sys.stderr
@@ -78,4 +74,3 @@ class AnsiTest(TestCase):
 
 if __name__ == '__main__':
     main()
-

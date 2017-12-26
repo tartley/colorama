@@ -6,20 +6,12 @@ except ImportError:
     # python2
     import StringIO
 
-try:
-    # with unittest2 installed, presumably is Python <= 2.6
-    from unittest2 import TestCase, main
-except ImportError:
-    # without unittest2 installed, hopefully is Python > 2.6
-    from unittest import TestCase, main
+from unittest import TestCase, main
 
 from mock import Mock, patch
 
-from .utils import osname
-
-from ..ansi import Style
 from ..ansitowin32 import AnsiToWin32, StreamWrapper
-
+from .utils import osname
 
 
 class StreamWrapperTest(TestCase):
@@ -205,4 +197,3 @@ class AnsiToWin32Test(TestCase):
 
 if __name__ == '__main__':
     main()
-

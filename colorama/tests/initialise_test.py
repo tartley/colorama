@@ -1,17 +1,13 @@
 # Copyright Jonathan Hartley 2013. BSD 3-Clause license, see LICENSE file.
+import os
 import sys
-try:
-    from unittest2 import TestCase, main
-except ImportError:
-    from unittest import TestCase, main
+from unittest import TestCase, main
 
 from mock import patch
 
-from .utils import osname, redirected_output, replace_by_none
-
-from ..initialise import init
 from ..ansitowin32 import StreamWrapper
-import os
+from ..initialise import init
+from .utils import osname, redirected_output, replace_by_none
 
 orig_stdout = sys.stdout
 orig_stderr = sys.stderr
@@ -125,4 +121,3 @@ class InitTest(TestCase):
 
 if __name__ == '__main__':
     main()
-

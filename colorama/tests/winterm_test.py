@@ -1,11 +1,8 @@
 # Copyright Jonathan Hartley 2013. BSD 3-Clause license, see LICENSE file.
-from mock import Mock, patch
 import sys
-try:
-    from unittest2 import TestCase, main, skipUnless
-except ImportError:
-    from unittest import TestCase, main, skipUnless
+from unittest import TestCase, main, skipUnless
 
+from mock import Mock, patch
 
 from ..winterm import WinColor, WinStyle, WinTerm
 
@@ -129,4 +126,3 @@ class WinTermTest(TestCase):
 
 if __name__ == '__main__':
     main()
-
