@@ -2,6 +2,10 @@
     :target: https://pypi.python.org/pypi/colorama/
     :alt: Latest Version
 
+.. image:: https://img.shields.io/pypi/pyversions/colorama.svg
+    :target: https://pypi.python.org/pypi/colorama
+    :alt: Supported Python versions
+
 .. image:: https://travis-ci.org/tartley/colorama.svg?branch=master
     :target: https://travis-ci.org/tartley/colorama
     :alt: Build Status
@@ -67,8 +71,7 @@ Copyright Jonathan Hartley 2013. BSD 3-Clause license; see LICENSE file.
 Dependencies
 ============
 
-None, other than Python. Tested on Python 2.5.5, 2.6.5, 2.7, 3.1.2, 3.2, 3.3,
-3.4, 3.5 and 3.6.
+None, other than Python. Tested on Python 2.7, 3.4, 3.5 and 3.6.
 
 Usage
 =====
@@ -298,9 +301,7 @@ Help and fixes welcome!
 Running tests requires:
 
 - Michael Foord's ``mock`` module to be installed.
-- Tests are written using 2010-era updates to ``unittest``, and require
-  Python 2.7 or greater, OR to have Michael Foord's ``unittest2`` module
-  installed.
+- Tests are written using 2010-era updates to ``unittest``
 
 To run tests::
 
