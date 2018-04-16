@@ -18,7 +18,8 @@ def is_stream_closed(stream):
 
 
 def is_a_tty(stream):
-    return hasattr(stream, 'isatty') and stream.isatty()
+    is_pycharm = 'PYCHARM_HOSTED' in os.environ
+    return (hasattr(stream, 'isatty') and stream.isatty()) or is_pycharm
 
 
 class StreamWrapper(object):
