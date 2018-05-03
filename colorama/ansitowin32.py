@@ -23,6 +23,13 @@ def is_a_tty(stream):
     return (hasattr(stream, 'isatty') and stream.isatty())
 
 
+def is_pycharm_console():
+    # PyCharm is a widely-used python IDE
+    # "PYCHARM_HOSTED" is an special environment that only occurs in PyCharm
+    # see http://stackoverflow.com/questions/29777737 and issues #107
+    return 'PYCHARM_HOSTED' in os.environ
+
+
 class StreamWrapper(object):
     '''
     Wraps a stream (such as stdout), acting as a transparent proxy for all
@@ -70,12 +77,14 @@ class AnsiToWin32(object):
 
         # should we strip ANSI sequences from our output?
         if strip is None:
-            strip = conversion_supported or (not is_stream_closed(wrapped) and not is_a_tty(wrapped))
+            strip = not is_pycharm_console() and (
+                conversion_supported or (not is_stream_closed(wrapped) and not is_a_tty(wrapped)))
         self.strip = strip
 
         # should we should convert ANSI sequences into win32 calls?
         if convert is None:
-            convert = conversion_supported and not is_stream_closed(wrapped) and is_a_tty(wrapped)
+            convert = not is_pycharm_console() and conversion_supported \
+                      and not is_stream_closed(wrapped) and is_a_tty(wrapped)
         self.convert = convert
 
         # dict of ansi codes to win32 functions and parameters
