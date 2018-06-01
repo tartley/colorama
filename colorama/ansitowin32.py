@@ -173,7 +173,10 @@ class AnsiToWin32(object):
 
     def write_plain_text(self, text, start, end):
         if start < end:
-            self.wrapped.write(text[start:end])
+            if isinstance(text, unicode):
+                self.wrapped.write(text[start:end].encode('ascii', 'ignore'))
+            else:
+                self.wrapped.write(text[start:end])
             self.wrapped.flush()
 
 
