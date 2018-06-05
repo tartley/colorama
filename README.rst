@@ -146,6 +146,18 @@ Available formatting constants are::
 ``Style.RESET_ALL`` resets foreground, background, and brightness. Colorama will
 perform this reset automatically on program exit.
 
+Links
+-----
+
+Links are a new (2017) ANSI extension that mimics the HTML <a> blocks. You should
+be using it with care as many terminals are not supporting it yet.
+
+.. code-block:: python
+
+    from colorama import init, link
+
+    init()
+    print(link('http://example.com', 'click me'))
 
 Cursor Positioning
 ------------------

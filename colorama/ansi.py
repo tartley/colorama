@@ -21,6 +21,8 @@ def clear_screen(mode=2):
 def clear_line(mode=2):
     return CSI + str(mode) + 'K'
 
+def link(url, text):
+    return OSC + '8;;' + url + '\a' + text + OSC + '8;;\a'
 
 class AnsiCodes(object):
     def __init__(self):

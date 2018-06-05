@@ -5,6 +5,7 @@ dist
 tags
 virtualenv
 build
+.tox
 
 # PyCharm
 .idea

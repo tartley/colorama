@@ -2,7 +2,7 @@
 import sys
 from unittest import TestCase, main
 
-from ..ansi import Back, Fore, Style
+from ..ansi import Back, Fore, Style, link
 from ..ansitowin32 import AnsiToWin32
 
 stdout_orig = sys.stdout
@@ -10,7 +10,7 @@ stderr_orig = sys.stderr
 
 
 class AnsiTest(TestCase):
-    
+
     def setUp(self):
         # sanity check: stdout should be a file or StringIO object.
         # It will only be AnsiToWin32 if init() has previously wrapped it
@@ -71,6 +71,9 @@ class AnsiTest(TestCase):
         self.assertEqual(Style.NORMAL, '\033[22m')
         self.assertEqual(Style.BRIGHT, '\033[1m')
 
+    def testLink(self):
+        output = link('http://example.com','This is a link')
+        self.assertEqual(output, '\033]8;;http://example.com\aThis is a link\033]8;;\a')
 
 if __name__ == '__main__':
     main()
