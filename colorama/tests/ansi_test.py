@@ -10,7 +10,7 @@ stderr_orig = sys.stderr
 
 
 class AnsiTest(TestCase):
-    
+
     def setUp(self):
         # sanity check: stdout should be a file or StringIO object.
         # It will only be AnsiToWin32 if init() has previously wrapped it

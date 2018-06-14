@@ -6,4 +6,3 @@ import sys
 from os.path import normpath, dirname, join
 local_colorama_module = normpath(join(dirname(__file__), '..'))
 sys.path.insert(0, local_colorama_module)
-

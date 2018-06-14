@@ -63,4 +63,3 @@ setup(
         'Topic :: Terminals',
     ]
 )
-

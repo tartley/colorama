@@ -156,4 +156,3 @@
 
 .. |uumlaut| unicode:: U+00FC .. u with umlaut
    :trim:
-

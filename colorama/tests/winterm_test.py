@@ -117,7 +117,7 @@ class WinTermTest(TestCase):
         term.windll = Mock()
 
         term.set_console(on_stderr=True)
-        
+
         self.assertEqual(
             mockWin32.SetConsoleTextAttribute.call_args,
             ((mockWin32.STDERR, term.get_attrs()), {})

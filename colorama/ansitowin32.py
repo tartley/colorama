@@ -18,7 +18,7 @@ def is_stream_closed(stream):
 
 
 def is_a_tty(stream):
-    if 'PYCHARM_HOSTED' in os.environ: 
+    if 'PYCHARM_HOSTED' in os.environ:
         return True
     return (hasattr(stream, 'isatty') and stream.isatty())
 
