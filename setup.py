@@ -47,7 +47,7 @@ setup(
     license='BSD',
     packages=[NAME],
     python_requires='>=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*',
-    # see classifiers http://pypi.python.org/pypi?%3Aaction=list_classifiers
+    # see classifiers https://pypi.org/pypi?%3Aaction=list_classifiers
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Environment :: Console',

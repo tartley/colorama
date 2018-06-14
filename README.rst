@@ -1,9 +1,9 @@
 .. image:: https://img.shields.io/pypi/v/colorama.svg
-    :target: https://pypi.python.org/pypi/colorama/
+    :target: https://pypi.org/project/colorama/
     :alt: Latest Version
 
 .. image:: https://img.shields.io/pypi/pyversions/colorama.svg
-    :target: https://pypi.python.org/pypi/colorama
+    :target: https://pypi.org/project/colorama/
     :alt: Supported Python versions
 
 .. image:: https://travis-ci.org/tartley/colorama.svg?branch=master
@@ -11,7 +11,7 @@
     :alt: Build Status
 
 Download and docs:
-    http://pypi.python.org/pypi/colorama
+    https://pypi.org/project/colorama/
 Source code & Development:
     https://github.com/tartley/colorama
 
@@ -30,8 +30,8 @@ Colorama does nothing.
 
 Colorama also provides some shortcuts to help generate ANSI sequences
 but works fine in conjunction with any other ANSI sequence generation library,
-such as the venerable Termcolor (http://pypi.python.org/pypi/termcolor)
-or the fabulous Blessings (https://pypi.python.org/pypi/blessings).
+such as the venerable Termcolor (https://pypi.org/project/termcolor/)
+or the fabulous Blessings (https://pypi.org/project/blessings/).
 
 This has the upshot of providing a simple cross-platform API for printing
 colored terminal text from Python, and has the happy side-effect that existing
