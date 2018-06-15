@@ -32,4 +32,3 @@ test:
 tags:
 	ctags -R ${NAME}
 .PHONY: tags
-

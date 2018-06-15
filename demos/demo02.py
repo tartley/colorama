@@ -22,4 +22,3 @@ print(Style.DIM + 'dim, '
     + Style.NORMAL + 'normal'
     , end=' ')
 print()
-
