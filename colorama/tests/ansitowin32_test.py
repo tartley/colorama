@@ -1,11 +1,5 @@
 # Copyright Jonathan Hartley 2013. BSD 3-Clause license, see LICENSE file.
-try:
-    # python3
-    from io import StringIO
-except ImportError:
-    # python2
-    import StringIO
-
+from io import StringIO
 from unittest import TestCase, main
 
 from mock import Mock, patch
