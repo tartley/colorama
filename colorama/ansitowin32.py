@@ -12,6 +12,8 @@ winterm = None
 if windll is not None:
     winterm = WinTerm()
 
+is_python2 = sys.version_info.major == 2
+
 
 def is_stream_closed(stream):
     return not hasattr(stream, 'closed') or stream.closed
@@ -173,7 +175,7 @@ class AnsiToWin32(object):
 
     def write_plain_text(self, text, start, end):
         if start < end:
-            if isinstance(text, unicode):
+            if is_python2 and isinstance(text, unicode):
                 self.wrapped.write(text[start:end].encode('ascii', 'ignore'))
             else:
                 self.wrapped.write(text[start:end])
