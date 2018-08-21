@@ -1,2 +1,5 @@
 include LICENSE.txt CHANGELOG.rst
 recursive-include demos *.py *.bat *.sh
+graft tests
+global-exclude __pycache__
+global-exclude *.py[co]
