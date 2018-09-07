@@ -38,6 +38,12 @@ class StreamWrapper(object):
     def __getattr__(self, name):
         return getattr(self.__wrapped, name)
 
+    def __enter__(self, *args, **kwargs):
+        return self.__wrapped.__enter__(*args, **kwargs)
+
+    def __exit__(self, *args, **kwargs):
+        return self.__wrapped.__exit__(*args, **kwargs)
+
     def write(self, text):
         self.__convertor.write(text)
 
