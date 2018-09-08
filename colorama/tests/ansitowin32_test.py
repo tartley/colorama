@@ -26,7 +26,7 @@ class StreamWrapperTest(TestCase):
         mockConverter = Mock()
         s = StringIO()
         with StreamWrapper(s, mockConverter) as fp:
-            fp.write('hello')
+            fp.write(u'hello')
         self.assertTrue(s.closed)
 
     def testProxyNoContextManager(self):
