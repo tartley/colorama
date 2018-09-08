@@ -7,7 +7,7 @@ from mock import patch
 
 from ..ansitowin32 import StreamWrapper
 from ..initialise import init
-from .utils import osname, redirected_output, replace_by_none
+from .utils import osname, redirected_output, replace_by
 
 orig_stdout = sys.stdout
 orig_stderr = sys.stderr
@@ -55,9 +55,9 @@ class InitTest(TestCase):
             self.assertNotWrapped()
 
     def testInitDoesntWrapIfNone(self):
-        with replace_by_none():
+        with replace_by(None):
             init()
-            # We can't use assertNotWrapped here because replace_by_none
+            # We can't use assertNotWrapped here because replace_by(None)
             # changes stdout/stderr already.
             self.assertIsNone(sys.stdout)
             self.assertIsNone(sys.stderr)

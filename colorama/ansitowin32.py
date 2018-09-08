@@ -19,7 +19,8 @@ def is_stream_closed(stream):
 
 def is_a_tty(stream):
     if 'PYCHARM_HOSTED' in os.environ:
-        return True
+        if stream is not None and (stream is sys.__stdout__ or stream is sys.__stderr__):
+            return True
     return (hasattr(stream, 'isatty') and stream.isatty())
 
 
@@ -41,6 +42,8 @@ class StreamWrapper(object):
     def write(self, text):
         self.__convertor.write(text)
 
+    def isatty(self):
+        return is_a_tty(self.__wrapped)
 
 class AnsiToWin32(object):
     '''
