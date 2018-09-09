@@ -22,6 +22,48 @@ def clear_line(mode=2):
     return CSI + str(mode) + 'K'
 
 
+# This function needs to be able to take ANY given ANSI Color String and return
+# It's value as the next incremented color code.
+def increment_color(code):
+    """ Takes a Given Color Code Defined in a Subclass of AnsiCodes,
+    and returns the next modulating non-reseting color.
+
+    :param code: ANSI Color Constant defined in either Fore, Back, or Style.
+     These Color Constants come in the form '\033['+ X + 'm', where X is the actual integer that we want.
+    :type code: str
+    :return: Another ANSI Color Constant defined in the corresponding subclasses
+    :rtype: str
+    """
+    # Extract the number from the code, this strips all the strings away from the number,
+    # And allows us to simply convert from string to integer directly
+    color_num = int(code.lstrip(CSI).rstrip('m'))
+
+    # Fore Integers are defined 30-37, 90-97. 39 is a reset value, and 38 is a blank
+    # Back Integers are defined 40-47, 100-107, 49 is a reset value, and 48 is also a blank
+    # Style Integers are defined as 1,2 & 22. 0 is a reset value.
+
+    # We want the Style, Fore, and Back integers to stay in their respective class,
+    # Which eliminates the possibility of using a circular buffer.
+
+    # Instead we have to use this spaghetti code logic in order to handle the fringe cases
+    # Ensuring that we're incrementing when needed and decrementing to the correct positions.
+
+    # Handle the fringe cases for the Fore and Back ANSI codes to jump to the non-standard codes
+    color_num = color_num + 53 if color_num == 47 or color_num == 37 else\
+                color_num - 67 if color_num == 107 or color_num == 97 else\
+                color_num + 1 if color_num >= 30 and color_num != (39 and 49) else\
+                1 if color_num == 22 else\
+                2 if color_num == 1 else\
+                22 if color_num == 2 else\
+                1 if color_num == 0 else color_num + 51
+
+    # At this point, 39 & 49 would be the only ones left
+    # So we just add 51 to them bringing them up to 90 or 100
+
+    # Return it as a string prepended with CSI and appended with 'm'
+    return CSI + str(color_num) + 'm'
+
+
 class AnsiCodes(object):
     def __init__(self):
         # the subclasses declare class attributes which are numbers.
