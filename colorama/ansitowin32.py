@@ -39,6 +39,9 @@ class StreamWrapper(object):
         return getattr(self.__wrapped, name)
 
     def __enter__(self, *args, **kwargs):
+        # special method lookup bypasses __getattr__/__getattribute__, see
+        # https://stackoverflow.com/questions/12632894/why-doesnt-getattr-work-with-exit
+        # thus, contextlib magic methods are not proxied via __getattr__
         return self.__wrapped.__enter__(*args, **kwargs)
 
     def __exit__(self, *args, **kwargs):
