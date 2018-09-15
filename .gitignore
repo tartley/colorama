@@ -1,7 +1,6 @@
 *.pyc
 *.egg-info
 .coverage
-.pytest_cache/
 .tox/
 MANIFEST
 dist
