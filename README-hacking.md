@@ -30,10 +30,6 @@ scripts.
 The Makefile is self-documenting, so 'make' with no args will describe each
 target.
 
-If you use nose to run the tests, you must pass the ``-s`` flag; otherwise,
-``nosetests`` applies its own proxy to ``stdout``, which confuses the unit
-tests.
-
 ## Release checklist
 
 1. Check the CHANGELOG is updated with everything since the last release.
