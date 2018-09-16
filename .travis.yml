@@ -5,6 +5,7 @@ python:
   - "3.6"
   - "3.5"
   - "3.4"
+  - "pypy"
 sudo: false # Use container-based infrastructure
 install:
   - "pip install mock"
