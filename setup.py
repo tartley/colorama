@@ -14,11 +14,6 @@ except ImportError:
 NAME = 'colorama'
 
 
-def get_long_description(filename):
-    readme = os.path.join(os.path.dirname(__file__), filename)
-    with open(readme) as fp:
-        return fp.read()
-
 def read_file(path):
     with open(os.path.join(os.path.dirname(__file__), path)) as fp:
         return fp.read()
