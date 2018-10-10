@@ -1,3 +1,18 @@
+0.4.0
+  * Fix issue #142: reset LIGHT_EX colors with RESET_ALL. Reported by Delgan
+  * Fix issue #147: ignore invalid "erase" ANSI codes. Reported by shin-
+  * Fix issues #163 and #164: fix stream wrapping under PyCharm. Contributed
+    by veleek and Delgan.
+  * Thanks to jdufresne for various code cleanup and updates to documentation
+    and project metadata.
+    (pull requests #171, #172, #173, #174, #176, #177, #189, #190, #192)
+  * #186: added contextlib magic methods to ansitowin32.StreamWrapper.
+    Contributed by hoefling.
+  * Fix issue #131: don't cache stdio handles, since they might be
+    closed/changed by fd redirection. This fixes an issue with pytest.
+    Contributed by segevfiner.
+  * #146, #157: Drop support for EOL Python 2.5, 2.6, 3.1, 3.2 and 3.3,
+    and add 3.6. Thanks to hugovk.
 0.3.9
   * Revert fix for issue #103 which causes problems for dependent applications
 0.3.8
