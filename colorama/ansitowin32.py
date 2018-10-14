@@ -48,7 +48,8 @@ class StreamWrapper(object):
         return (hasattr(stream, 'isatty') and stream.isatty())
 
     @property
-    def closed(self):
+    def is_closed(self):
+        print('Checking!')
         stream = self.__wrapped
         try:
             return stream.closed
@@ -84,12 +85,12 @@ class AnsiToWin32(object):
 
         # should we strip ANSI sequences from our output?
         if strip is None:
-            strip = conversion_supported or (not self.stream.closed and not self.stream.isatty())
+            strip = conversion_supported or (not self.stream.is_closed and not self.stream.isatty())
         self.strip = strip
 
         # should we should convert ANSI sequences into win32 calls?
         if convert is None:
-            convert = conversion_supported and not self.stream.closed and self.stream.isatty()
+            convert = conversion_supported and not self.stream.is_closed and self.stream.isatty()
         self.convert = convert
 
         # dict of ansi codes to win32 functions and parameters
@@ -165,7 +166,7 @@ class AnsiToWin32(object):
     def reset_all(self):
         if self.convert:
             self.call_win32('m', (0,))
-        elif not self.strip and not self.stream.closed:
+        elif not self.strip and not self.stream.is_closed:
             self.wrapped.write(Style.RESET_ALL)
 
 
