@@ -49,7 +49,6 @@ class StreamWrapper(object):
 
     @property
     def is_closed(self):
-        print('Checking!')
         stream = self.__wrapped
         try:
             return stream.closed
