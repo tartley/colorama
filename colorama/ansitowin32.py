@@ -45,12 +45,20 @@ class StreamWrapper(object):
         if 'PYCHARM_HOSTED' in os.environ:
             if stream is not None and (stream is sys.__stdout__ or stream is sys.__stderr__):
                 return True
-        return (hasattr(stream, 'isatty') and stream.isatty())
+        try:
+            stream_isatty = stream.isatty
+        except AttributeError:
+            return False
+        else:
+            return stream_isatty()
 
     @property
     def closed(self):
         stream = self.__wrapped
-        return not hasattr(stream, 'closed') or stream.closed
+        try:
+            return stream.closed
+        except AttributeError:
+            return True
 
 
 class AnsiToWin32(object):
