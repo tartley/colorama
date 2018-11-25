@@ -1,3 +1,6 @@
+0.4.1
+  * Fix issue #196: prevent exponential number of calls when calling 'init'
+    multiple times. Reported by bbayles and fixed by Delgan.
 0.4.0
   * Fix issue #142: reset LIGHT_EX colors with RESET_ALL. Reported by Delgan
   * Fix issue #147: ignore invalid "erase" ANSI codes. Reported by shin-
