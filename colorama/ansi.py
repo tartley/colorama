@@ -106,6 +106,9 @@ Cursor = AnsiCursor()
 
 
 def goto(x, y):
+    """Repositions the cursor to the x, y coordinates in the terminal window.
+
+    (0, 0) is the top-left corner coordinate."""
     sys.stdout.write('\x1b[%d;%dH' % (y - 1, x - 1))
 
 
