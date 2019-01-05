@@ -135,3 +135,11 @@ def size():
             raise Exception('Unable to determine terminal size. This happens in non-terminal environments, such as IDLE.')
     else:
         raise Exception('size() is not supported on this platform or operating system.')
+
+
+def clear():
+    """Clears the screen."""
+    if sys.platform == 'win32':
+        os.system('cls')
+    else:
+        os.system('clear')

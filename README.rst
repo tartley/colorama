@@ -154,8 +154,6 @@ ANSI codes to reposition the cursor and get the size of the terminal window are
 supported.
 
     from colorama import init, goto, size
-
-    # use Colorama to make Termcolor work on Windows too
     init()
 
     goto(0, 0)  # move cursor to top-left corner
@@ -165,6 +163,13 @@ supported.
 
 See ``demos/demo06.py`` for an example of how to generate them with raw ANSI
 codes.
+
+The screen can be cleared of all text and the cursor reposition to 0, 0:
+
+    from colorama import init, clear
+    init()
+
+    clear()
 
 
 Init Keyword Args
