@@ -4,6 +4,9 @@ This module generates ANSI character codes to printing colors to terminals.
 See: http://en.wikipedia.org/wiki/ANSI_escape_code
 '''
 
+import os
+import sys
+
 CSI = '\033['
 OSC = '\033]'
 BEL = '\007'
@@ -100,3 +103,32 @@ Fore   = AnsiFore()
 Back   = AnsiBack()
 Style  = AnsiStyle()
 Cursor = AnsiCursor()
+
+
+def goto(x, y):
+    sys.stdout.write('\x1b[%d;%dH' % (y - 1, x - 1))
+
+
+def size():
+    """Returns the size of the terminal as a tuple of two ints (width, height).
+
+    Raises an Exception when called while not in a terminal window.
+    """
+    if sys.platform in ('linux', 'darwin'):
+        return os.get_terminal_size(0)
+    elif sys.platform == 'win32':
+        # From http://code.activestate.com/recipes/440694-determine-size-of-console-window-on-windows/
+        import ctypes
+        h = ctypes.windll.kernel32.GetStdHandle(-12)
+        csbi = ctypes.create_string_buffer(22)
+        res = ctypes.windll.kernel32.GetConsoleScreenBufferInfo(h, csbi)
+
+        if res:
+            import struct
+            (bufx, bufy, curx, cury, wattr,
+             left, top, right, bottom, maxx, maxy) = struct.unpack("hhhhHhhhhhh", csbi.raw)
+            return right - left + 1, bottom - top + 1
+        else:
+            raise Exception('Unable to determine terminal size. This happens in non-terminal environments, such as IDLE.')
+    else:
+        raise Exception('size() is not supported on this platform or operating system.')

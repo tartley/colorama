@@ -150,8 +150,21 @@ perform this reset automatically on program exit.
 Cursor Positioning
 ------------------
 
-ANSI codes to reposition the cursor are supported. See ``demos/demo06.py`` for
-an example of how to generate them.
+ANSI codes to reposition the cursor and get the size of the terminal window are
+supported.
+
+    from colorama import init, goto, size
+
+    # use Colorama to make Termcolor work on Windows too
+    init()
+
+    goto(0, 0)  # move cursor to top-left corner
+    goto(10, 0) # move cursor to x, y position of 10, 0
+    width, height = size() # get size of terminal window
+
+
+See ``demos/demo06.py`` for an example of how to generate them with raw ANSI
+codes.
 
 
 Init Keyword Args
