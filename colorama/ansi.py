@@ -109,37 +109,21 @@ def goto(x, y):
     """Repositions the cursor to the x, y coordinates in the terminal window.
 
     (0, 0) is the top-left corner coordinate."""
-    sys.stdout.write('\x1b[%d;%dH' % (y - 1, x - 1))
+    x = 0 if x < 0 else x
+    y = 0 if y < 0 else y
+    sys.stdout.write('\x1b[%d;%dH' % (y + 1, x + 1))
 
 
 def size():
-    """Returns the size of the terminal as a tuple of two ints (width, height).
-
-    Raises an Exception when called while not in a terminal window.
-    """
-    if sys.platform in ('linux', 'darwin'):
-        return os.get_terminal_size(0)
-    elif sys.platform == 'win32':
-        # From http://code.activestate.com/recipes/440694-determine-size-of-console-window-on-windows/
-        import ctypes
-        h = ctypes.windll.kernel32.GetStdHandle(-12)
-        csbi = ctypes.create_string_buffer(22)
-        res = ctypes.windll.kernel32.GetConsoleScreenBufferInfo(h, csbi)
-
-        if res:
-            import struct
-            (bufx, bufy, curx, cury, wattr,
-             left, top, right, bottom, maxx, maxy) = struct.unpack("hhhhHhhhhhh", csbi.raw)
-            return right - left + 1, bottom - top + 1
-        else:
-            raise Exception('Unable to determine terminal size. This happens in non-terminal environments, such as IDLE.')
-    else:
-        raise Exception('size() is not supported on this platform or operating system.')
+    """Returns the size of the terminal as a named tuple of two ints: (columns, lines)"""
+    return os.get_terminal_size()
 
 
-def clear():
-    """Clears the screen."""
-    if sys.platform == 'win32':
-        os.system('cls')
-    else:
-        os.system('clear')
+def clear(mode=2):
+    """Clears the terminal and positions the cursor at the top-left corner."""
+    sys.stdout.write(CSI + str(mode) + 'J')
+
+
+def title(text):
+    """Sets the title of the terminal window to text."""
+    sys.stdout.write(OSC + '2;' + text + BEL)
