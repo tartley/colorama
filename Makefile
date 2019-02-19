@@ -1,4 +1,4 @@
-# Copyright Jonathan Hartley 2013. BSD 3-Clause license, see LICENSE file.
+# Copyright Jonathan Hartley 2013. BSD 3-Clause license, see LICENSE.txt file.
 
 # This makefile is just a cheatsheet to remind me of some commonly used
 # commands. I generally am executing these commands on Ubuntu, or on WindowsXP
