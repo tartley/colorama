@@ -15,9 +15,10 @@ class WinColor(object):
 
 # from wincon.h
 class WinStyle(object):
-    NORMAL              = 0x00 # dim text, dim background
-    BRIGHT              = 0x08 # bright text, dim background
-    BRIGHT_BACKGROUND   = 0x80 # dim text, bright background
+    NORMAL              = 0x00   # dim text, dim background
+    BRIGHT              = 0x08   # bright text, dim background
+    BRIGHT_BACKGROUND   = 0x80   # dim text, bright background
+    UNDERLINE           = 0x8000 # color same as foreground
 
 class WinTerm(object):
 
@@ -32,9 +33,24 @@ class WinTerm(object):
         # we track them separately, since LIGHT_EX is overwritten by Fore/Back
         # and BRIGHT is overwritten by Style codes.
         self._light = 0
+        # To implement underline, reverse, conceal style on/off as to be
+        # independent of '_style' properties.
+        self._under = 0
+        self._swap = 0
+        self._conceal = 0
 
     def get_attrs(self):
-        return self._fore + self._back * 16 + (self._style | self._light)
+        style = self._style | self._light
+        if self._swap:
+            attrs = self._fore << 4 | self._back | (style & 0x0f) << 4 | (style & 0xf0) >> 4
+        else:
+            attrs = self._fore | self._back << 4 | style
+        if self._conceal:
+            attrs &= 0xf0
+            attrs |= attrs >> 4
+        elif self._under:
+            attrs |= WinStyle.UNDERLINE
+        return attrs
 
     def set_attrs(self, value):
         self._fore = value & 7
@@ -45,6 +61,9 @@ class WinTerm(object):
         self.set_attrs(self._default)
         self.set_console(attrs=self._default)
         self._light = 0
+        self._under = 0
+        self._swap = 0
+        self._conceal = 0
 
     def fore(self, fore=None, light=False, on_stderr=False):
         if fore is None:
@@ -72,6 +91,18 @@ class WinTerm(object):
         if style is None:
             style = self._default_style
         self._style = style
+        self.set_console(on_stderr=on_stderr)
+
+    def style_under(self, under=True, on_stderr=False):
+        self._under = int(under)
+        self.set_console(on_stderr=on_stderr)
+
+    def style_swap(self, swap=True, on_stderr=False):
+        self._swap = int(swap)
+        self.set_console(on_stderr=on_stderr)
+
+    def style_conceal(self, conceal=True, on_stderr=False):
+        self._conceal = int(conceal)
         self.set_console(on_stderr=on_stderr)
 
     def set_console(self, attrs=None, on_stderr=False):
