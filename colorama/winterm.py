@@ -60,12 +60,12 @@ class WinTerm(object):
         self._style = value & (WinStyle.BRIGHT | WinStyle.BRIGHT_BACKGROUND)
 
     def reset_all(self, on_stderr=None):
-        self.set_attrs(self._default)
-        self.set_console(attrs=self._default)
         self._light = 0
         self._markline = 0
         self._swap = 0
         self._conceal = 0
+        self.set_attrs(self._default)
+        self.set_console(attrs=self._default)
 
     def fore(self, fore=None, light=False, on_stderr=False):
         if fore is None:
