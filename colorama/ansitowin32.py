@@ -230,7 +230,7 @@ class AnsiToWin32(object):
 
     def call_win32(self, command, params):
         if command == 'm':
-            for param in params[:2]:
+            for param in params:
                 if param in self.win32_calls:
                     func_args = self.win32_calls[param]
                     func = func_args[0]

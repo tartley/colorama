@@ -24,7 +24,7 @@ class WinStyle(object):
 class WinTerm(object):
 
     def __init__(self):
-        self._default = win32.GetConsoleScreenBufferInfo(sys.stdout).wAttributes
+        self._default = win32.GetConsoleScreenBufferInfo(win32.STDOUT).wAttributes
         self.set_attrs(self._default)
         self._default_fore = self._fore
         self._default_back = self._back
