@@ -119,12 +119,14 @@ class AnsiToWin32(object):
                 AnsiStyle.RESET_ALL: (winterm.reset_all, ),
                 AnsiStyle.BRIGHT: (winterm.style, WinStyle.BRIGHT),
                 AnsiStyle.DIM: (winterm.style, WinStyle.NORMAL),
-                AnsiStyle.UNDERLINE: (winterm.style_under, ),
+                AnsiStyle.UNDERLINE: (winterm.style_markline, WinStyle.UNDERLINE),
                 AnsiStyle.REVERSE: (winterm.style_swap, ),
                 AnsiStyle.CONCEAL: (winterm.style_conceal, ),
                 AnsiStyle.NORMAL: (winterm.style, WinStyle.NORMAL),
-                AnsiStyle.UNDERLINE_OFF: (winterm.style_under, False),
+                AnsiStyle.UNDERLINE_OFF: (winterm.style_markline, WinStyle.UNDERLINE, False),
                 AnsiStyle.INVERSE_OFF: (winterm.style_swap, False),
+                AnsiStyle.OVERLINE: (winterm.style_markline, WinStyle.OVERLINE),
+                AnsiStyle.OVERLINE_OFF: (winterm.style_markline, WinStyle.OVERLINE, False),
                 AnsiStyle.REVEAL: (winterm.style_conceal, False),
                 AnsiFore.BLACK: (winterm.fore, WinColor.BLACK),
                 AnsiFore.RED: (winterm.fore, WinColor.RED),
@@ -228,7 +230,7 @@ class AnsiToWin32(object):
 
     def call_win32(self, command, params):
         if command == 'm':
-            for param in params:
+            for param in params[:2]:
                 if param in self.win32_calls:
                     func_args = self.win32_calls[param]
                     func = func_args[0]

@@ -100,6 +100,8 @@ class AnsiStyle(AnsiCodes):
     UNDERLINE_OFF   = 24
     INVERSE_OFF     = 27
     REVEAL          = 28
+    OVERLINE        = 53
+    OVERLINE_OFF    = 55
     RESET_ALL       = 0
 
 Fore   = AnsiFore()

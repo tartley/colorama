@@ -19,11 +19,12 @@ class WinStyle(object):
     BRIGHT              = 0x08   # bright text, dim background
     BRIGHT_BACKGROUND   = 0x80   # dim text, bright background
     UNDERLINE           = 0x8000 # color same as foreground
+    OVERLINE            = 0x400  # color always white
 
 class WinTerm(object):
 
     def __init__(self):
-        self._default = win32.GetConsoleScreenBufferInfo(win32.STDOUT).wAttributes
+        self._default = win32.GetConsoleScreenBufferInfo(sys.stdout).wAttributes
         self.set_attrs(self._default)
         self._default_fore = self._fore
         self._default_back = self._back
@@ -33,9 +34,9 @@ class WinTerm(object):
         # we track them separately, since LIGHT_EX is overwritten by Fore/Back
         # and BRIGHT is overwritten by Style codes.
         self._light = 0
-        # To implement underline, reverse, conceal style on/off as to be
-        # independent of '_style' properties.
-        self._under = 0
+        # To implement underline, overline, reverse, conceal style on/off as to
+        # be independent of '_style' properties.
+        self._markline = 0
         self._swap = 0
         self._conceal = 0
 
@@ -45,11 +46,12 @@ class WinTerm(object):
             attrs = self._fore << 4 | self._back | (style & 0x0f) << 4 | (style & 0xf0) >> 4
         else:
             attrs = self._fore | self._back << 4 | style
+        # Also conceal the markline
         if self._conceal:
             attrs &= 0xf0
             attrs |= attrs >> 4
-        elif self._under:
-            attrs |= WinStyle.UNDERLINE
+        elif self._markline:
+            attrs |= self._markline
         return attrs
 
     def set_attrs(self, value):
@@ -61,7 +63,7 @@ class WinTerm(object):
         self.set_attrs(self._default)
         self.set_console(attrs=self._default)
         self._light = 0
-        self._under = 0
+        self._markline = 0
         self._swap = 0
         self._conceal = 0
 
@@ -93,8 +95,13 @@ class WinTerm(object):
         self._style = style
         self.set_console(on_stderr=on_stderr)
 
-    def style_under(self, under=True, on_stderr=False):
-        self._under = int(under)
+    def style_markline(self, style=None, mark=True, on_stderr=False):
+        if style is None:
+            style = WinStyle.UNDERLINE
+        if mark:
+            self._markline |= style
+        else:
+            self._markline &= ~style
         self.set_console(on_stderr=on_stderr)
 
     def style_swap(self, swap=True, on_stderr=False):
