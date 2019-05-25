@@ -222,13 +222,26 @@ class AnsiToWin32(object):
 
     def call_win32(self, command, params):
         if command == 'm':
+            # Ansi sequences started by specific param may need to be ignored, see #217
+            skip = False
             for param in params:
+                if skip:
+                    if skip is not True:
+                        skip -= 1
+                        continue
+                    if param in (2, 5):
+                        skip = 1 if param == 5 else 3
+                        continue
+                    skip = False
                 if param in self.win32_calls:
                     func_args = self.win32_calls[param]
                     func = func_args[0]
                     args = func_args[1:]
                     kwargs = dict(on_stderr=self.on_stderr)
                     func(*args, **kwargs)
+                elif param in (38, 48):
+                    skip = True
+
         elif command in 'J':
             winterm.erase_screen(params[0], on_stderr=self.on_stderr)
         elif command in 'K':
