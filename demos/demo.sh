@@ -24,7 +24,7 @@ python demo04.py 2> demo04.out
 cat demo04.out
 rm -f demo04.out
 
-# Demonstrate the difference between colorama intialized with wrapping on and off.
+# Demonstrate the difference between colorama initialized with wrapping on and off.
 python demo05.py
 
 # Demonstrate printing colored, random characters at random positions on the screen
