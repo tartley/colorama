@@ -314,6 +314,27 @@ If you use nose to run the tests, you must pass the ``-s`` flag; otherwise,
 tests.
 
 
+Professional support
+====================
+
+.. |tideliftlogo| image:: https://cdn2.hubspot.net/hubfs/4008838/website/logos/logos_for_download/Tidelift_primary-shorthand-logo.png
+   :alt: Tidelift
+   :target: https://tidelift.com/subscription/pkg/pypi-colorama?utm_source=pypi-colorama&utm_medium=referral&utm_campaign=readme
+
+.. list-table::
+   :widths: 10 100
+
+   * - |tideliftlogo|
+     - Professional support for colorama is available as part of the
+       `Tidelift Subscription`_.
+       Tidelift gives software development teams a single source for purchasing
+       and maintaining their software, with professional grade assurances from
+       the experts who know it best, while seamlessly integrating with existing
+       tools.
+
+.. _Tidelift Subscription: https://tidelift.com/subscription/pkg/pypi-colorama?utm_source=pypi-colorama&utm_medium=referral&utm_campaign=readme
+
+
 Thanks
 ======
 * Marc Schlaich (schlamar) for a ``setup.py`` fix for Python2.5.
