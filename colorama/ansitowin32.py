@@ -2,6 +2,7 @@
 import re
 import sys
 import os
+import ctypes
 
 from .ansi import AnsiFore, AnsiBack, AnsiStyle, Style
 from .winterm import WinTerm, WinColor, WinStyle
@@ -12,6 +13,39 @@ winterm = None
 if windll is not None:
     winterm = WinTerm()
 
+
+def is_msys_cygwin_tty(stream):
+    try:
+        import msvcrt
+    except ImportError:
+        return False
+
+    if not hasattr(stream, "fileno"):
+        return False
+
+    if not hasattr(ctypes, "windll") or not hasattr(ctypes.windll.kernel32, "GetFileInformationByHandleEx"):
+        return False
+
+    fileno = stream.fileno()
+    handle = msvcrt.get_osfhandle(fileno)
+    FileNameInfo = 2
+
+    class FILE_NAME_INFO(ctypes.Structure):
+        _fields_ = [('FileNameLength', ctypes.c_ulong),
+                    ('FileName', ctypes.c_wchar * 40)]
+
+    info = FILE_NAME_INFO()
+    ret = ctypes.windll.kernel32.GetFileInformationByHandleEx(handle,
+                                                              FileNameInfo,
+                                                              ctypes.byref(info),
+                                                              ctypes.sizeof(info))
+    if ret == 0:
+        return False
+
+    msys_pattern = r"\\msys-[0-9a-f]{16}-pty\d-(to|from)-master"
+    cygwin_pattern = r"\\cygwin-[0-9a-f]{16}-pty\d-(to|from)-master"
+    return re.match(msys_pattern, info.FileName) is not None or \
+        re.match(cygwin_pattern, info.FileName) is not None
 
 class StreamWrapper(object):
     '''
@@ -50,7 +84,7 @@ class StreamWrapper(object):
         except AttributeError:
             return False
         else:
-            return stream_isatty()
+            return stream_isatty() or is_msys_cygwin_tty(stream)
 
     @property
     def closed(self):
