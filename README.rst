@@ -206,6 +206,17 @@ init(wrap=True):
         print(Fore.BLUE + 'blue text on stderr', file=stream)
 
 
+Installation
+=======================
+colorama is currently installable from PyPI:
+
+    pip install colorama
+    
+colorama also can be installed by the conda package manager:
+
+    conda install -c anaconda colorama 
+
+
 Status & Known Problems
 =======================
 
