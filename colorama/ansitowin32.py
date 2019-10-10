@@ -46,7 +46,7 @@ class StreamWrapper(object):
             if stream is not None and (stream is sys.__stdout__ or stream is sys.__stderr__):
                 return True
         stream_isatty = getattr(stream, 'isatty', False)
-        return stream_isatty()
+        return stream_isatty
 
     @property
     def closed(self):
