@@ -45,12 +45,8 @@ class StreamWrapper(object):
         if 'PYCHARM_HOSTED' in os.environ:
             if stream is not None and (stream is sys.__stdout__ or stream is sys.__stderr__):
                 return True
-        try:
-            stream_isatty = stream.isatty
-        except AttributeError:
-            return False
-        else:
-            return stream_isatty()
+        stream_isatty = getattr(stream, 'isatty', False)
+        return stream_isatty()
 
     @property
     def closed(self):
