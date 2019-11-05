@@ -90,7 +90,7 @@
     downstream project which has problems making sure that all 3rd party
     contributions have appropriate license.
 0.2.5
-  * Severeral documentation & demo fixes.
+  * Several documentation & demo fixes.
 0.2.4
   * Fix to work on Windows 7.
   * Python 3 compatibility in docs and demos.
