@@ -6,11 +6,13 @@ from unittest import TestCase, main
 from mock import patch
 
 from ..ansitowin32 import StreamWrapper
+from .. import initialise
 from ..initialise import deinit, init
 from .utils import osname, redirected_output, replace_by
 
 orig_stdout = sys.stdout
 orig_stderr = sys.stderr
+
 
 class InitTest(TestCase):
 
@@ -21,6 +23,8 @@ class InitTest(TestCase):
     def tearDown(self):
         sys.stdout = orig_stdout
         sys.stderr = orig_stderr
+        initialise.orig_stdout = initialise.UNSET
+        initialise.orig_stderr = initialise.UNSET
 
     def assertWrapped(self):
         self.assertIsNot(sys.stdout, orig_stdout, 'stdout should be wrapped')
@@ -75,7 +79,7 @@ class InitTest(TestCase):
         self.assertRaises(ValueError, lambda: init(autoreset=True, wrap=False))
 
     @patch('colorama.ansitowin32.winapi_test', lambda *_: True)
-    def testInitTwiceCanUndoneWithDeinitOnce(self):
+    def testInitTwiceCanBeUndoneWithDeinitOnce(self):
         with osname('nt'):
             self.assertNotWrapped()
             init()
@@ -84,6 +88,21 @@ class InitTest(TestCase):
             self.assertWrapped()
             deinit()
             self.assertNotWrapped()
+
+    @patch('colorama.ansitowin32.winapi_test', lambda *_: True)
+    def testInitDeinitInitWorks(self):
+        with osname('nt'):
+            self.assertNotWrapped()
+            init()
+            self.assertWrapped()
+            deinit()
+            self.assertNotWrapped()
+            init()
+            self.assertWrapped()
+            deinit()
+            self.assertNotWrapped()
+            init()
+            self.assertWrapped()
 
     @patch('colorama.win32.SetConsoleTextAttribute')
     @patch('colorama.initialise.AnsiToWin32')
