@@ -18,16 +18,20 @@ class StreamNonTTY(StringIO):
 def osname(name):
     orig = os.name
     os.name = name
-    yield
-    os.name = orig
+    try:
+        yield
+    finally:
+        os.name = orig
 
 @contextmanager
 def redirected_output():
     orig = sys.stdout
     sys.stdout = Mock()
     sys.stdout.isatty = lambda: False
-    yield
-    sys.stdout = orig
+    try:
+        yield
+    finally:
+        sys.stdout = orig
 
 @contextmanager
 def replace_by(stream):
@@ -35,9 +39,11 @@ def replace_by(stream):
     orig_stderr = sys.stderr
     sys.stdout = stream
     sys.stderr = stream
-    yield
-    sys.stdout = orig_stdout
-    sys.stderr = orig_stderr
+    try:
+        yield
+    finally:
+        sys.stdout = orig_stdout
+        sys.stderr = orig_stderr
 
 @contextmanager
 def replace_original_by(stream):
@@ -45,14 +51,19 @@ def replace_original_by(stream):
     orig_stderr = sys.__stderr__
     sys.__stdout__ = stream
     sys.__stderr__ = stream
-    yield
-    sys.__stdout__ = orig_stdout
-    sys.__stderr__ = orig_stderr
+    try:
+        yield
+    finally:
+        sys.__stdout__ = orig_stdout
+        sys.__stderr__ = orig_stderr
 
 @contextmanager
 def pycharm():
     os.environ["PYCHARM_HOSTED"] = "1"
     non_tty = StreamNonTTY()
-    with replace_by(non_tty), replace_original_by(non_tty):
-        yield
-    del os.environ["PYCHARM_HOSTED"]
+    try:
+        with replace_by(non_tty), replace_original_by(non_tty):
+            yield
+    finally:
+        del os.environ["PYCHARM_HOSTED"]
+
