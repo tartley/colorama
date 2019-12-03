@@ -6,24 +6,29 @@
 
 NAME=colorama
 
-clean:
+help: ## Display help for documented make targets.
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
+		awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-7s\033[0m %s\n", $$1, $$2}'
+
+clean: ## Remove build artifacts and .pyc files
 	-rm -rf build dist MANIFEST colorama.egg-info
-	-find . -name '*.py[oc]' -exec rm {} \;
+	-find . -type f -name '*.py[co]' -delete -o -type d -name __pycache__ -delete
 .PHONY: clean
 
-sdist: clean
+sdist: clean ## Build an sdist file
 	python setup.py sdist
 .PHONY: sdist
 
-upload: clean
+upload: clean ## Upload an sdist file
 	python setup.py sdist upload
 	python setup.py bdist_wheel upload
 .PHONY: release
 
-test:
+test: ## Run tests
 	python -m unittest discover -p *_test.py
 .PHONY: test
 
-tags:
+tags: ## Create tags file
 	ctags -R ${NAME}
 .PHONY: tags
+
