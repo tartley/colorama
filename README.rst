@@ -14,6 +14,8 @@ Download and docs:
     https://pypi.org/project/colorama/
 Source code & Development:
     https://github.com/tartley/colorama
+Colorama for Enterprise:
+    https://github.com/tartley/colorama/ENTERPRISE.md
 
 Description
 ===========
@@ -65,7 +67,7 @@ text'; it looks the same as 'normal text'.
 License
 =======
 
-Copyright Jonathan Hartley 2013. BSD 3-Clause license; see LICENSE file.
+Copyright Jonathan Hartley & Arnon Yaari, 2013. BSD 3-Clause license; see LICENSE file.
 
 
 Dependencies
