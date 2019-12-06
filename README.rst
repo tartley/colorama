@@ -15,7 +15,7 @@ Download and docs:
 Source code & Development:
     https://github.com/tartley/colorama
 Colorama for Enterprise:
-    https://github.com/tartley/colorama/ENTERPRISE.md
+    https://github.com/tartley/colorama/blob/master/ENTERPRISE.md
 
 Description
 ===========
