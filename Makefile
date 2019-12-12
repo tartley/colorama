@@ -15,13 +15,12 @@ clean: ## Remove build artifacts and .pyc files
 	-find . -type f -name '*.py[co]' -delete -o -type d -name __pycache__ -delete
 .PHONY: clean
 
-sdist: clean ## Build an sdist file
-	python setup.py sdist
+build: clean ## Build an sdist and wheel
+	python setup.py sdist bdist_wheel
 .PHONY: sdist
 
-upload: clean ## Upload an sdist file
-	python setup.py sdist upload
-	python setup.py bdist_wheel upload
+upload: ## Upload our sdist and wheel
+	twine upload dist/*
 .PHONY: release
 
 test: ## Run tests
