@@ -1,3 +1,10 @@
+0.4.3
+  * Fix release 0.4.2 which was uploaded with missing files.
+0.4.2
+  * #228: Drop support for EOL Python 3.4, and add 3.7 and 3.8.
+    Thanks to hugovk.
+  * Several additions and fixes to documentation and metadata.
+  * Added Tidelift subscription information.
 0.4.1
   * Fix issue #196: prevent exponential number of calls when calling 'init'
     multiple times. Reported by bbayles and fixed by Delgan.
