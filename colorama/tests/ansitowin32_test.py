@@ -203,6 +203,22 @@ class AnsiToWin32Test(TestCase):
             [a[0][0] for a in listener.call_args_list],
             [33, 11, 22] )
 
+    def test_osc_codes(self):
+        mockStdout = Mock()
+        stream = AnsiToWin32(mockStdout, convert=True)
+        with patch('colorama.ansitowin32.winterm') as winterm:
+            data = [
+                '\033]0\x07',                      # missing arguments
+                '\033]0;foo\x08',                  # wrong OSC command
+                '\033]0;colorama_test_title\x07',  # should work
+                '\033]1;colorama_test_title\x07',  # wrong set command
+                '\033]2;colorama_test_title\x07',  # should work
+                '\033]' + ';' * 64 + '\x08',       # see issue #247
+            ]
+            for code in data:
+                stream.write(code)
+            # only the last call should work
+            self.assertEqual(winterm.set_title.call_count, 2)
 
 if __name__ == '__main__':
     main()
