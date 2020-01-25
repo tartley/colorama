@@ -217,7 +217,6 @@ class AnsiToWin32Test(TestCase):
             ]
             for code in data:
                 stream.write(code)
-            # only the last call should work
             self.assertEqual(winterm.set_title.call_count, 2)
 
 if __name__ == '__main__':
