@@ -1,0 +1,229 @@
+name: 'test'
+
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: '0 0 * * 5'
+
+jobs:
+
+  mac:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-python@v1
+      with:
+        python-version: 3.8
+    - run: ./demos/demo.sh
+    - run: ./demos/demo.sh
+      env:
+        FORCE_COLOR: true
+    - run: ./demos/demo.sh
+      env:
+        NO_COLOR: true
+
+  lin:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-python@v1
+      with:
+        python-version: 3.8
+    - run: ./demos/demo.sh
+    - run: ./demos/demo.sh
+      env:
+        FORCE_COLOR: true
+    - run: ./demos/demo.sh
+      env:
+        NO_COLOR: true
+
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - run: docker run --rm -tv $(pwd):/src -w /src/demos python:3-slim ./demo.sh
+    - run: docker run --rm -tv $(pwd):/src -w /src/demos -e FORCE_COLOR=true python:3-slim ./demo.sh
+    - run: docker run --rm -tv $(pwd):/src -w /src/demos -e NO_COLOR=true python:3-slim ./demo.sh
+
+  cmd:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-python@v1
+      with:
+        python-version: 3.8
+    - shell: cmd
+      run: ./demos/demo.bat
+    - shell: cmd
+      run: ./demos/demo.bat
+      env:
+        FORCE_COLOR: true
+    - shell: cmd
+      run: ./demos/demo.bat
+      env:
+        NO_COLOR: true
+
+  ps:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-python@v1
+      with:
+        python-version: 3.8
+    - shell: powershell
+      run: ./demos/demo.bat
+    - shell: powershell
+      run: ./demos/demo.bat
+      env:
+        FORCE_COLOR: true
+    - shell: powershell
+      run: ./demos/demo.bat
+      env:
+        NO_COLOR: true
+
+  bash:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-python@v1
+      with:
+        python-version: 3.8
+    - shell: bash
+      run: ./demos/demo.sh
+    - shell: bash
+      run: ./demos/demo.sh
+      env:
+        FORCE_COLOR: true
+    - shell: bash
+      run: ./demos/demo.sh
+      env:
+        NO_COLOR: true
+
+  msys2:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-python@v1
+      with:
+        python-version: 3.8
+    - uses: eine/setup-msys2@v0
+      with:
+        msystem: MINGW64
+        update: true
+    - shell: msys2 {0}
+      run: |
+        export PATH=$PATH:/$(echo "$pythonLocation" | sed 's#\\#/#g' | sed 's#:##g')
+        ./demos/demo.sh
+    - shell: msys2 {0}
+      run: |
+        export PATH=$PATH:/$(echo "$pythonLocation" | sed 's#\\#/#g' | sed 's#:##g')
+        ./demos/demo.sh
+      env:
+        FORCE_COLOR: true
+    - shell: msys2 {0}
+      run: |
+        export PATH=$PATH:/$(echo "$pythonLocation" | sed 's#\\#/#g' | sed 's#:##g')
+        ./demos/demo.sh
+      env:
+        NO_COLOR: true
+
+  pacman:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: eine/setup-msys2@v0
+      with:
+        msystem: MINGW64
+        update: true
+    - shell: msys2 {0}
+      run: |
+        pacman --noconfirm -S python
+    - shell: msys2 {0}
+      run: |
+        ./demos/demo.sh
+    - shell: msys2 {0}
+      run: |
+        ./demos/demo.sh
+      env:
+        FORCE_COLOR: true
+    - shell: msys2 {0}
+      run: |
+        ./demos/demo.sh
+      env:
+        NO_COLOR: true
+
+  pacman_cmd:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: eine/setup-msys2@v0
+      with:
+        msystem: MINGW64
+        update: true
+    - shell: msys2 {0}
+      run: |
+        pacman --noconfirm -S python
+    - shell: cmd
+      run: |
+        ./demos/demo.bat
+    - shell: cmd
+      run: |
+        ./demos/demo.bat
+      env:
+        FORCE_COLOR: true
+    - shell: cmd
+      run: |
+        ./demos/demo.bat
+      env:
+        NO_COLOR: true
+
+  pacman_ps:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: eine/setup-msys2@v0
+      with:
+        msystem: MINGW64
+        update: true
+    - shell: msys2 {0}
+      run: |
+        pacman --noconfirm -S python
+    - shell: powershell
+      run: |
+        ./demos/demo.bat
+    - shell: powershell
+      run: |
+        ./demos/demo.bat
+      env:
+        FORCE_COLOR: true
+    - shell: powershell
+      run: |
+        ./demos/demo.bat
+      env:
+        NO_COLOR: true
+
+  pacman_bash:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: eine/setup-msys2@v0
+      with:
+        msystem: MINGW64
+        update: true
+    - shell: msys2 {0}
+      run: |
+        pacman --noconfirm -S python
+    - shell: bash
+      run: |
+        ./demos/demo.sh
+    - shell: bash
+      run: |
+        ./demos/demo.sh
+      env:
+        FORCE_COLOR: true
+    - shell: bash
+      run: |
+        ./demos/demo.sh
+      env:
+        NO_COLOR: true

@@ -9,6 +9,8 @@
 # Implemented as a bash script which invokes python so that we can test the
 # behaviour on exit, which resets default colors again.
 
+cd $(dirname "$0")
+
 # print grid of all colors and brightnesses
 python demo01.py
 
