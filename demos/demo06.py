@@ -25,7 +25,7 @@ PASSES = 1000
 
 def main():
     colorama.init()
-    pos = lambda y, x: Cursor.POS(x,y)
+    pos = lambda y, x: Cursor.POS(x, y)
     # draw a white border.
     print(Back.WHITE, end='')
     print('%s%s' % (pos(MINY, MINX), ' '*MAXX), end='')
