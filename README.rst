@@ -100,7 +100,7 @@ ANSI output should just work.
 To stop using colorama before your program exits, simply call ``deinit()``.
 This will restore ``stdout`` and ``stderr`` to their original values, so that
 Colorama is disabled. To resume using Colorama again, call ``reinit()``; it is
-cheaper to calling ``init()`` again (but does the same thing).
+cheaper than calling ``init()`` again (but does the same thing).
 
 
 Colored Output
