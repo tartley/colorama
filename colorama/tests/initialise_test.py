@@ -3,7 +3,10 @@ import os
 import sys
 from unittest import TestCase, main, skipUnless
 
-from mock import patch
+try:
+    from unittest.mock import patch
+except ImportError:
+    from mock import patch
 
 from ..ansitowin32 import StreamWrapper
 from ..initialise import init

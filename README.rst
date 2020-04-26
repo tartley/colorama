@@ -313,7 +313,7 @@ Help and fixes welcome!
 
 Running tests requires:
 
-- Michael Foord's ``mock`` module to be installed.
+- Michael Foord's ``mock`` module to be installed on Python < 3.3.
 - Tests are written using 2010-era updates to ``unittest``
 
 To run tests::
