@@ -5,6 +5,7 @@ import sys
 
 from .ansitowin32 import AnsiToWin32
 
+_init_counter = 0
 
 orig_stdout = None
 orig_stderr = None
@@ -20,7 +21,7 @@ def reset_all():
         AnsiToWin32(orig_stdout).reset_all()
 
 
-def init(autoreset=False, convert=None, strip=None, wrap=True):
+def _init(autoreset=False, convert=None, strip=None, wrap=True):
 
     if not wrap and any([autoreset, convert, strip]):
         raise ValueError('wrap=False conflicts with any other arg=True')
@@ -48,11 +49,27 @@ def init(autoreset=False, convert=None, strip=None, wrap=True):
         atexit_done = True
 
 
-def deinit():
+def init(autoreset=False, convert=None, strip=None, wrap=True):
+    global _init_counter
+    if _init_counter == 0:
+        _init(autoreset, convert, strip, wrap)
+    _init_counter += 1
+
+
+def _deinit():
     if orig_stdout is not None:
         sys.stdout = orig_stdout
     if orig_stderr is not None:
         sys.stderr = orig_stderr
+
+
+def deinit():
+    global _init_counter
+    if _init_counter == 1:
+        _deinit()
+    _init_counter -= 1
+    if _init_counter < 0:
+        _init_counter = 0
 
 
 @contextlib.contextmanager
@@ -64,11 +81,18 @@ def colorama_text(*args, **kwargs):
         deinit()
 
 
-def reinit():
+def _reinit():
     if wrapped_stdout is not None:
         sys.stdout = wrapped_stdout
     if wrapped_stderr is not None:
         sys.stderr = wrapped_stderr
+
+
+def reinit():
+    global _init_counter
+    if _init_counter == 0:
+        _reinit()
+    _init_counter += 1
 
 
 def wrap_stream(stream, convert, strip, autoreset, wrap):
