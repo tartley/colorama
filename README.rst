@@ -143,7 +143,7 @@ Available formatting constants are::
 
     Fore: BLACK, RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE, RESET.
     Back: BLACK, RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE, RESET.
-    Style: DIM, NORMAL, BRIGHT, REVERSE, UNDERLINE, RESET_ALL
+    Style: DIM, NORMAL, BRIGHT, BRIGHT_OFF, REVERSE, UNDERLINE, RESET_ALL
 
 ``Style.REVERSE_OFF`` and ``Style.UNDERLINE_OFF`` are provided to allow intent
 to be clearer.
@@ -159,6 +159,11 @@ is encountered, underlining will be turned off.
 
 Note that REVERSE and UNDERLINE require Windows 10, they don't have any effect
 on Windows 7 or 8.
+
+``BRIGHT_OFF`` is included because it's a valid ANSI sequence.  It will do the
+same thing as ``NORMAL``, on Windows.
+
+On some terminals, it will produce a double underline.
 
 ``Style.RESET_ALL`` resets foreground, background, and brightness. Colorama will
 perform this reset automatically on program exit.

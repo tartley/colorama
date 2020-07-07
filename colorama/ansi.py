@@ -99,11 +99,11 @@ class AnsiBack(AnsiCodes):
 
 
 class AnsiStyle(AnsiCodes):
-    BRIGHT    = 1
-    DIM       = 2
-    BRIGHT_OFF  = 21  # Produces double-underline on some terminals.
-    NORMAL    = 22
-    RESET_ALL = 0
+    BRIGHT     = 1
+    DIM        = 2
+    BRIGHT_OFF = 21  # Produces double-underline on some terminals.
+    NORMAL     = 22
+    RESET_ALL  = 0
 
     UNDERLINE     = 4
     UNDERLINE_OFF = 24
