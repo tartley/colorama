@@ -1,3 +1,10 @@
+0.4.4
+  * Added support for REVERSE video and UNDERLINE.
+  * ANSI codes CSI [ 0-37 m no longer render as BRIGHT if the default terminal
+    foreground color is BRIGHT.
+  * The demo01.py file now demonstrates reverse video and underlining effects.
+  * winterm_test.py updated to assert on term._default_style rather than _style.
+    This is in the testInit and testResetAll tests - _style has BRIGHT cleared.
 0.4.3
   * Fix release 0.4.2 which was uploaded with missing files.
 0.4.2

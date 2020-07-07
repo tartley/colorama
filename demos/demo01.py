@@ -18,7 +18,7 @@ init()
 #     the foreground, background and style. The don't have any magic of their own.
 FORES = [ Fore.BLACK, Fore.RED, Fore.GREEN, Fore.YELLOW, Fore.BLUE, Fore.MAGENTA, Fore.CYAN, Fore.WHITE ]
 BACKS = [ Back.BLACK, Back.RED, Back.GREEN, Back.YELLOW, Back.BLUE, Back.MAGENTA, Back.CYAN, Back.WHITE ]
-STYLES = [ Style.DIM, Style.NORMAL, Style.BRIGHT ]
+STYLES = [ Style.DIM, Style.NORMAL, Style.BRIGHT, Style.UNDERLINE, Style.REVERSE ]
 
 NAMES = {
     Fore.BLACK: 'black', Fore.RED: 'red', Fore.GREEN: 'green', Fore.YELLOW: 'yellow', Fore.BLUE: 'blue', Fore.MAGENTA: 'magenta', Fore.CYAN: 'cyan', Fore.WHITE: 'white'
@@ -30,7 +30,7 @@ NAMES = {
 # show the color names
 sys.stdout.write('        ')
 for foreground in FORES:
-    sys.stdout.write('%s%-7s' % (foreground, NAMES[foreground]))
+    sys.stdout.write('%s%-11s' % (foreground, NAMES[foreground]))
 print()
 
 # make a row for each background color

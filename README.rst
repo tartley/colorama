@@ -143,7 +143,27 @@ Available formatting constants are::
 
     Fore: BLACK, RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE, RESET.
     Back: BLACK, RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE, RESET.
-    Style: DIM, NORMAL, BRIGHT, RESET_ALL
+    Style: DIM, NORMAL, BRIGHT, BRIGHT_OFF, REVERSE, UNDERLINE, RESET_ALL
+
+``Style.REVERSE_OFF`` and ``Style.UNDERLINE_OFF`` are provided to allow intent
+to be clearer.
+They currently have the same values as ``REVERSE`` and ``UNDERLINE``,
+respectively. Using ``REVERSE`` a 2nd time will toggle REVERSE off again
+(and the same for UNDERLINE).
+
+It's important to realise that ``Style.UNDERLINE_OFF`` and ``Style.REVERSE_OFF``
+are not guaranteed to turn the relevant effect off.  If you've called
+``colorama.init`` with ``autoreset=False``, and left the terminal in underline
+mode, then the next time either ``Style.UNDERLINE`` or ``Style.UNDERLINE_OFF``
+is encountered, underlining will be turned off.
+
+Note that REVERSE and UNDERLINE require Windows 10, they don't have any effect
+on Windows 7 or 8.
+
+``BRIGHT_OFF`` is included because it's a valid ANSI sequence.  It will do the
+same thing as ``NORMAL``, on Windows.
+
+On some terminals, it will produce a double underline.
 
 ``Style.RESET_ALL`` resets foreground, background, and brightness. Colorama will
 perform this reset automatically on program exit.
@@ -254,7 +274,14 @@ The only ANSI sequences that colorama converts into win32 calls are::
     ESC [ 0 m       # reset all (colors and brightness)
     ESC [ 1 m       # bright
     ESC [ 2 m       # dim (looks same as normal brightness)
+    ESC [ 4 m       # underline *1*
+    ESC [ 7 m       # reverse video *1*
+    ESC [ 21 m      # double underline or normal brightness
     ESC [ 22 m      # normal brightness
+    ESC [ 24 m      # underline off *1*
+    ESC [ 27 m      # reverse video off *1*
+
+    *1. Not supported on Windows 7 or 8.*
 
     # FOREGROUND:
     ESC [ 30 m      # black
