@@ -10,18 +10,33 @@
     :target: https://travis-ci.org/tartley/colorama
     :alt: Build Status
 
-Download and docs:
-    https://pypi.org/project/colorama/
-Source code & Development:
-    https://github.com/tartley/colorama
-Colorama for Enterprise:
-    https://github.com/tartley/colorama/blob/master/ENTERPRISE.md
+Makes ANSI escape character sequences (for producing colored terminal text and
+cursor positioning) work under MS Windows.
+
+
+.. |donate| image:: https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif
+  :target: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=2MZ9D2GMLYCUJ&item_name=Colorama&currency_code=USD
+  :alt: Donate with Paypal
+
+`PyPI for download & docs <https://pypi.org/project/colorama/>`_ ·
+`Github for source & development <https://github.com/tartley/colorama>`_ ·
+`Colorama for enterprise on Tidelift <https://github.com/tartley/colorama/blob/master/ENTERPRISE.md>`_
+
+If you find Colorama useful, please |donate| to the authors. Thank you!
+
+
+Installation
+============
+
+.. code-block:: bash
+
+    pip install colorama
+    # or
+    conda install -c anaconda colorama
+
 
 Description
 ===========
-
-Makes ANSI escape character sequences (for producing colored terminal text and
-cursor positioning) work under MS Windows.
 
 ANSI escape character sequences have long been used to produce colored terminal
 text and cursor positioning on Unix and Macs. Colorama makes this work on
@@ -29,11 +44,6 @@ Windows, too, by wrapping ``stdout``, stripping ANSI sequences it finds (which
 would appear as gobbledygook in the output), and converting them into the
 appropriate win32 calls to modify the state of the terminal. On other platforms,
 Colorama does nothing.
-
-Colorama also provides some shortcuts to help generate ANSI sequences
-but works fine in conjunction with any other ANSI sequence generation library,
-such as the venerable Termcolor (https://pypi.org/project/termcolor/)
-or the fabulous Blessings (https://pypi.org/project/blessings/).
 
 This has the upshot of providing a simple cross-platform API for printing
 colored terminal text from Python, and has the happy side-effect that existing
@@ -62,18 +72,6 @@ handling, versus on Windows Command-Prompt using Colorama:
 
 These screengrabs show that, on Windows, Colorama does not support ANSI 'dim
 text'; it looks the same as 'normal text'.
-
-
-License
-=======
-
-Copyright Jonathan Hartley & Arnon Yaari, 2013. BSD 3-Clause license; see LICENSE file.
-
-
-Dependencies
-============
-
-None, other than Python. Tested on Python 2.7, 3.5, 3.6, 3.7 and 3.8.
 
 Usage
 =====
@@ -125,8 +123,10 @@ constant shorthand for ANSI escape sequences:
     print('\033[31m' + 'some red text')
     print('\033[39m') # and reset to default color
 
-...or, Colorama can be used happily in conjunction with existing ANSI libraries
-such as Termcolor:
+...or, Colorama can be used in conjunction with existing ANSI libraries
+such as the venerable `Termcolor <https://pypi.org/project/termcolor/>`_
+or the fabulous `Blessings <https://pypi.org/project/blessings/>`_.
+This is highly recommended for anything more than trivial coloring:
 
 .. code-block:: python
 
@@ -208,37 +208,8 @@ init(wrap=True):
         print(Fore.BLUE + 'blue text on stderr', file=stream)
 
 
-Installation
-=======================
-colorama is currently installable from PyPI:
-
-    pip install colorama
-    
-colorama also can be installed by the conda package manager:
-
-    conda install -c anaconda colorama 
-
-
-Status & Known Problems
-=======================
-
-I've personally only tested it on Windows XP (CMD, Console2), Ubuntu
-(gnome-terminal, xterm), and OS X.
-
-Some presumably valid ANSI sequences aren't recognised (see details below),
-but to my knowledge nobody has yet complained about this. Puzzling.
-
-See outstanding issues and wishlist:
-https://github.com/tartley/colorama/issues
-
-If anything doesn't work for you, or doesn't do what you expected or hoped for,
-I'd love to hear about it on that issues list, would be delighted by patches,
-and would be happy to grant commit access to anyone who submits a working patch
-or two.
-
-
 Recognised ANSI Sequences
-=========================
+-------------------------
 
 ANSI sequences generally take the form:
 
@@ -304,6 +275,36 @@ Any other form of ANSI sequence, such as single-character codes or alternative
 initial characters, are not recognised or stripped. It would be cool to add
 them though. Let me know if it would be useful for you, via the Issues on
 GitHub.
+
+
+Status & Known Problems
+=======================
+
+I've personally only tested it on Windows XP (CMD, Console2), Ubuntu
+(gnome-terminal, xterm), and OS X.
+
+Some presumably valid ANSI sequences aren't recognised (see details below),
+but to my knowledge nobody has yet complained about this. Puzzling.
+
+See outstanding issues and wishlist:
+https://github.com/tartley/colorama/issues
+
+If anything doesn't work for you, or doesn't do what you expected or hoped for,
+I'd love to hear about it on that issues list, would be delighted by patches,
+and would be happy to grant commit access to anyone who submits a working patch
+or two.
+
+
+License
+=======
+
+Copyright Jonathan Hartley & Arnon Yaari, 2013-2020. BSD 3-Clause license; see LICENSE file.
+
+
+Dependencies
+============
+
+None, other than Python. Tested on Python 2.7, 3.5, 3.6, 3.7 and 3.8.
 
 
 Development
@@ -378,3 +379,4 @@ Thanks
   to include Python 3.3 and 3.4
 * Andy Neff for fixing RESET of LIGHT_EX colors.
 * Jonathan Hartley for the initial idea and implementation.
+

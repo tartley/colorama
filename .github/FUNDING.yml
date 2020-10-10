@@ -9,4 +9,6 @@
 # open_collective: # Replace with a single Open Collective username
 # otechie: # Replace with a single Otechie username
 # patreon: # Replace with a single Patreon username
+custom: ["https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=2MZ9D2GMLYCUJ&item_name=Colorama&currency_code=USD"]
 tidelift: "pypi/colorama"
+
