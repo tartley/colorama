@@ -5,6 +5,7 @@
 # with Cygwin binaries at the start of the PATH.
 
 NAME=colorama
+SHELL=/bin/bash
 
 help: ## Display help for documented make targets.
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
@@ -18,6 +19,7 @@ pip=$(virtualenv)/bin/pip
 syspython=python3.8
 python=$(virtualenv)/bin/python
 twine=$(virtualenv)/bin/twine
+version=$(shell $(python) setup.py --version)
 
 clean: ## Remove build artifacts, .pyc files, virtualenv
 	-rm -rf build dist MANIFEST colorama.egg-info $(virtualenv)
@@ -48,11 +50,16 @@ test: ## Run tests
 
 # build packages
 
-build: clean ## Build an sdist and wheel
+build: ## Build an sdist and wheel
+	$(python) -m pip install --upgrade setuptools wheel
 	$(python) setup.py sdist bdist_wheel
 .PHONY: sdist
 
+test-release: build
+	./test-release
+.PHONY: test-release
+
 upload: ## Upload our sdist and wheel
-	$(twine) upload dist/*
+	$(twine) upload dist/colorama-$(version)-*
 .PHONY: release
 
