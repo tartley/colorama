@@ -213,7 +213,7 @@ init(wrap=True):
 Recognised ANSI Sequences
 .........................
 
-ANSI sequences generally take the form:
+ANSI sequences generally take the form::
 
     ESC [ <param> ; <param> ... <command>
 
@@ -300,7 +300,8 @@ or two.
 License
 -------
 
-Copyright Jonathan Hartley & Arnon Yaari, 2013-2020. BSD 3-Clause license; see LICENSE file.
+Copyright Jonathan Hartley & Arnon Yaari, 2013-2020. BSD 3-Clause license; see
+LICENSE file.
 
 
 Development
