@@ -309,19 +309,12 @@ Development
 
 Help and fixes welcome!
 
-No dependencies, other than Python. Tested on Python 2.7, 3.5, 3.6, 3.7 and
-3.8.
+Tested on CPython 2.7, 3.5, 3.6, 3.7 and 3.8.
 
-Running tests requires:
+No requirements. Development requirements are captured in requirements-dev.txt.
 
-- Michael Foord's ``mock`` module to be installed on Python < 3.3.
-- Tests are written using 2010-era updates to ``unittest``
-
-To run tests::
-
-   python -m unittest discover -p *_test.py
-
-This, like a few other handy commands, is captured in a ``Makefile``.
+Tests are written using standard library ``unittest``. To run them, see
+Makefile target 'test', along with a few other handy commands.
 
 If you use nose to run the tests, you must pass the ``-s`` flag; otherwise,
 ``nosetests`` applies its own proxy to ``stdout``, which confuses the unit
