@@ -10,23 +10,25 @@
     :target: https://travis-ci.org/tartley/colorama
     :alt: Build Status
 
+Colorama
+========
+
 Makes ANSI escape character sequences (for producing colored terminal text and
 cursor positioning) work under MS Windows.
-
 
 .. |donate| image:: https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif
   :target: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=2MZ9D2GMLYCUJ&item_name=Colorama&currency_code=USD
   :alt: Donate with Paypal
 
-`PyPI for download & docs <https://pypi.org/project/colorama/>`_ ·
-`Github for source & development <https://github.com/tartley/colorama>`_ ·
+`PyPI for releases <https://pypi.org/project/colorama/>`_ ·
+`Github for source <https://github.com/tartley/colorama>`_ ·
 `Colorama for enterprise on Tidelift <https://github.com/tartley/colorama/blob/master/ENTERPRISE.md>`_
 
 If you find Colorama useful, please |donate| to the authors. Thank you!
 
 
 Installation
-============
+------------
 
 .. code-block:: bash
 
@@ -36,7 +38,7 @@ Installation
 
 
 Description
-===========
+-----------
 
 ANSI escape character sequences have long been used to produce colored terminal
 text and cursor positioning on Unix and Macs. Colorama makes this work on
@@ -70,14 +72,14 @@ handling, versus on Windows Command-Prompt using Colorama:
     :height: 325
     :alt: Same ANSI sequences on Windows, using Colorama.
 
-These screengrabs show that, on Windows, Colorama does not support ANSI 'dim
+These screenshots show that, on Windows, Colorama does not support ANSI 'dim
 text'; it looks the same as 'normal text'.
 
 Usage
-=====
+-----
 
 Initialisation
---------------
+..............
 
 Applications should initialise Colorama using:
 
@@ -95,14 +97,14 @@ optional functionality; see "Init Keyword Args", below). By design, this permits
 applications to call ``init()`` unconditionally on all platforms, after which
 ANSI output should just work.
 
-To stop using colorama before your program exits, simply call ``deinit()``.
+To stop using Colorama before your program exits, simply call ``deinit()``.
 This will restore ``stdout`` and ``stderr`` to their original values, so that
 Colorama is disabled. To resume using Colorama again, call ``reinit()``; it is
 cheaper than calling ``init()`` again (but does the same thing).
 
 
 Colored Output
---------------
+..............
 
 Cross-platform printing of colored text can then be done using Colorama's
 constant shorthand for ANSI escape sequences:
@@ -150,14 +152,14 @@ perform this reset automatically on program exit.
 
 
 Cursor Positioning
-------------------
+..................
 
 ANSI codes to reposition the cursor are supported. See ``demos/demo06.py`` for
 an example of how to generate them.
 
 
 Init Keyword Args
------------------
+.................
 
 ``init()`` accepts some ``**kwargs`` to override default behaviour.
 
@@ -174,7 +176,7 @@ init(autoreset=False):
         print('automatically back to default color again')
 
 init(strip=None):
-    Pass ``True`` or ``False`` to override whether ansi codes should be
+    Pass ``True`` or ``False`` to override whether ANSI codes should be
     stripped from the output. The default behaviour is to strip if on Windows
     or if output is redirected (not a tty).
 
@@ -184,7 +186,7 @@ init(convert=None):
     and output is to a tty (terminal).
 
 init(wrap=True):
-    On Windows, colorama works by replacing ``sys.stdout`` and ``sys.stderr``
+    On Windows, Colorama works by replacing ``sys.stdout`` and ``sys.stderr``
     with proxy objects, which override the ``.write()`` method to do their work.
     If this wrapping causes you problems, then this can be disabled by passing
     ``init(wrap=False)``. The default behaviour is to wrap if ``autoreset`` or
@@ -209,7 +211,7 @@ init(wrap=True):
 
 
 Recognised ANSI Sequences
--------------------------
+.........................
 
 ANSI sequences generally take the form:
 
@@ -220,7 +222,7 @@ more params are passed to a ``<command>``. If no params are passed, it is
 generally synonymous with passing a single zero. No spaces exist in the
 sequence; they have been inserted here simply to read more easily.
 
-The only ANSI sequences that colorama converts into win32 calls are::
+The only ANSI sequences that Colorama converts into win32 calls are::
 
     ESC [ 0 m       # reset all (colors and brightness)
     ESC [ 1 m       # bright
@@ -278,7 +280,7 @@ GitHub.
 
 
 Status & Known Problems
-=======================
+-----------------------
 
 I've personally only tested it on Windows XP (CMD, Console2), Ubuntu
 (gnome-terminal, xterm), and OS X.
@@ -286,7 +288,7 @@ I've personally only tested it on Windows XP (CMD, Console2), Ubuntu
 Some presumably valid ANSI sequences aren't recognised (see details below),
 but to my knowledge nobody has yet complained about this. Puzzling.
 
-See outstanding issues and wishlist:
+See outstanding issues and wish-list:
 https://github.com/tartley/colorama/issues
 
 If anything doesn't work for you, or doesn't do what you expected or hoped for,
@@ -296,21 +298,18 @@ or two.
 
 
 License
-=======
+-------
 
 Copyright Jonathan Hartley & Arnon Yaari, 2013-2020. BSD 3-Clause license; see LICENSE file.
 
 
-Dependencies
-============
-
-None, other than Python. Tested on Python 2.7, 3.5, 3.6, 3.7 and 3.8.
-
-
 Development
-===========
+-----------
 
 Help and fixes welcome!
+
+No dependencies, other than Python. Tested on Python 2.7, 3.5, 3.6, 3.7 and
+3.8.
 
 Running tests requires:
 
@@ -329,7 +328,7 @@ tests.
 
 
 Professional support
-====================
+--------------------
 
 .. |tideliftlogo| image:: https://cdn2.hubspot.net/hubfs/4008838/website/logos/logos_for_download/Tidelift_primary-shorthand-logo.png
    :alt: Tidelift
@@ -350,7 +349,8 @@ Professional support
 
 
 Thanks
-======
+------
+
 * Marc Schlaich (schlamar) for a ``setup.py`` fix for Python2.5.
 * Marc Abramowitz, reported & fixed a crash on exit with closed ``stdout``,
   providing a solution to issue #7's setuptools/distutils debate,
