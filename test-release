@@ -1,4 +1,4 @@
-#/usr/bin/env bash
+#!/usr/bin/env bash
 
 # Test the currently built release of Colorama from the dist/ dir.
 # Run this before making a release.

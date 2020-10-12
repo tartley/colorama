@@ -5,7 +5,6 @@
 # with Cygwin binaries at the start of the PATH.
 
 NAME=colorama
-SHELL=/bin/bash
 
 help: ## Display help for documented make targets.
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
