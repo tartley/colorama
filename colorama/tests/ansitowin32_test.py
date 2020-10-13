@@ -170,13 +170,19 @@ class AnsiToWin32Test(TestCase):
     def test_wrap_shouldnt_raise_on_closed_orig_stdout(self):
         stream = StringIO()
         stream.close()
-        converter = AnsiToWin32(stream)
-        self.assertFalse(converter.strip)
+        with \
+            patch("colorama.ansitowin32.os.name", "nt"), \
+            patch("colorama.ansitowin32.winapi_test", lambda: True):
+                converter = AnsiToWin32(stream)
+        self.assertTrue(converter.strip)
         self.assertFalse(converter.convert)
 
     def test_wrap_shouldnt_raise_on_missing_closed_attr(self):
-        converter = AnsiToWin32(object())
-        self.assertFalse(converter.strip)
+        with \
+            patch("colorama.ansitowin32.os.name", "nt"), \
+            patch("colorama.ansitowin32.winapi_test", lambda: True):
+                converter = AnsiToWin32(object())
+        self.assertTrue(converter.strip)
         self.assertFalse(converter.convert)
 
     def testExtractParams(self):
