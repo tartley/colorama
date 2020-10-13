@@ -18,7 +18,7 @@ bin="$HOME/.virtualenvs/colorama/bin"
 version=$($bin/python setup.py --version)
 sandbox=test-release-playground
 
-# Upload to the test pypi.
+# Upload to the test PyPI.
 $bin/twine upload --repository testpypi dist/colorama-$version-* \
     || echo "  > Expect a 400 if package was already uploaded."
 
@@ -27,13 +27,13 @@ mkdir -p $sandbox
 (
     cd $sandbox
 
-    # Create a new virtualenv
+    # Create a temporary disposable virtualenv.
     $syspython -m venv --clear venv
 
-    # Install the package we just uploaded
+    # Install the package we just uploaded.
     venv/bin/python -m pip --quiet install --index-url https://test.pypi.org/simple colorama==$version
 
-    # Test the package can be imported
+    # Import and use Colorama from the temp virtualenv.
     venv/bin/python -c "import colorama; colorama.init(); print(colorama.Fore.GREEN + \"OK: Colorama\", colorama.__version__, \"from test pypi install.\")"
 )
 

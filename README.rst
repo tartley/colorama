@@ -311,14 +311,42 @@ Help and fixes welcome!
 
 Tested on CPython 2.7, 3.5, 3.6, 3.7 and 3.8.
 
-No requirements. Development requirements are captured in requirements-dev.txt.
+No requirements other than the standard library.
+Development requirements are captured in requirements-dev.txt.
 
-Tests are written using standard library ``unittest``. To run them, see
-Makefile target 'test', along with a few other handy commands.
+To create and populate a virtual environment::
+
+    ./bootstrap.ps1 # Windows
+    make bootstrap # Linux
+
+To run tests::
+
+   ./test.ps1 # Windows
+   make test # Linux
 
 If you use nose to run the tests, you must pass the ``-s`` flag; otherwise,
 ``nosetests`` applies its own proxy to ``stdout``, which confuses the unit
 tests.
+
+To build a local wheel file::
+
+    ./build.ps1 # Windows
+    make build # Linux
+
+To test the wheel, (upload to test PyPI, then 'pip install' & use it)::
+
+    ./test-release.ps1 # Windows
+    make test-release # Linux
+
+To upload the wheel to PyPI::
+
+    ./release.ps1 # Windows
+    make release # Linux
+
+To clean all generated files, builds, virtualenv::
+
+    ./clean.ps1 # Windows
+    make clean # Linux
 
 
 Professional support

@@ -27,6 +27,7 @@ clean: ## Remove build artifacts, .pyc files, virtualenv
 
 $(virtualenv):
 	$(syspython) -m venv --clear $(virtualenv)
+	$(pip) install --upgrade pip
 
 venv: $(virtualenv) ## Create or clear a virtualenv
 .PHONY: venv
@@ -58,7 +59,7 @@ test-release: build
 	./test-release
 .PHONY: test-release
 
-upload: ## Upload our sdist and wheel
+release: ## Upload our sdist and wheel
 	$(twine) upload dist/colorama-$(version)-*
 .PHONY: release
 
