@@ -20,8 +20,8 @@ cursor positioning) work under MS Windows.
   :target: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=2MZ9D2GMLYCUJ&item_name=Colorama&currency_code=USD
   :alt: Donate with Paypal
 
-`PyPI for releases <https://pypi.org/project/colorama/>`_ ·
-`Github for source <https://github.com/tartley/colorama>`_ ·
+`PyPI for releases <https://pypi.org/project/colorama/>`_ |
+`Github for source <https://github.com/tartley/colorama>`_ |
 `Colorama for enterprise on Tidelift <https://github.com/tartley/colorama/blob/master/ENTERPRISE.md>`_
 
 If you find Colorama useful, please |donate| to the authors. Thank you!
