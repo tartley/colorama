@@ -301,7 +301,7 @@ I'd love to hear about it on that issues list, would be delighted by patches,
 and would be happy to grant commit access to anyone who submits a working patch
 or two.
 
-If you're hacking on the code, see `README_hacking.md`_.
+If you're hacking on the code, see `README-hacking.md`_.
 
 .. _README-hacking.md: README-hacking.md
 
