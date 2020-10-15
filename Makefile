@@ -53,7 +53,7 @@ test: ## Run tests
 build: ## Build an sdist and wheel
 	$(python) -m pip install --upgrade setuptools wheel
 	$(python) setup.py sdist bdist_wheel
-.PHONY: sdist
+.PHONY: build
 
 test-release: build
 	./test-release
