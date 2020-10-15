@@ -37,7 +37,7 @@ tests.
    * On OSX: View the makefile and manually run the equivalent commands for
      each target. PR to automate this welcome!
 6. If all is well:
-   * On Windwos: `.\release.psq`
+   * On Windwos: `.\release.ps1`
    * On Linux: `make release`
    This will upload the built package to PyPI, tag the current commit with the
    version, and push the tag.
