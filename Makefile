@@ -60,6 +60,6 @@ test-release: build
 .PHONY: test-release
 
 release: ## Upload our sdist and wheel
-	$(twine) upload dist/colorama-$(version)-*
+	$(twine) upload dist/colorama-$(version)*{.whl,.tar.gz}
 .PHONY: release
 
