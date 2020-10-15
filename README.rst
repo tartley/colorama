@@ -10,6 +10,7 @@
     :target: https://travis-ci.org/tartley/colorama
     :alt: Build Status
 
+
 Colorama
 ========
 
@@ -29,6 +30,10 @@ If you find Colorama useful, please |donate| to the authors. Thank you!
 
 Installation
 ------------
+
+Tested on CPython 2.7, 3.5, 3.6, 3.7 and 3.8.
+
+No requirements other than the standard library.
 
 .. code-block:: bash
 
@@ -296,57 +301,14 @@ I'd love to hear about it on that issues list, would be delighted by patches,
 and would be happy to grant commit access to anyone who submits a working patch
 or two.
 
+If you're hacking on the code, see [README-hacking.md](README-hacking.md)
+
 
 License
 -------
 
 Copyright Jonathan Hartley & Arnon Yaari, 2013-2020. BSD 3-Clause license; see
 LICENSE file.
-
-
-Development
------------
-
-Help and fixes welcome!
-
-Tested on CPython 2.7, 3.5, 3.6, 3.7 and 3.8.
-
-No requirements other than the standard library.
-Development requirements are captured in requirements-dev.txt.
-
-To create and populate a virtual environment::
-
-    ./bootstrap.ps1 # Windows
-    make bootstrap # Linux
-
-To run tests::
-
-   ./test.ps1 # Windows
-   make test # Linux
-
-If you use nose to run the tests, you must pass the ``-s`` flag; otherwise,
-``nosetests`` applies its own proxy to ``stdout``, which confuses the unit
-tests.
-
-To build a local wheel file::
-
-    ./build.ps1 # Windows
-    make build # Linux
-
-To test the wheel, (upload to test PyPI, then 'pip install' & use it)::
-
-    ./test-release.ps1 # Windows
-    make test-release # Linux
-
-To upload the wheel to PyPI::
-
-    ./release.ps1 # Windows
-    make release # Linux
-
-To clean all generated files, builds, virtualenv::
-
-    ./clean.ps1 # Windows
-    make clean # Linux
 
 
 Professional support
