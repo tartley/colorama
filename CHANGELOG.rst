@@ -1,5 +1,5 @@
-0.4.5
-  Work in progress
+0.4.5 In progress, unreleased
+  * Create README-hacking.md, for Colorama contributors.
   * Tweak some README unicode characters that don't render correctly on PyPI.
   * Fix some tests that were failing on some operating systems.
 0.4.4 Current release
