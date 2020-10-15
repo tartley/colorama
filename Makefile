@@ -50,16 +50,16 @@ test: ## Run tests
 
 # build packages
 
-build: ## Build an sdist and wheel
+build: ## Build a release (sdist and wheel)
 	$(python) -m pip install --upgrade setuptools wheel
 	$(python) setup.py sdist bdist_wheel
 .PHONY: build
 
-test-release: build
+test-release: build ## Test a built release
 	./test-release
 .PHONY: test-release
 
-release: ## Upload our sdist and wheel
+release: ## Upload a built release
 	$(twine) upload dist/colorama-$(version)*{.whl,.tar.gz}
 .PHONY: release
 
