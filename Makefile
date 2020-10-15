@@ -18,6 +18,7 @@ pip=$(virtualenv)/bin/pip
 syspython=python3.8
 python=$(virtualenv)/bin/python
 twine=$(virtualenv)/bin/twine
+version=$(shell $(python) setup.py --version)
 
 clean: ## Remove build artifacts, .pyc files, virtualenv
 	-rm -rf build dist MANIFEST colorama.egg-info $(virtualenv)
@@ -26,6 +27,7 @@ clean: ## Remove build artifacts, .pyc files, virtualenv
 
 $(virtualenv):
 	$(syspython) -m venv --clear $(virtualenv)
+	$(pip) install --upgrade pip
 
 venv: $(virtualenv) ## Create or clear a virtualenv
 .PHONY: venv
@@ -48,11 +50,16 @@ test: ## Run tests
 
 # build packages
 
-build: clean ## Build an sdist and wheel
+build: ## Build an sdist and wheel
+	$(python) -m pip install --upgrade setuptools wheel
 	$(python) setup.py sdist bdist_wheel
 .PHONY: sdist
 
-upload: ## Upload our sdist and wheel
-	$(twine) upload dist/*
+test-release: build
+	./test-release
+.PHONY: test-release
+
+release: ## Upload our sdist and wheel
+	$(twine) upload dist/colorama-$(version)-*
 .PHONY: release
 
