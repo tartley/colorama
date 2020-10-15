@@ -17,7 +17,8 @@ cd sandbox
 & $syspython -m venv --clear venv
 
 # Install the package we just uploaded.
-venv\Scripts\python -m pip --quiet install --index-url https://test.pypi.org/simple colorama==$version
+# (--extra-index-url for this project's requirements)
+venv\Scripts\python -m pip --quiet install --index-url https://test.pypi.org/simple --extra-index-url https://pypi.org/simple colorama==$version
 # Import and use colorama from the temp virtualenv.
 venv\Scripts\python.exe -c @"
 import colorama;
