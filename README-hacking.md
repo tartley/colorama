@@ -76,7 +76,8 @@ tests.
    This [should soon tag the release for you](https://github.com/tartley/colorama/issues/282). Until then:
 
 9. Tag the current commit with the `__version__` from `colorama/__init__.py`.
-   We should start using annotated tags for releases (see below), so:
+   We should start using
+   [annotated tags for releases](https://www.tartley.com/posts/til-git-annotated-tags/), so:
 
        git tag -a -m "" $version
        git push --follow-tags
@@ -84,44 +85,3 @@ tests.
 10. Bump the version number in `colorama/__init__.py`, and add the '-pre'
     suffix again, ready for the next release. Commit and push this (directly to
     master is fine.)
-
-
-## On tagging
-
-Until today, all tags in the Colorama repo were regular _lightweight_ tags,
-created with `git tag NAME`.
-
-I recently learned about _annotated_ tags, created with `git tag -a -m
-"MESSAGE" NAME`. (If you don't specify `-m MESSAGE`, it annoyingly prompts you
-for one.)
-
-Two main differences, as far as I can tell:
-
-1. Annotated tags store the creator, created-date, and the message. This might
-   occasionally be useful for understanding what happened. A release tagged
-   this way shows us who created the release, and when, which might differ from
-   when the commit was created.
-
-2. The traditional way of pushing tags to the server:
-
-       git push --tags
-
-   is slightly broken, in that it pushes *all* tags. Some tags might be
-   intended as private development state. Some of them might be unreachable in
-   the origin repo (e.g. due to branches we haven't pushed.)
-
-   To fix this, git introduced:
-
-       git push --follow-tags
-
-   which aims to address these issues by:
-
-   * Only pushing annotated tags (hence, lightweight tags can be used as
-     local, private state)
-   * Only pushing tags that are on an ancestor of the commit being pushed.
-     Hence no unreachable tags are created on the origin.
-
-Upshot is: If you want to use any tags locally, use regular lightweight tags,
-and never `git push --tags`. For release tagging, from now onwards, we'll use
-annotated tags.
-
