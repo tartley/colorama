@@ -1,5 +1,4 @@
 # Copyright Jonathan Hartley 2013. BSD 3-Clause license, see LICENSE file.
-import os
 import sys
 from unittest import TestCase, main, skipUnless
 
@@ -10,7 +9,7 @@ except ImportError:
 
 from ..ansitowin32 import StreamWrapper
 from ..initialise import init
-from .utils import osname, redirected_output, replace_by
+from .utils import osname, replace_by
 
 orig_stdout = sys.stdout
 orig_stderr = sys.stderr
