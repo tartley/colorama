@@ -31,7 +31,7 @@ If you find Colorama useful, please |donate| to the authors. Thank you!
 Installation
 ------------
 
-Tested on CPython 2.7, 3.5, 3.6, 3.7 and 3.8, and Pypy 2.7.
+Tested on CPython 2.7, 3.5, 3.6, 3.7, 3.8 and 3.9 and Pypy 2.7.
 
 No requirements other than the standard library.
 
@@ -365,4 +365,3 @@ Thanks
   to include Python 3.3 and 3.4
 * Andy Neff for fixing RESET of LIGHT_EX colors.
 * Jonathan Hartley for the initial idea and implementation.
-
