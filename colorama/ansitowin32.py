@@ -111,14 +111,11 @@ class AnsiToWin32(object):
                     if old_mode_value is None:
                         # Don't set this again. __init__ gets called twice, for stdout and stderr.
                         old_mode_value = old_mode.value
-                        print("Stored old_mode_value = " + str(old_mode_value))
                     # Only enable if it's not already enabled
-                    print("enabling virtual terminal for " + str(self.stream))
                     if windll.kernel32.SetConsoleMode(stdout_handle, old_mode_value | ENABLE_VIRTUAL_TERMINAL_PROCESSING):
                         we_enabled_windows_vt = True
 
                 conversion_supported = False
-                print("virtual terminal enabled for " + str(self. stream))
 
         # If not on Windows 10, we have colorama's previous behaviour.
         # Make sure we don't stomp on `conversion_supported` if it was set False above.
