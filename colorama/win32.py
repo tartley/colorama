@@ -3,6 +3,7 @@
 # from winbase.h
 STDOUT = -11
 STDERR = -12
+ENABLE_VIRTUAL_TERMINAL_PROCESSING = 0x0004
 
 try:
     import ctypes

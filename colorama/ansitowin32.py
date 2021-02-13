@@ -2,28 +2,34 @@
 import re
 import sys
 import os
+import platform
 
 from .ansi import AnsiFore, AnsiBack, AnsiStyle, Style, BEL
 from .winterm import WinTerm, WinColor, WinStyle
-from .win32 import windll, winapi_test
-
+from .win32 import windll, winapi_test, STDOUT, ENABLE_VIRTUAL_TERMINAL_PROCESSING
 
 winterm = None
 if windll is not None:
     winterm = WinTerm()
 
+# Track whether we've enabled Win 10 virtual terminal, and
+# what the original mode was set to.
+we_enabled_windows_vt = False
+old_mode_value = None
+
 
 class StreamWrapper(object):
-    """
+    '''
     Wraps a stream (such as stdout), acting as a transparent proxy for all
     attribute access apart from method 'write()', which is delegated to our
     Converter instance.
-    """
+    '''
     def __init__(self, wrapped, converter):
         # double-underscore everything to prevent clashes with names of
         # attributes on the wrapped stream object.
         self.__wrapped = wrapped
         self.__convertor = converter
+
 
     def __getattr__(self, name):
         return getattr(self.__wrapped, name)
@@ -62,15 +68,17 @@ class StreamWrapper(object):
 
 
 class AnsiToWin32(object):
-    """
+    '''
     Implements a 'write()' method which, on Windows, will strip ANSI character
     sequences from the text, and if outputting to a tty, will convert them into
     win32 function calls.
-    """
+    '''
     ANSI_CSI_RE = re.compile('\001?\033\\[((?:\\d|;)*)([a-zA-Z])\002?')   # Control Sequence Introducer
     ANSI_OSC_RE = re.compile('\001?\033\\]([^\a]*)(\a)\002?')             # Operating System Command
 
     def __init__(self, wrapped, convert=None, strip=None, autoreset=False):
+        global old_mode_value
+        global we_enabled_windows_vt
         # The wrapped stream (normally sys.stdout or sys.stderr)
         self.wrapped = wrapped
 
@@ -80,12 +88,41 @@ class AnsiToWin32(object):
         # create the proxy wrapping our output stream
         self.stream = StreamWrapper(wrapped, self)
 
+        conversion_supported = True
         on_windows = os.name == 'nt'
         # We test if the WinAPI works, because even if we are on Windows
         # we may be using a terminal that doesn't support the WinAPI
         # (e.g. Cygwin Terminal). In this case it's up to the terminal
         # to support the ANSI codes.
-        conversion_supported = on_windows and winapi_test()
+        if on_windows and platform.release().startswith('10'):
+            # Windows 10 supports ANSI sequences using virtual terminal mode.
+            # However, this has been turned off by default from an early Windows 10 version.
+            # We turn virtual terminal support back on, then set
+            # `conversion_supported` to False. Behaviour will then be the same
+            # as for Linux - colorama doesn't use win32 calls.
+            from ctypes import wintypes, byref  # import wintypes now we know we're on Windows.
+            old_mode = wintypes.DWORD()
+
+            stdout_handle = windll.kernel32.GetStdHandle(STDOUT)
+            # If the next call failed, we may be running on Windows pre 10.0.10586.
+            # Leave ANSI handling to colorama, there's no virtual terminal support available.
+            if windll.kernel32.GetConsoleMode(stdout_handle, byref(old_mode)):
+                if not (old_mode.value & ENABLE_VIRTUAL_TERMINAL_PROCESSING):
+                    if old_mode_value is None:
+                        # Don't set this again. __init__ gets called twice, for stdout and stderr.
+                        old_mode_value = old_mode.value
+                        print("Stored old_mode_value = " + str(old_mode_value))
+                    # Only enable if it's not already enabled
+                    print("enabling virtual terminal for " + str(self.stream))
+                    if windll.kernel32.SetConsoleMode(stdout_handle, old_mode_value | ENABLE_VIRTUAL_TERMINAL_PROCESSING):
+                        we_enabled_windows_vt = True
+
+                conversion_supported = False
+                print("virtual terminal enabled for " + str(self. stream))
+
+        # If not on Windows 10, we have colorama's previous behaviour.
+        # Make sure we don't stomp on `conversion_supported` if it was set False above.
+        conversion_supported = conversion_supported and on_windows and winapi_test()
 
         # should we strip ANSI sequences from our output?
         if strip is None:
@@ -104,13 +141,13 @@ class AnsiToWin32(object):
         self.on_stderr = self.wrapped is sys.stderr
 
     def should_wrap(self):
-        """
+        '''
         True if this class is actually needed. If false, then the output
         stream will not be affected, nor will win32 calls be issued, so
         wrapping stdout is not actually required. This will generally be
         False on non-Windows platforms, unless optional functionality like
         autoreset has been requested using kwargs to init()
-        """
+        '''
         return self.convert or self.strip or self.autoreset
 
     def get_win32_calls(self):
@@ -122,10 +159,10 @@ class AnsiToWin32(object):
                 AnsiStyle.NORMAL: (winterm.style, WinStyle.NORMAL),
                 AnsiStyle.BRIGHT_OFF: (winterm.style, WinStyle.NORMAL),
 
-                AnsiStyle.UNDERLINE: (winterm.style, WinStyle.UNDERLINE),
-                AnsiStyle.UNDERLINE_OFF: (winterm.style, WinStyle.UNDERLINE_OFF),
-                AnsiStyle.REVERSE: (winterm.style, WinStyle.REVERSE),
-                AnsiStyle.REVERSE_OFF: (winterm.style, WinStyle.REVERSE_OFF),
+                AnsiStyle.UNDERLINE: (winterm.not_implemented, WinStyle.UNDERLINE),
+                AnsiStyle.UNDERLINE_OFF: (winterm.not_implemented, WinStyle.UNDERLINE_OFF),
+                AnsiStyle.REVERSE: (winterm.not_implemented, WinStyle.REVERSE),
+                AnsiStyle.REVERSE_OFF: (winterm.not_implemented, WinStyle.REVERSE_OFF),
 
                 AnsiFore.BLACK: (winterm.fore, WinColor.BLACK),
                 AnsiFore.RED: (winterm.fore, WinColor.RED),
@@ -173,18 +210,30 @@ class AnsiToWin32(object):
         if self.autoreset:
             self.reset_all()
 
+
     def reset_all(self):
+        global we_enabled_windows_vt
         if self.convert:
             self.call_win32('m', (0,))
         elif not self.strip and not self.stream.closed:
             self.wrapped.write(Style.RESET_ALL)
 
+        print("AnsiToWin32.reset_all() called")
+        if we_enabled_windows_vt:
+            stdout_handle = windll.kernel32.GetStdHandle(STDOUT)
+            # We enabled it, so turn it off again.
+            windll.kernel32.SetConsoleMode(stdout_handle, old_mode_value)
+            we_enabled_windows_vt = False
+            print("disabled virtual terminal on " + str(self.stream))
+            print("restored to " + str(old_mode_value))
+
+
     def write_and_convert(self, text):
-        """
+        '''
         Write the given text to our wrapped stream, stripping any ANSI
         sequences from the text, and optionally converting them into win32
         calls.
-        """
+        '''
         cursor = 0
         text = self.convert_osc(text)
         for match in self.ANSI_CSI_RE.finditer(text):
@@ -194,15 +243,18 @@ class AnsiToWin32(object):
             cursor = end
         self.write_plain_text(text, cursor, len(text))
 
+
     def write_plain_text(self, text, start, end):
         if start < end:
             self.wrapped.write(text[start:end])
             self.wrapped.flush()
 
+
     def convert_ansi(self, paramstring, command):
         if self.convert:
             params = self.extract_params(command, paramstring)
             self.call_win32(command, params)
+
 
     def extract_params(self, command, paramstring):
         if command in 'Hf':
@@ -220,6 +272,7 @@ class AnsiToWin32(object):
                     params = (1,)
 
         return params
+
 
     def call_win32(self, command, params):
         if command == 'm':
@@ -241,6 +294,7 @@ class AnsiToWin32(object):
             # A - up, B - down, C - forward, D - back
             x, y = {'A': (0, -n), 'B': (0, n), 'C': (n, 0), 'D': (-n, 0)}[command]
             winterm.cursor_adjust(x, y, on_stderr=self.on_stderr)
+
 
     def convert_osc(self, text):
         for match in self.ANSI_OSC_RE.finditer(text):

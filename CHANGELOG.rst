@@ -1,13 +1,23 @@
-0.4.4
-  * Added support for REVERSE video and UNDERLINE.
-  * ANSI codes CSI [ 0-37 m no longer render as BRIGHT if the default terminal
-    foreground color is BRIGHT.
-  * The demo01.py file now demonstrates reverse video and underlining effects.
-  * winterm_test.py updated to assert on term._default_style rather than _style.
-    This is in the testInit and testResetAll tests - _style has BRIGHT cleared.
+0.4.6
+  * Support reverse video and underline on Windows 10
+0.4.5 In progress, unreleased
+  * Create README-hacking.md, for Colorama contributors.
+  * Tweak some README unicode characters that don't render correctly on PyPI.
+  * Fix some tests that were failing on some operating systems.
+  * Add support for Python 3.9.
+0.4.4 Current release
+  * Re-org of README, to put the most insteresting parts near the top.
+  * Added Linux makefile targets and Windows powershell scripts to
+    automate bootstrapping a development environment, and automate the
+    process of testing wheels before they are uploaded to PyPI.
+  * Use stdlib unittest.mock where available
+  * Travis CI now also builds on arm64
+  * Demo06 demonstrates existing cursor positioning feature
+  * Fix OSC regex & handling to prevent hang or crash
+  * Document enterprise support by Tidelift
 0.4.3
   * Fix release 0.4.2 which was uploaded with missing files.
-0.4.2
+0.4.2 BROKEN DO NOT USE
   * #228: Drop support for EOL Python 3.4, and add 3.7 and 3.8.
     Thanks to hugovk.
   * Several additions and fixes to documentation and metadata.

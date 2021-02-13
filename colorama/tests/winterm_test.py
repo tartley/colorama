@@ -20,8 +20,7 @@ class WinTermTest(TestCase):
         term = WinTerm()
         self.assertEqual(term._fore, 7)
         self.assertEqual(term._back, 6)
-        # _default_style should be correct.  _style will have been reset to 0
-        self.assertEqual(term._default_style, 8)
+        self.assertEqual(term._style, 8)
 
     @skipUnless(sys.platform.startswith("win"), "requires Windows")
     def testGetAttrs(self):
@@ -61,8 +60,7 @@ class WinTermTest(TestCase):
 
         self.assertEqual(term._fore, 1)
         self.assertEqual(term._back, 2)
-        # _default_style should be correct.  _style will have been reset to 0
-        self.assertEqual(term._default_style, 8)
+        self.assertEqual(term._style, 8)
         self.assertEqual(term.set_console.called, True)
 
     @skipUnless(sys.platform.startswith("win"), "requires Windows")

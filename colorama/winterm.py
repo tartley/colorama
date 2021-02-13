@@ -34,12 +34,6 @@ class WinTerm(object):
         self._default_fore = self._fore
         self._default_back = self._back
         self._default_style = self._style
-
-        # Cater for the default console using bright foreground.
-        # If we don't clear BRIGHT, normal text will render as bold.
-        if self._default_style & WinStyle.BRIGHT:
-            self._style &= ~WinStyle.BRIGHT
-
         # In order to emulate LIGHT_EX in windows, we borrow the BRIGHT style.
         # So that LIGHT_EX colors and BRIGHT style do not clobber each other,
         # we track them separately, since LIGHT_EX is overwritten by Fore/Back
@@ -58,16 +52,11 @@ class WinTerm(object):
         self.set_attrs(self._default)
         self.set_console(attrs=self._default)
         self._light = 0
-        self._style = self._default_style
-        # Turn off BRIGHT if that's the default for the console foreground.
-        if self._default_style & WinStyle.BRIGHT:
-            self._style &= ~WinStyle.BRIGHT
 
     def fore(self, fore=None, light=False, on_stderr=False):
         if fore is None:
             fore = self._default_fore
         self._fore = fore
-
         # Emulate LIGHT_EX with BRIGHT Style
         if light:
             self._light |= WinStyle.BRIGHT
@@ -89,26 +78,7 @@ class WinTerm(object):
     def style(self, style=None, on_stderr=False):
         if style is None:
             style = self._default_style
-        reverse_set = self._style & WinStyle.REVERSE
-        underline_set = self._style & WinStyle.UNDERLINE
-
-        # Preserve any existing style(s) - this allows things
-        # like bold *and* underline.
-        # Note that NORMAL (0) would reset everything.  We only want
-        # it to reset BRIGHT or DIM.
-        if style:
-            self._style |= style
-        else:
-            self._style = style | reverse_set | underline_set
-
-        # Now deal with turning attributes off.  SetConsoleTextAttribute
-        # doesn't currently have attributes to cancel bold, reverse and underline
-        # https://docs.microsoft.com/en-us/windows/console/console-screen-buffers
-        if reverse_set:
-            self._style &= ~(style & WinStyle.REVERSE_OFF)
-        if underline_set:
-            self._style &= ~(style & WinStyle.UNDERLINE_OFF)
-
+        self._style = style
         self.set_console(on_stderr=on_stderr)
 
     def set_console(self, attrs=None, on_stderr=False):
@@ -204,3 +174,6 @@ class WinTerm(object):
 
     def set_title(self, title):
         win32.SetConsoleTitle(title)
+
+    def not_implemented(self, *args, **kwargs):
+        pass
