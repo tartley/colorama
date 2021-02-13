@@ -28,6 +28,9 @@ def init(autoreset=False, convert=None, strip=None, wrap=True):
     global wrapped_stdout, wrapped_stderr
     global orig_stdout, orig_stderr
 
+    if (orig_stdout is not None) or (orig_stderr is not None):
+        deinit()
+
     orig_stdout = sys.stdout
     orig_stderr = sys.stderr
 
@@ -49,10 +52,14 @@ def init(autoreset=False, convert=None, strip=None, wrap=True):
 
 
 def deinit():
+    global orig_stdout, orig_stderr
+
     if orig_stdout is not None:
         sys.stdout = orig_stdout
+        orig_stdout = None
     if orig_stderr is not None:
         sys.stderr = orig_stderr
+        orig_stderr = None
 
 
 @contextlib.contextmanager

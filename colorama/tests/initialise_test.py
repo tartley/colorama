@@ -9,7 +9,7 @@ except ImportError:
     from mock import patch
 
 from ..ansitowin32 import StreamWrapper
-from ..initialise import init
+from ..initialise import init, deinit
 from .utils import osname, redirected_output, replace_by
 
 orig_stdout = sys.stdout
@@ -26,6 +26,7 @@ class InitTest(TestCase):
     def tearDown(self):
         sys.stdout = orig_stdout
         sys.stderr = orig_stderr
+        deinit()
 
     def assertWrapped(self):
         self.assertIsNot(sys.stdout, orig_stdout, 'stdout should be wrapped')
