@@ -5,9 +5,10 @@ import sys
 
 from .ansitowin32 import AnsiToWin32
 
+UNSET = object()
 
-orig_stdout = None
-orig_stderr = None
+orig_stdout = UNSET
+orig_stderr = UNSET
 
 wrapped_stdout = None
 wrapped_stderr = None
@@ -21,15 +22,17 @@ def reset_all():
 
 
 def init(autoreset=False, convert=None, strip=None, wrap=True):
-
     if not wrap and any([autoreset, convert, strip]):
         raise ValueError('wrap=False conflicts with any other arg=True')
 
     global wrapped_stdout, wrapped_stderr
     global orig_stdout, orig_stderr
 
-    orig_stdout = sys.stdout
-    orig_stderr = sys.stderr
+    # Prevent multiple calls from losing the original stdout/err
+    if orig_stdout is UNSET:
+        orig_stdout = sys.stdout
+    if orig_stderr is UNSET:
+        orig_stderr = sys.stderr
 
     if sys.stdout is None:
         wrapped_stdout = None
@@ -49,10 +52,13 @@ def init(autoreset=False, convert=None, strip=None, wrap=True):
 
 
 def deinit():
-    if orig_stdout is not None:
+    global orig_stdout, orig_stderr
+    if orig_stdout is not UNSET:
         sys.stdout = orig_stdout
-    if orig_stderr is not None:
+        orig_stdout = UNSET
+    if orig_stderr is not UNSET:
         sys.stderr = orig_stderr
+        orig_stderr = UNSET
 
 
 @contextlib.contextmanager
@@ -78,3 +84,4 @@ def wrap_stream(stream, convert, strip, autoreset, wrap):
         if wrapper.should_wrap():
             stream = wrapper.stream
     return stream
+
