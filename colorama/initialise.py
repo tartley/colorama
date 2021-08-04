@@ -25,6 +25,12 @@ def init(autoreset=False, convert=None, strip=None, wrap=True):
     if not wrap and any([autoreset, convert, strip]):
         raise ValueError('wrap=False conflicts with any other arg=True')
 
+    # This function is only intended to have any effect when it's run on Windows.
+    # To ensure that unexpected side effects do not occur on any other platform,
+    # we return immediately if not running on Windows.
+    if sys.platform != 'win32':
+        return
+
     global wrapped_stdout, wrapped_stderr
     global orig_stdout, orig_stderr
 
