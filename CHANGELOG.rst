@@ -165,7 +165,7 @@
   * Remove setup.py dependency on setuptools, now uses stdlib distutils.
 0.1.8
   * Fix ghastly errors all over the place on Ubuntu.
-  * Add init kwargs 'convert' and 'strip', which supercede the old 'wrap'.
+  * Add init kwargs 'convert' and 'strip', which supersede the old 'wrap'.
 0.1.7
   * Python 3 compatible.
   * Fix: Now strips ansi on windows without necessarily converting it to
