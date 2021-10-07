@@ -42,7 +42,7 @@ target.
    * Linux: `make test`
 
 4. Verify you're all committed, merged to master, and pushed to origin (This
-   triggers a Travis build, which we'll check later on)
+   triggers a CI build, which we'll check later on)
 
 5. Build the distributables (sdist and wheel), on either OS:
 
@@ -60,9 +60,8 @@ target.
     (This currently only tests the wheel, but
     [should soon test the sdist too](https://github.com/tartley/colorama/issues/286).)
 
-7. Check the [Travis builds](https://travis-ci.org/github/tartley/colorama)
-   are complete and all passing. (This currently only tests on Linux, but
-   [should soon run on Windows too](https://github.com/tartley/colorama/issues/283).)
+7. Check the [CI builds](https://github.com/tartley/colorama/actions/)
+   are complete and all passing.
 
 8. Upload the distributables to PyPI:
 
