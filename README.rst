@@ -6,10 +6,9 @@
     :target: https://pypi.org/project/colorama/
     :alt: Supported Python versions
 
-.. image:: https://travis-ci.org/tartley/colorama.svg?branch=master
-    :target: https://travis-ci.org/tartley/colorama
+.. image:: https://github.com/tartley/colorama/actions/workflows/test.yml/badge.svg
+    :target: https://github.com/tartley/colorama/actions/workflows/test.yml
     :alt: Build Status
-
 
 Colorama
 ========
