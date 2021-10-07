@@ -115,7 +115,8 @@ Colored Output
 ..............
 
 Cross-platform printing of colored text can then be done using Colorama's
-constant shorthand for ANSI escape sequences:
+constant shorthand for ANSI escape sequences. These are deliberately
+rudimentary, see below.
 
 .. code-block:: python
 
@@ -135,8 +136,13 @@ constant shorthand for ANSI escape sequences:
 
 ...or, Colorama can be used in conjunction with existing ANSI libraries
 such as the venerable `Termcolor <https://pypi.org/project/termcolor/>`_
-or the fabulous `Blessings <https://pypi.org/project/blessings/>`_.
-This is highly recommended for anything more than trivial coloring:
+the fabulous `Blessings <https://pypi.org/project/blessings/>`_,
+or the incredible `_Rich <https://pypi.org/project/rich/>`_.
+
+If you wish Colorama's Fore, Back and Style constants were more capable,
+then consider using one of the above highly capable libraries to generate
+colors, etc, and use Colorama just for its primary purpose: to convert
+those ANSI sequences to also work on Windows:
 
 .. code-block:: python
 
