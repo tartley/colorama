@@ -297,6 +297,15 @@ them though. Let me know if it would be useful for you, via the Issues on
 GitHub.
 
 
+Demos
+-----
+
+Colorama ships with several demos that show its features. Run them the same as
+any Python script::
+
+    $ python demos/demo01.py
+
+
 Status & Known Problems
 -----------------------
 

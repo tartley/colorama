@@ -33,7 +33,7 @@ def get_version(path):
 
 setup(
     name=NAME,
-    version=get_version(os.path.join('colorama', '__init__.py')),
+    version=get_version(os.path.join('src', 'colorama', '__init__.py')),
     description='Cross-platform colored terminal text.',
     long_description=read_file('README.rst'),
     keywords='color colour terminal text ansi windows crossplatform xplatform',
@@ -43,6 +43,7 @@ setup(
     url='https://github.com/tartley/colorama',
     license='BSD',
     packages=[NAME],
+    package_dir={"": "src"},
     python_requires='>=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*',
     # see classifiers https://pypi.org/pypi?%3Aaction=list_classifiers
     classifiers=[

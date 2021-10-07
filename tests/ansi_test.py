@@ -2,8 +2,8 @@
 import sys
 from unittest import TestCase, main
 
-from ..ansi import Back, Fore, Style
-from ..ansitowin32 import AnsiToWin32
+from colorama.ansi import Back, Fore, Style
+from colorama.ansitowin32 import AnsiToWin32
 
 stdout_orig = sys.stdout
 stderr_orig = sys.stderr
