@@ -12,6 +12,40 @@ what commands it executes, and manually execute something similar. PRs to
 automate for Mac appreciated! Especially if they just made the existing Linux
 Makefile targets work on Mac too.
 
+## Desired changes
+
+Colorama is unexpectedly popular, and is now a transitive dependency of many
+popular and high profile projects. If we break backwards compatibility, even in a
+subtle way, we can break applications - or pip installs - for lots of people.
+
+In addition, the project already takes more time & energy to maintain than
+the maintainers currently have available - for example the original author
+is now a parent, and no longer uses Windows, so time and motivation for this
+project are both much lower than they used to be.
+
+As a result of both the above, we are very conservative in what sorts of
+changes we can accept. Generally, we are not keen on new features. Even if
+they are small, they still add to the future maintenance burden, increasing
+the surface area into which future bugs or compatibility changes could be
+introduced.
+
+This is especially true if they are new ways to generate ANSI codes (e.g.
+context managers for handling Fore, Back or Style changes.), since it has
+always been Colorama's stance that if you want to print ANSI codes, then yes
+we can help out with that in a rudimentary way, but if you want to do advanced
+things, then you should be using a different library that specializes in that,
+such as Termcolor, Blessings, or Rich. These libraries are much better than
+Colorama at generating ANSI codes for colors and the like, and probably
+already include the feature you are trying to add to Colorama, plus many
+more.
+
+In addition to using those libraries, if you call colorama.init(), then your
+fancy new colors, etc, will also work on Windows. This is the main purpose
+of Colorama.
+
+The kinds of submissions we would encourage work towards that goal, or fix
+bugs, or improve compatibility across operating systems or environements.
+
 ## Makefile and PowerShell scripts
 
 Some common commands are captured as Linux makefile targets (which could
@@ -31,6 +65,8 @@ The Makefile is self-documenting, so 'make' with no args will describe each
 target.
 
 ## Release checklist
+
+TODO: Add the use of release candidate versions to this checklist.
 
 1. Check the CHANGELOG is updated with everything since the last release.
 2. Remove the '-pre' suffix from `__version__` in `colorama/__init.py__.py`.
