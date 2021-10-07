@@ -7,7 +7,7 @@ try:
 except ImportError:
     from mock import Mock, patch
 
-from ..winterm import WinColor, WinStyle, WinTerm
+from colorama.winterm import WinColor, WinStyle, WinTerm
 
 
 class WinTermTest(TestCase):

@@ -7,7 +7,7 @@ try:
 except ImportError:
     from mock import MagicMock, Mock, patch
 
-from ..ansitowin32 import AnsiToWin32, StreamWrapper
+from colorama.ansitowin32 import AnsiToWin32, StreamWrapper
 from .utils import osname
 
 
