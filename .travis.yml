@@ -12,6 +12,7 @@ matrix:
     - python: 3.6
     - python: 3.5
     - python: pypy
+    - python: pypy3
 install:
   - "pip install mock"
 script: "python -m unittest discover -p *_test.py"
