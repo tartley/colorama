@@ -1,9 +1,12 @@
 # Copyright Jonathan Hartley 2013. BSD 3-Clause license, see LICENSE file.
 import os
 import sys
-from unittest import TestCase, main
+from unittest import TestCase, main, skipUnless
 
-from mock import patch
+try:
+    from unittest.mock import patch
+except ImportError:
+    from mock import patch
 
 from ..ansitowin32 import StreamWrapper
 from ..initialise import init
@@ -15,6 +18,7 @@ orig_stderr = sys.stderr
 
 class InitTest(TestCase):
 
+    @skipUnless(sys.stdout.isatty(), "sys.stdout is not a tty")
     def setUp(self):
         # sanity check
         self.assertNotWrapped()

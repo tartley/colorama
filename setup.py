@@ -3,6 +3,7 @@
 
 from __future__ import with_statement
 
+from io import open
 import os
 import re
 try:
@@ -14,8 +15,9 @@ except ImportError:
 NAME = 'colorama'
 
 
-def read_file(path):
-    with open(os.path.join(os.path.dirname(__file__), path)) as fp:
+def read_file(path, encoding='ascii'):
+    with open(os.path.join(os.path.dirname(__file__), path),
+              encoding=encoding) as fp:
         return fp.read()
 
 def _get_version_match(content):
@@ -57,6 +59,7 @@ setup(
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: Implementation :: CPython',
         'Programming Language :: Python :: Implementation :: PyPy',
         'Topic :: Terminals',
