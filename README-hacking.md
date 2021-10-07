@@ -26,7 +26,7 @@ project are both much lower than they used to be.
 As a result of both the above, we are very conservative in what sorts of
 changes we can accept. Generally, we are not keen on new features. Even if
 they are small, they still add to the future maintenance burden, increasing
-the surface area into which future bugs or compatibility changes could be
+the surface area into which future bugs or compatibility breaks could be
 introduced.
 
 This is especially true if they are new ways to generate ANSI codes (e.g.
