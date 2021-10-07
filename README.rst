@@ -98,9 +98,12 @@ text sent to ``stdout`` or ``stderr``, and replace them with equivalent Win32
 calls.
 
 On other platforms, calling ``init()`` has no effect (unless you request other
-optional functionality; see "Init Keyword Args", below). By design, this permits
-applications to call ``init()`` unconditionally on all platforms, after which
-ANSI output should just work.
+optional functionality, see "Init Keyword Args" below; or if output
+is redirected). By design, this permits applications to call ``init()``
+unconditionally on all platforms, after which ANSI output should just work.
+
+On all platforms, if output is redirected, ANSI escape sequences are completely
+stripped out.
 
 To stop using Colorama before your program exits, simply call ``deinit()``.
 This will restore ``stdout`` and ``stderr`` to their original values, so that
