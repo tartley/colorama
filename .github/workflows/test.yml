@@ -107,7 +107,7 @@ jobs:
     - uses: actions/setup-python@v1
       with:
         python-version: 3.8
-    - uses: eine/setup-msys2@v0
+    - uses: msys2/setup-msys2@v2
       with:
         msystem: MINGW64
         update: true
@@ -132,7 +132,7 @@ jobs:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v1
-    - uses: eine/setup-msys2@v0
+    - uses: msys2/setup-msys2@v2
       with:
         msystem: MINGW64
         update: true
@@ -157,7 +157,7 @@ jobs:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v1
-    - uses: eine/setup-msys2@v0
+    - uses: msys2/setup-msys2@v2
       with:
         msystem: MINGW64
         update: true
@@ -182,7 +182,7 @@ jobs:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v1
-    - uses: eine/setup-msys2@v0
+    - uses: msys2/setup-msys2@v2
       with:
         msystem: MINGW64
         update: true
@@ -207,7 +207,7 @@ jobs:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v1
-    - uses: eine/setup-msys2@v0
+    - uses: msys2/setup-msys2@v2
       with:
         msystem: MINGW64
         update: true
