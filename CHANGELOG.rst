@@ -3,6 +3,7 @@
   * Tweak some README unicode characters that don't render correctly on PyPI.
   * Fix some tests that were failing on some operating systems.
   * Add support for Python 3.9.
+  * Add support for PyPy3.
 0.4.4 Current release
   * Re-org of README, to put the most insteresting parts near the top.
   * Added Linux makefile targets and Windows powershell scripts to
@@ -165,7 +166,7 @@
   * Remove setup.py dependency on setuptools, now uses stdlib distutils.
 0.1.8
   * Fix ghastly errors all over the place on Ubuntu.
-  * Add init kwargs 'convert' and 'strip', which supercede the old 'wrap'.
+  * Add init kwargs 'convert' and 'strip', which supersede the old 'wrap'.
 0.1.7
   * Python 3 compatible.
   * Fix: Now strips ansi on windows without necessarily converting it to

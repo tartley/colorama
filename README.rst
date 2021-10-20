@@ -6,10 +6,9 @@
     :target: https://pypi.org/project/colorama/
     :alt: Supported Python versions
 
-.. image:: https://travis-ci.org/tartley/colorama.svg?branch=master
-    :target: https://travis-ci.org/tartley/colorama
+.. image:: https://github.com/tartley/colorama/actions/workflows/test.yml/badge.svg
+    :target: https://github.com/tartley/colorama/actions/workflows/test.yml
     :alt: Build Status
-
 
 Colorama
 ========
@@ -31,7 +30,7 @@ If you find Colorama useful, please |donate| to the authors. Thank you!
 Installation
 ------------
 
-Tested on CPython 2.7, 3.5, 3.6, 3.7, 3.8 and 3.9 and Pypy 2.7.
+Tested on CPython 2.7, 3.5, 3.6, 3.7, 3.8, 3.9 and 3.10 and Pypy 2.7 and 3.6.
 
 No requirements other than the standard library.
 
@@ -98,9 +97,12 @@ text sent to ``stdout`` or ``stderr``, and replace them with equivalent Win32
 calls.
 
 On other platforms, calling ``init()`` has no effect (unless you request other
-optional functionality; see "Init Keyword Args", below). By design, this permits
-applications to call ``init()`` unconditionally on all platforms, after which
-ANSI output should just work.
+optional functionality, see "Init Keyword Args" below; or if output
+is redirected). By design, this permits applications to call ``init()``
+unconditionally on all platforms, after which ANSI output should just work.
+
+On all platforms, if output is redirected, ANSI escape sequences are completely
+stripped out.
 
 To stop using Colorama before your program exits, simply call ``deinit()``.
 This will restore ``stdout`` and ``stderr`` to their original values, so that
@@ -112,7 +114,8 @@ Colored Output
 ..............
 
 Cross-platform printing of colored text can then be done using Colorama's
-constant shorthand for ANSI escape sequences:
+constant shorthand for ANSI escape sequences. These are deliberately
+rudimentary, see below.
 
 .. code-block:: python
 
@@ -132,8 +135,13 @@ constant shorthand for ANSI escape sequences:
 
 ...or, Colorama can be used in conjunction with existing ANSI libraries
 such as the venerable `Termcolor <https://pypi.org/project/termcolor/>`_
-or the fabulous `Blessings <https://pypi.org/project/blessings/>`_.
-This is highly recommended for anything more than trivial coloring:
+the fabulous `Blessings <https://pypi.org/project/blessings/>`_,
+or the incredible `_Rich <https://pypi.org/project/rich/>`_.
+
+If you wish Colorama's Fore, Back and Style constants were more capable,
+then consider using one of the above highly capable libraries to generate
+colors, etc, and use Colorama just for its primary purpose: to convert
+those ANSI sequences to also work on Windows:
 
 .. code-block:: python
 
@@ -154,6 +162,11 @@ Available formatting constants are::
 
 ``Style.RESET_ALL`` resets foreground, background, and brightness. Colorama will
 perform this reset automatically on program exit.
+
+These are fairly well supported, but not part of the standard::
+
+    Fore: LIGHTBLACK_EX, LIGHTRED_EX, LIGHTGREEN_EX, LIGHTYELLOW_EX, LIGHTBLUE_EX, LIGHTMAGENTA_EX, LIGHTCYAN_EX, LIGHTWHITE_EX
+    Back: LIGHTBLACK_EX, LIGHTRED_EX, LIGHTGREEN_EX, LIGHTYELLOW_EX, LIGHTBLUE_EX, LIGHTMAGENTA_EX, LIGHTCYAN_EX, LIGHTWHITE_EX
 
 
 Cursor Positioning
