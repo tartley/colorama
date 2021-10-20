@@ -1,6 +1,9 @@
+[tool.tox]
+legacy_tox_ini = """
 [tox]
 envlist = py27, py35, py36, py37, py38, py39, py310, pypy, pypy3
 
 [testenv]
 deps = py27,pypy: mock
 commands = python -m unittest discover -p *_test.py
+"""
