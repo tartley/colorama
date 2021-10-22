@@ -4,6 +4,11 @@ import sys
 import os
 import ctypes
 
+try:
+    import msvcrt
+except ImportError:
+    msvcrt = None
+
 from .ansi import AnsiFore, AnsiBack, AnsiStyle, Style
 from .winterm import WinTerm, WinColor, WinStyle
 from .win32 import windll, winapi_test
@@ -15,15 +20,13 @@ if windll is not None:
 
 
 def is_msys_cygwin_tty(stream):
-    try:
-        import msvcrt
-    except ImportError:
-        return False
-
     if not hasattr(stream, "fileno"):
         return False
 
     if not hasattr(ctypes, "windll") or not hasattr(ctypes.windll.kernel32, "GetFileInformationByHandleEx"):
+        return False
+    
+    if msvcrt is None:
         return False
 
     fileno = stream.fileno()
