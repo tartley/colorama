@@ -3,7 +3,10 @@ import sys
 from io import StringIO
 from unittest import TestCase, main, skipUnless
 
-from mock import patch, PropertyMock
+try:
+    from mock import patch, PropertyMock
+except ImportError:
+    from unittest.mock import patch, PropertyMock
 
 from ..ansitowin32 import StreamWrapper, AnsiToWin32, is_msys_cygwin_tty, FileNameInfo
 from .utils import pycharm, replace_by, replace_original_by, StreamTTY, StreamNonTTY, StreamNonTTYWithFileNo
