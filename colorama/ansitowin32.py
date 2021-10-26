@@ -21,6 +21,7 @@ if windll is not None:
 
 
 class FileNameInfo(ctypes.Structure):
+    """Struct to get FileNameInfo from the win32api"""
     _fields_ = [('FileNameLength', ctypes.c_ulong),
                 ('FileName', ctypes.c_wchar * 40)]
 
@@ -54,9 +55,7 @@ def is_msys_cygwin_tty(stream):
 
     msys_pattern = r"\\msys-[0-9a-f]{16}-pty\d-(to|from)-master"
     cygwin_pattern = r"\\cygwin-[0-9a-f]{16}-pty\d-(to|from)-master"
-    print()
-    print(info.FileName)
-    print()
+
     return re.match(msys_pattern, info.FileName) is not None or \
         re.match(cygwin_pattern, info.FileName) is not None
 

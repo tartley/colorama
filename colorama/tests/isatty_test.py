@@ -1,12 +1,12 @@
 # Copyright Jonathan Hartley 2013. BSD 3-Clause license, see LICENSE file.
 import sys
 from io import StringIO
-from unittest import TestCase, main
+from unittest import TestCase, main, skipUnless
 
-from mock import patch
+from mock import patch, PropertyMock
 
-from ..ansitowin32 import StreamWrapper, AnsiToWin32, is_msys_cygwin_tty
-from .utils import pycharm, replace_by, replace_original_by, StreamTTY, StreamNonTTY
+from ..ansitowin32 import StreamWrapper, AnsiToWin32, is_msys_cygwin_tty, FileNameInfo
+from .utils import pycharm, replace_by, replace_original_by, StreamTTY, StreamNonTTY, StreamNonTTYWithFileNo
 
 
 def is_a_tty(stream):
@@ -75,35 +75,49 @@ class MinttyTest(TestCase):
     """
 
     @patch("colorama.ansitowin32.msvcrt", None)
-    @patch("io.StringIO")
-    def test_falseNotOnWindows(self, mock_stream):
-        mock_stream.fileno.return_value = 10
-        self.assertFalse(is_msys_cygwin_tty(mock_stream))
+    def test_falseNotOnWindows(self):
+        self.assertFalse(is_msys_cygwin_tty(StreamNonTTYWithFileNo()))
 
     def test_falseForIoString(self):
-        self.assertFalse(is_msys_cygwin_tty(StringIO))
+        self.assertFalse(is_msys_cygwin_tty(StringIO()))
 
-    @patch("colorama.ansitowin32.ctypes.windll.kernel32", None)
-    @patch("io.StringIO")
-    def test_falseForIoString(self, mock_stream):
-        self.assertFalse(is_msys_cygwin_tty(StreamTTY()))
+    @skipUnless(sys.platform.startswith("win"), "requires Windows")
+    @patch("ctypes.windll.kernel32", None)
+    def test_falseIfKernelModuleUnavailable(self):
+        self.assertFalse(is_msys_cygwin_tty(StreamNonTTYWithFileNo()))
 
-    @patch("colorama.ansitowin32.ctypes.windll.kernel32.GetFileInformationByHandleEx",
-           return_value=0)
-    @patch("io.StringIO")
-    def test_falseForIoString(self, mock_win32_call, mock_stream):
-        mock_stream.fileno.return_value = 10
-        self.assertFalse(is_msys_cygwin_tty(StreamTTY()))
+    @skipUnless(sys.platform.startswith("win"), "requires Windows")
+    @patch("ctypes.windll.kernel32.GetFileInformationByHandleEx", return_value=0)
+    @patch("msvcrt.get_osfhandle", return_value=10)
+    def test_falseIfWin32CallFails(self, mock_win32_call, mock_handle_call):
+        self.assertFalse(is_msys_cygwin_tty(StreamNonTTYWithFileNo()))
 
-    @patch("ctypes.windll.kernel32.GetFileInformationByHandleEx",
-           return_value=1)
-    @patch("io.StringIO")
-    def test_falseForIoString(self, mock_file_name, mock_stream):
-        mock_stream.fileno.return_value = 10
+    @skipUnless(sys.platform.startswith("win"), "requires Windows")
+    @patch("ctypes.windll.kernel32.GetFileInformationByHandleEx", return_value=1)
+    @patch("msvcrt.get_osfhandle", return_value=1000)
+    def test_trueForMsys(self, mock_file_call, mock_handle_call):
 
-        with patch("colorama.ansitowin32.FileNameInfo.FileName") as mock_filename_info:
-            mock_filename_info.return_value = r"\\msys-0000000000000000-pty3-to-master"
-        self.assertTrue(is_msys_cygwin_tty(mock_stream()))
+        with patch.object(FileNameInfo, "FileName", new_callable=PropertyMock) as mock_filename_info:
+            mock_filename_info.return_value = r"\msys-0000000000000000-pty3-to-master"
+            self.assertTrue(is_msys_cygwin_tty(StreamNonTTYWithFileNo()))
+
+    @skipUnless(sys.platform.startswith("win"), "requires Windows")
+    @patch("ctypes.windll.kernel32.GetFileInformationByHandleEx", return_value=1)
+    @patch("msvcrt.get_osfhandle", return_value=1000)
+    def test_trueForCygwin(self, mock_file_call, mock_handle_call):
+
+        with patch.object(FileNameInfo, "FileName", new_callable=PropertyMock) as mock_filename_info:
+            mock_filename_info.return_value = r"\cygwin-0000000000000000-pty3-to-master"
+            self.assertTrue(is_msys_cygwin_tty(StreamNonTTYWithFileNo()))
+
+    @skipUnless(sys.platform.startswith("win"), "requires Windows")
+    @patch("ctypes.windll.kernel32.GetFileInformationByHandleEx", return_value=1)
+    @patch("msvcrt.get_osfhandle", return_value=1000)
+    def test_falseForAnythingElse(self, mock_file_call, mock_handle_call):
+
+        with patch.object(FileNameInfo, "FileName", new_callable=PropertyMock) as mock_filename_info:
+            mock_filename_info.return_value = r"\random-0000000000000000-pty3-to-master"
+            self.assertFalse(is_msys_cygwin_tty(StreamNonTTYWithFileNo()))
 
 if __name__ == '__main__':
     main()
