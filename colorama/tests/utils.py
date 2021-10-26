@@ -14,6 +14,13 @@ class StreamNonTTY(StringIO):
     def isatty(self):
         return False
 
+class StreamNonTTYWithFileNo(StringIO):
+    def isatty(self):
+        return False
+
+    def fileno(self):
+        return 10
+
 @contextmanager
 def osname(name):
     orig = os.name

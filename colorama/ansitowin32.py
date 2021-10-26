@@ -1,4 +1,5 @@
 # Copyright Jonathan Hartley 2013. BSD 3-Clause license, see LICENSE file.
+from io import UnsupportedOperation
 import re
 import sys
 import os
@@ -19,6 +20,12 @@ if windll is not None:
     winterm = WinTerm()
 
 
+class FileNameInfo(ctypes.Structure):
+    """Struct to get FileNameInfo from the win32api"""
+    _fields_ = [('FileNameLength', ctypes.c_ulong),
+                ('FileName', ctypes.c_wchar * 40)]
+
+
 def is_msys_cygwin_tty(stream):
     if not hasattr(stream, "fileno"):
         return False
@@ -29,17 +36,18 @@ def is_msys_cygwin_tty(stream):
     if msvcrt is None:
         return False
 
-    fileno = stream.fileno()
+    try:
+        fileno = stream.fileno()
+    except UnsupportedOperation:
+        # StringIO for example has the fileno attribute but doesn't support calling it
+        return False
+
     handle = msvcrt.get_osfhandle(fileno)
-    FileNameInfo = 2
+    FILE_NAME_INFO = 2
 
-    class FILE_NAME_INFO(ctypes.Structure):
-        _fields_ = [('FileNameLength', ctypes.c_ulong),
-                    ('FileName', ctypes.c_wchar * 40)]
-
-    info = FILE_NAME_INFO()
+    info = FileNameInfo()
     ret = ctypes.windll.kernel32.GetFileInformationByHandleEx(handle,
-                                                              FileNameInfo,
+                                                              FILE_NAME_INFO,
                                                               ctypes.byref(info),
                                                               ctypes.sizeof(info))
     if ret == 0:
@@ -47,6 +55,7 @@ def is_msys_cygwin_tty(stream):
 
     msys_pattern = r"\\msys-[0-9a-f]{16}-pty\d-(to|from)-master"
     cygwin_pattern = r"\\cygwin-[0-9a-f]{16}-pty\d-(to|from)-master"
+
     return re.match(msys_pattern, info.FileName) is not None or \
         re.match(cygwin_pattern, info.FileName) is not None
 
