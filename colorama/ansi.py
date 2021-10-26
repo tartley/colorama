@@ -93,6 +93,11 @@ class AnsiBack(AnsiCodes):
 class AnsiStyle(AnsiCodes):
     BRIGHT    = 1
     DIM       = 2
+    ITALIC    = 3
+    UNDERLINE = 4
+    BLINK     = 5
+    REVERSE   = 7
+    STRIKE    = 9
     NORMAL    = 22
     RESET_ALL = 0
 
