@@ -68,7 +68,7 @@ class IsattyTest(TestCase):
     def test_isattyCorrectForMintty(self, mock_fn):
         self.assertTrue(is_a_tty(StreamNonTTY()))
         self.assertTrue(is_a_tty(StreamTTY()))
-        mock_fn.assert_called()
+        mock_fn.assert_called_once()
 
 class MinttyTest(TestCase):
     """Tests for the detection of mintty / msys/ cygwin
