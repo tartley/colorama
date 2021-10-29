@@ -1,3 +1,26 @@
+0.4.5 In progress, unreleased
+  * Create README-hacking.md, for Colorama contributors.
+  * Tweak some README unicode characters that don't render correctly on PyPI.
+  * Fix some tests that were failing on some operating systems.
+  * Add support for Python 3.9.
+  * Add support for PyPy3.
+0.4.4 Current release
+  * Re-org of README, to put the most insteresting parts near the top.
+  * Added Linux makefile targets and Windows powershell scripts to
+    automate bootstrapping a development environment, and automate the
+    process of testing wheels before they are uploaded to PyPI.
+  * Use stdlib unittest.mock where available
+  * Travis CI now also builds on arm64
+  * Demo06 demonstrates existing cursor positioning feature
+  * Fix OSC regex & handling to prevent hang or crash
+  * Document enterprise support by Tidelift
+0.4.3
+  * Fix release 0.4.2 which was uploaded with missing files.
+0.4.2 BROKEN DO NOT USE
+  * #228: Drop support for EOL Python 3.4, and add 3.7 and 3.8.
+    Thanks to hugovk.
+  * Several additions and fixes to documentation and metadata.
+  * Added Tidelift subscription information.
 0.4.1
   * Fix issue #196: prevent exponential number of calls when calling 'init'
     multiple times. Reported by bbayles and fixed by Delgan.
@@ -90,7 +113,7 @@
     downstream project which has problems making sure that all 3rd party
     contributions have appropriate license.
 0.2.5
-  * Severeral documentation & demo fixes.
+  * Several documentation & demo fixes.
 0.2.4
   * Fix to work on Windows 7.
   * Python 3 compatibility in docs and demos.
@@ -143,7 +166,7 @@
   * Remove setup.py dependency on setuptools, now uses stdlib distutils.
 0.1.8
   * Fix ghastly errors all over the place on Ubuntu.
-  * Add init kwargs 'convert' and 'strip', which supercede the old 'wrap'.
+  * Add init kwargs 'convert' and 'strip', which supersede the old 'wrap'.
 0.1.7
   * Python 3 compatible.
   * Fix: Now strips ansi on windows without necessarily converting it to

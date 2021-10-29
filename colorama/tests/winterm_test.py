@@ -3,9 +3,9 @@ import sys
 from unittest import TestCase, main, skipUnless
 
 try:
-    from mock import Mock, patch
-except ModuleNotFoundError:
     from unittest.mock import Mock, patch
+except ImportError:
+    from mock import Mock, patch
 
 from ..winterm import WinColor, WinStyle, WinTerm
 

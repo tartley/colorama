@@ -5,10 +5,11 @@ import sys
 import os
 
 try:
-    from mock import Mock
-except ModuleNotFoundError:
     from unittest.mock import Mock
+except ImportError:
+    from mock import Mock
 
+    
 class StreamTTY(StringIO):
     def isatty(self):
         return True
@@ -30,14 +31,6 @@ def osname(name):
     os.name = name
     yield
     os.name = orig
-
-@contextmanager
-def redirected_output():
-    orig = sys.stdout
-    sys.stdout = Mock()
-    sys.stdout.isatty = lambda: False
-    yield
-    sys.stdout = orig
 
 @contextmanager
 def replace_by(stream):

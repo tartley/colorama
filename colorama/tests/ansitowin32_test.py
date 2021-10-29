@@ -3,9 +3,9 @@ from io import StringIO
 from unittest import TestCase, main
 
 try:
-    from mock import MagicMock, Mock, patch
-except ModuleNotFoundError:
     from unittest.mock import MagicMock, Mock, patch
+except ImportError:
+    from mock import MagicMock, Mock, patch
 
 from ..ansitowin32 import AnsiToWin32, StreamWrapper
 from .utils import osname
@@ -170,13 +170,19 @@ class AnsiToWin32Test(TestCase):
     def test_wrap_shouldnt_raise_on_closed_orig_stdout(self):
         stream = StringIO()
         stream.close()
-        converter = AnsiToWin32(stream)
-        self.assertFalse(converter.strip)
+        with \
+            patch("colorama.ansitowin32.os.name", "nt"), \
+            patch("colorama.ansitowin32.winapi_test", lambda: True):
+                converter = AnsiToWin32(stream)
+        self.assertTrue(converter.strip)
         self.assertFalse(converter.convert)
 
     def test_wrap_shouldnt_raise_on_missing_closed_attr(self):
-        converter = AnsiToWin32(object())
-        self.assertFalse(converter.strip)
+        with \
+            patch("colorama.ansitowin32.os.name", "nt"), \
+            patch("colorama.ansitowin32.winapi_test", lambda: True):
+                converter = AnsiToWin32(object())
+        self.assertTrue(converter.strip)
         self.assertFalse(converter.convert)
 
     def testExtractParams(self):
@@ -206,6 +212,21 @@ class AnsiToWin32Test(TestCase):
             [a[0][0] for a in listener.call_args_list],
             [33, 11, 22] )
 
+    def test_osc_codes(self):
+        mockStdout = Mock()
+        stream = AnsiToWin32(mockStdout, convert=True)
+        with patch('colorama.ansitowin32.winterm') as winterm:
+            data = [
+                '\033]0\x07',                      # missing arguments
+                '\033]0;foo\x08',                  # wrong OSC command
+                '\033]0;colorama_test_title\x07',  # should work
+                '\033]1;colorama_test_title\x07',  # wrong set command
+                '\033]2;colorama_test_title\x07',  # should work
+                '\033]' + ';' * 64 + '\x08',       # see issue #247
+            ]
+            for code in data:
+                stream.write(code)
+            self.assertEqual(winterm.set_title.call_count, 2)
 
 if __name__ == '__main__':
     main()
