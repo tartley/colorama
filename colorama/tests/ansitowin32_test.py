@@ -2,7 +2,10 @@
 from io import StringIO
 from unittest import TestCase, main
 
-from mock import MagicMock, Mock, patch
+try:
+    from mock import MagicMock, Mock, patch
+except ModuleNotFoundError:
+    from unittest.mock import MagicMock, Mock, patch
 
 from ..ansitowin32 import AnsiToWin32, StreamWrapper
 from .utils import osname

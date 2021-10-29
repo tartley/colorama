@@ -4,7 +4,10 @@ from io import StringIO
 import sys
 import os
 
-from mock import Mock
+try:
+    from mock import Mock
+except ModuleNotFoundError:
+    from unittest.mock import Mock
 
 class StreamTTY(StringIO):
     def isatty(self):

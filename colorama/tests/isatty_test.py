@@ -5,7 +5,7 @@ from unittest import TestCase, main, skipUnless
 
 try:
     from mock import patch, PropertyMock
-except ImportError:
+except ModuleNotFoundError:
     from unittest.mock import patch, PropertyMock
 
 from ..ansitowin32 import StreamWrapper, AnsiToWin32, is_msys_cygwin_tty, FileNameInfo
@@ -60,15 +60,15 @@ class IsattyTest(TestCase):
 
     @patch("colorama.ansitowin32.is_msys_cygwin_tty", return_value=False)
     def test_isattyCorrectForMintty(self, mock_fn):
-        self.assertFalse(is_a_tty(StreamTTY()))
+        self.assertTrue(is_a_tty(StreamTTY()))
         self.assertFalse(is_a_tty(StreamNonTTY()))
-        mock_fn.assert_called_once()
+        self.assertEqual(mock_fn.call_count, 1)
 
     @patch("colorama.ansitowin32.is_msys_cygwin_tty", return_value=True)
     def test_isattyCorrectForNonMintty(self, mock_fn):
         self.assertTrue(is_a_tty(StreamNonTTY()))
         self.assertTrue(is_a_tty(StreamTTY()))
-        mock_fn.assert_called_once()
+        self.assertEqual(mock_fn.call_count, 1)
 
 class MinttyTest(TestCase):
     """Tests for the detection of mintty / msys/ cygwin

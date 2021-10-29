@@ -3,7 +3,10 @@ import os
 import sys
 from unittest import TestCase, main
 
-from mock import patch
+try:
+    from mock import patch
+except ModuleNotFoundError:
+    from unittest.mock import patch
 
 from ..ansitowin32 import StreamWrapper
 from ..initialise import init
