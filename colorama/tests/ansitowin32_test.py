@@ -1,5 +1,5 @@
 # Copyright Jonathan Hartley 2013. BSD 3-Clause license, see LICENSE file.
-from io import StringIO
+from io import StringIO, TextIOWrapper
 from unittest import TestCase, main
 
 try:
@@ -40,6 +40,17 @@ class StreamWrapperTest(TestCase):
             with StreamWrapper(mockStream, mockConverter) as wrapper:
                 wrapper.write('hello')
 
+    def test_closed_shouldnt_raise_on_closed_stream(self):
+        stream = StringIO()
+        stream.close()
+        wrapper = StreamWrapper(stream, None)
+        self.assertEqual(wrapper.closed, True)
+
+    def test_closed_shouldnt_raise_on_detached_stream(self):
+        stream = TextIOWrapper(StringIO())
+        stream.detach()
+        wrapper = StreamWrapper(stream, None)
+        self.assertEqual(wrapper.closed, True)
 
 class AnsiToWin32Test(TestCase):
 
