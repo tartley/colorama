@@ -65,7 +65,7 @@ class IsattyTest(TestCase):
         mock_fn.assert_called_once()
 
     @patch("colorama.ansitowin32.is_msys_cygwin_tty", return_value=True)
-    def test_isattyCorrectForMintty(self, mock_fn):
+    def test_isattyCorrectForNonMintty(self, mock_fn):
         self.assertTrue(is_a_tty(StreamNonTTY()))
         self.assertTrue(is_a_tty(StreamTTY()))
         mock_fn.assert_called_once()
