@@ -5,7 +5,7 @@ from unittest import TestCase, main, skipUnless
 
 try:
     from mock import patch, PropertyMock
-except ModuleNotFoundError:
+except ImportError:
     from unittest.mock import patch, PropertyMock
 
 from ..ansitowin32 import StreamWrapper, AnsiToWin32, is_msys_cygwin_tty, FileNameInfo
