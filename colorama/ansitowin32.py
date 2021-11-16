@@ -93,7 +93,7 @@ class AnsiToWin32(object):
         # check if the FORCE_COLOR environment variable has been set and NO_COLOR has not been set.
         if 'NO_COLOR' in os.environ:
             color_allowed = False
-        elif 'FORCE_COLOR' in os.environ:  # overriden by NO_COLOR
+        elif 'FORCE_COLOR' in os.environ:  # overridden by NO_COLOR
             color_allowed = True
         else:
             color_allowed = not_closed and self.stream.isatty()
