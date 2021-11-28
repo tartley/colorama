@@ -227,6 +227,30 @@ class AnsiToWin32Test(TestCase):
             for code in data:
                 stream.write(code)
             self.assertEqual(winterm.set_title.call_count, 2)
+            
+    def testInvalidSequencesAreSkipped(self):
+        sequences = [
+            (38, 5, 46),
+            (38, 2, 120, 33, 255),
+            (48, 5, 31),
+            (48, 2, 166, 226, 46),
+            (38, 48, 5, 46),
+        ]
+        for sequence in sequences:
+            listener = Mock()
+            stream = AnsiToWin32(listener)
+            stream.win32_calls = {
+                2: (lambda *_, **__: listener(2),),
+                5: (lambda *_, **__: listener(5),),
+                33: (lambda *_, **__: listener(33),),
+                46: (lambda *_, **__: listener(46),),
+                166: (lambda *_, **__: listener(166),),
+                226: (lambda *_, **__: listener(226),),
+                255: (lambda *_, **__: listener(255),),
+            }
+            stream.call_win32('m', sequence)
+            self.assertFalse(listener.called)
+
 
 if __name__ == '__main__':
     main()

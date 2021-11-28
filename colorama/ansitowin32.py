@@ -223,16 +223,17 @@ class AnsiToWin32(object):
     def call_win32(self, command, params):
         if command == 'm':
             # Ansi sequences started by specific param may need to be ignored, see #217
-            skip = False
+            skip, skip_count = False, None
             for param in params:
                 if skip:
-                    if skip is not True:
-                        skip -= 1
+                    if skip_count is not None:
+                        skip_count -= 1
                         continue
                     if param in (2, 5):
-                        skip = 1 if param == 5 else 3
+                        skip_count = 1 if param == 5 else 3
                         continue
                     skip = False
+                    skip_count = False
                 if param in self.win32_calls:
                     func_args = self.win32_calls[param]
                     func = func_args[0]
