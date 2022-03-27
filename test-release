@@ -15,11 +15,10 @@ set -eu -o pipefail
 
 syspython=python3.8
 bin="$HOME/.virtualenvs/colorama/bin"
-version=$($bin/python setup.py --version)
 sandbox=test-release-playground
 
 # Upload to the test PyPI.
-$bin/twine upload --repository testpypi dist/colorama-$version-* \
+$bin/twine upload --repository testpypi dist/colorama-* \
     || echo "  > Expect a 400 if package was already uploaded."
 
 # cd elsewhere so we cannot import from local source.
@@ -40,4 +39,3 @@ mkdir -p $sandbox
 
 # Tidy up
 rm -rf $sandbox
-
