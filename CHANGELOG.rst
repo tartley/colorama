@@ -4,6 +4,7 @@
   * Fix some tests that were failing on some operating systems.
   * Add support for Python 3.9.
   * Add support for PyPy3.
+  * Add support for pickling with the ``dill`` module.
 0.4.4 Current release
   * Re-org of README, to put the most insteresting parts near the top.
   * Added Linux makefile targets and Windows powershell scripts to

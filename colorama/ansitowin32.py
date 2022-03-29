@@ -37,6 +37,12 @@ class StreamWrapper(object):
     def __exit__(self, *args, **kwargs):
         return self.__wrapped.__exit__(*args, **kwargs)
 
+    def __setstate__(self, state):
+        self.__dict__ = state
+
+    def __getstate__(self):
+        return self.__dict__
+
     def write(self, text):
         self.__convertor.write(text)
 
