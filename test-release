@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# SPDX-FileCopyrightText: 2013-2022 Jonathan Hartley & Arnon Yaari
+#
+# SPDX-License-Identifier: BSD-3-Clause
+
 # Test the currently built release of Colorama from the dist/ dir.
 # Run this before making a release.
 #

@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2013-2022 Jonathan Hartley & Arnon Yaari
+#
+# SPDX-License-Identifier: BSD-3-Clause
+
 mock>=1.0.1;python_version<"3.3"
 twine>=3.1.1
 -e .

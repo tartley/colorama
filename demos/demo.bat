@@ -1,3 +1,7 @@
+REM SPDX-FileCopyrightText: 2013-2022 Jonathan Hartley & Arnon Yaari
+REM
+REM SPDX-License-Identifier: BSD-3-Clause
+
 :: Copyright Jonathan Hartley 2013. BSD 3-Clause license, see LICENSE file.
 
 :: Script to demonstrate features of colorama.

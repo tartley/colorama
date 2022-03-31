@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2013-2022 Jonathan Hartley & Arnon Yaari
+#
+# SPDX-License-Identifier: BSD-3-Clause
+
 $syspython="python3.8.exe"
 $ve="$HOME\.virtualenvs\colorama"
 

@@ -1,4 +1,7 @@
 # Copyright Jonathan Hartley 2013. BSD 3-Clause license, see LICENSE.txt file.
+# SPDX-FileCopyrightText: 2013-2022 Jonathan Hartley & Arnon Yaari
+#
+# SPDX-License-Identifier: BSD-3-Clause
 
 # This makefile is just a cheatsheet to remind me of some commonly used
 # commands. I generally am executing these commands on Ubuntu, or on WindowsXP

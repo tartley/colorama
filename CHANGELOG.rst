@@ -1,3 +1,7 @@
+.. SPDX-FileCopyrightText: 2013-2022 Jonathan Hartley & Arnon Yaari
+..
+.. SPDX-License-Identifier: BSD-3-Clause
+
 0.4.5 In progress, unreleased
   * Create README-hacking.md, for Colorama contributors.
   * Tweak some README unicode characters that don't render correctly on PyPI.

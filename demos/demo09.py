@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2013-2022 Jonathan Hartley & Arnon Yaari
+#
+# SPDX-License-Identifier: BSD-3-Clause
+
 # https://www.youtube.com/watch?v=F5a8RLY2N8M&list=PL1_riyn9sOjcKIAYzo7f8drxD-Yg9La-D&index=61
 # Generic colorama demo using command line arguments
 # By George Ogden

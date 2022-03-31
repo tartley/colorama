@@ -1,4 +1,8 @@
 # Copyright Jonathan Hartley 2013. BSD 3-Clause license, see LICENSE file.
+# SPDX-FileCopyrightText: 2013-2022 Jonathan Hartley & Arnon Yaari
+#
+# SPDX-License-Identifier: BSD-3-Clause
+
 from .initialise import init, deinit, reinit, colorama_text
 from .ansi import Fore, Back, Style, Cursor
 from .ansitowin32 import AnsiToWin32

@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2013-2022 Jonathan Hartley & Arnon Yaari
+#
+# SPDX-License-Identifier: BSD-3-Clause
+
 from __future__ import print_function
 import fixpath
 import colorama
