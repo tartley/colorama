@@ -1,7 +1,6 @@
 [build-system]
 requires = [
-    # When dropping Python2.7, revert to "hatchling>=0.22.0"
-    "hatchling==0.22.0",
+    "hatchling>=0.25.1",
 ]
 build-backend = "hatchling.build"
 
