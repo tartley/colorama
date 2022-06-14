@@ -66,10 +66,11 @@ target.
 
 ## Release checklist
 
-TODO: Add the use of release candidate versions to this checklist.
-
 1. Check the CHANGELOG is updated with everything since the last release.
-2. Remove the '-pre' suffix from `__version__` in `colorama/__init.py__.py`.
+
+2. First we'll make a candidate release. Ensure  the '-candidate1' suffix is
+   present on `__version__` in `colorama/__init.py__.py`.
+
 3. Run the tests locally on your preferred OS, just to save you from doing
    the following time-consuming steps while there are still obvious problems
    in the code:
@@ -93,8 +94,8 @@ TODO: Add the use of release candidate versions to this checklist.
      .\test-release.ps1`
    * Linux: `make clean bootstrap build test-release`
 
-    (This currently only tests the wheel, but
-    [should soon test the sdist too](https://github.com/tartley/colorama/issues/286).)
+   (This currently only tests the wheel, but
+   [should soon test the sdist too](https://github.com/tartley/colorama/issues/286).)
 
 7. Check the [CI builds](https://github.com/tartley/colorama/actions/)
    are complete and all passing.
@@ -113,6 +114,18 @@ TODO: Add the use of release candidate versions to this checklist.
        git tag -a -m "" $version
        git push --follow-tags
 
-10. Bump the version number in `colorama/__init__.py`, and add the '-pre'
+10. Test by installing the candidate version from PyPI, and sanity check it with
+    'demo.sh', making sure this is running against the PyPI installation, not
+    local source.
+
+11. Maybe wait a day for anyone using pre-release installs to report any
+    problems?
+
+12. Remove the '.candidateX' suffix from `__version__` in
+    `colorama/__init__.py`.
+
+13. Repeat steps 5 to 10, for the actual (non-candidate) release.
+
+14. Bump the version number in `colorama/__init__.py`, and add the '-pre'
     suffix again, ready for the next release. Commit and push this (directly to
     master is fine.)
