@@ -1,4 +1,5 @@
 0.4.5 In progress, unreleased
+  * Catch a racy ValueError that could occur on exit.
   * Create README-hacking.md, for Colorama contributors.
   * Tweak some README unicode characters that don't render correctly on PyPI.
   * Fix some tests that were failing on some operating systems.
