@@ -63,7 +63,9 @@ class StreamWrapper(object):
         stream = self.__wrapped
         try:
             return stream.closed
-        except AttributeError:
+        # AttributeError in the case that the stream doesn't support being closed
+        # ValueError for the case that the stream has already been detached when atexit runs
+        except (AttributeError, ValueError):
             return True
 
 
