@@ -75,8 +75,14 @@ target.
    the following time-consuming steps while there are still obvious problems
    in the code:
 
-   * Windows: `./test.ps1`
-   * Linux: `make test`
+   * Windows:
+     * First allow powershell to execute scripts, see:
+       https://stackoverflow.com/a/32328091
+     * `powershell bootstrap.ps1`
+     * `powershell test.ps1`
+   * Linux:
+     * `make bootstrap`
+     * `make test`
 
 4. Verify you're all committed, merged to master, and pushed to origin (This
    triggers a CI build, which we'll check later on)
@@ -90,7 +96,7 @@ target.
    HTTP 400 response on uploading to test.pypi.org, but outputs a message
    saying this is expected and carries on:
 
-   * Windows: `./clean.ps1 && .\bootstrap.ps1 && .\build.ps1 &&
+   * Windows: `.\clean.ps1 && .\bootstrap.ps1 && .\build.ps1 &&
      .\test-release.ps1`
    * Linux: `make clean bootstrap build test-release`
 

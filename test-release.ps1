@@ -1,4 +1,4 @@
-$syspython="python3.8.exe"
+$syspython="python.exe"
 $ve="$HOME\.virtualenvs\colorama"
 $bin="$ve\Scripts"
 $version="$(& $bin\python.exe setup.py --version)"
