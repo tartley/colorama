@@ -87,12 +87,19 @@ target.
 4. Verify you're all committed, merged to master, and pushed to origin (This
    triggers a CI build, which we'll check later on)
 
-5. Build the distributables (sdist and wheel), on either OS:
+5. Tag the current commit with the `__version__` from `colorama/__init__.py`.
+   We should start using
+   [annotated tags for releases](https://www.tartley.com/posts/til-git-annotated-tags/), so:
+
+       git tag -a -m "" $version
+       git push --follow-tags
+
+6. Build the distributables (sdist and wheel), on either OS:
 
     * Windows: `.\build.ps1`
     * Linux: `make build`
 
-6. Test the distributables on both OS. Whichever one you do 2nd will get an
+7. Test the distributables on both OS. Whichever one you do 2nd will get an
    HTTP 400 response on uploading to test.pypi.org, but outputs a message
    saying this is expected and carries on:
 
@@ -103,22 +110,13 @@ target.
    (This currently only tests the wheel, but
    [should soon test the sdist too](https://github.com/tartley/colorama/issues/286).)
 
-7. Check the [CI builds](https://github.com/tartley/colorama/actions/)
+8. Check the [CI builds](https://github.com/tartley/colorama/actions/)
    are complete and all passing.
 
-8. Upload the distributables to PyPI:
+9. Upload the distributables to PyPI:
 
    * On Windows: `.\release.ps1`
    * On Linux: `make release`
-
-   This [should soon tag the release for you](https://github.com/tartley/colorama/issues/282). Until then:
-
-9. Tag the current commit with the `__version__` from `colorama/__init__.py`.
-   We should start using
-   [annotated tags for releases](https://www.tartley.com/posts/til-git-annotated-tags/), so:
-
-       git tag -a -m "" $version
-       git push --follow-tags
 
 10. Test by installing the candidate version from PyPI, and sanity check it with
     'demo.sh', making sure this is running against the PyPI installation, not

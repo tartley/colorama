@@ -60,6 +60,6 @@ test-release: build ## Test a built release
 .PHONY: test-release
 
 release: ## Upload a built release
-	$(twine) upload dist/colorama-$(version)*{.whl,.tar.gz}
+	$(twine) upload dist/colorama-$(version)*
 .PHONY: release
 
