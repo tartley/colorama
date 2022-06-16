@@ -103,9 +103,8 @@ target.
    HTTP 400 response on uploading to test.pypi.org, but outputs a message
    saying this is expected and carries on:
 
-   * Windows: `.\clean.ps1 && .\bootstrap.ps1 && .\build.ps1 &&
-     .\test-release.ps1`
-   * Linux: `make clean bootstrap build test-release`
+   * Windows: `.\test-release.ps1`
+   * Linux: `make test-release`
 
    (This currently only tests the wheel, but
    [should soon test the sdist too](https://github.com/tartley/colorama/issues/286).)
