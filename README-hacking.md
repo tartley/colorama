@@ -129,6 +129,11 @@ target.
 
 13. Repeat steps 5 to 10, for the actual (non-candidate) release.
 
-14. Bump the version number in `colorama/__init__.py`, and add the '-pre'
-    suffix again, ready for the next release. Commit and push this (directly to
-    master is fine.)
+14. Bump the version number in `colorama/__init__.py`, and add a 'dev1'
+    suffix, eg:
+
+    `0.4.5dev1`
+
+    so that any build artifacts created are clearly labelled as not a real
+    release. Commit and push this (directly to master is fine.)
+
