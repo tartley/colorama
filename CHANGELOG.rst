@@ -1,4 +1,4 @@
-0.4.5 In progress, unreleased
+0.4.5 Current release
   * Catch a racy ValueError that could occur on exit.
   * Create README-hacking.md, for Colorama contributors.
   * Tweak some README unicode characters that don't render correctly on PyPI.
@@ -6,7 +6,7 @@
   * Add support for Python 3.9.
   * Add support for PyPy3.
   * Add support for pickling with the ``dill`` module.
-0.4.4 Current release
+0.4.4
   * Re-org of README, to put the most insteresting parts near the top.
   * Added Linux makefile targets and Windows powershell scripts to
     automate bootstrapping a development environment, and automate the

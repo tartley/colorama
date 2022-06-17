@@ -67,8 +67,10 @@ target.
 ## Release checklist
 
 1. Check the CHANGELOG is updated with everything since the last release.
+   Update CHANGELOG.rst with the new release version (move the comment for
+   "Current release")
 
-2. First we'll make a candidate release. Ensure  the '-candidate1' suffix is
+2. First we'll make a candidate release. Ensure  the '.rc1' suffix is
    present on `__version__` in `colorama/__init.py__.py`.
 
 3. Run the tests locally on your preferred OS, just to save you from doing
@@ -124,7 +126,7 @@ target.
 11. Maybe wait a day for anyone using pre-release installs to report any
     problems?
 
-12. Remove the '.candidateX' suffix from `__version__` in
+12. Remove the '.rcX' suffix from `__version__` in
     `colorama/__init__.py`.
 
 13. Repeat steps 5 to 10, for the actual (non-candidate) release.
@@ -136,4 +138,3 @@ target.
 
     so that any build artifacts created are clearly labelled as not a real
     release. Commit and push this (directly to master is fine.)
-
