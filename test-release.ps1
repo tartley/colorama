@@ -1,10 +1,9 @@
 $syspython="python.exe"
 $ve="$HOME\.virtualenvs\colorama"
 $bin="$ve\Scripts"
-$version="$(& $bin\python.exe setup.py --version)"
 
 # Upload to the test PyPI.
-& $bin\twine.exe upload --repository testpypi dist\colorama-$version-*
+& $bin\twine.exe upload --repository testpypi dist\colorama-*
 if(!$?) {
     write-host "  > Expect a 400 if package was already uploaded"
 }
@@ -27,4 +26,3 @@ print(colorama.Fore.GREEN + ""OK Colorama "" + colorama.__version__ + "" from te
 "@
 
 cd ..
-
