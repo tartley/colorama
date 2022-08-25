@@ -171,8 +171,12 @@ else:
         handle = _GetStdHandle(stream_id)
         mode = wintypes.DWORD()
         success = _GetConsoleMode(handle, byref(mode))
+        if not success:
+            raise ctypes.WinError()
         return mode.value
 
     def SetConsoleMode(stream_id, mode):
         handle = _GetStdHandle(stream_id)
-        return _SetConsoleMode(handle, mode)
+        success = _SetConsoleMode(handle, mode)
+        if not success:
+            raise ctypes.WinError()
