@@ -1,5 +1,4 @@
 # Copyright Jonathan Hartley 2013. BSD 3-Clause license, see LICENSE file.
-import atexit
 from . import win32
 
 
@@ -170,46 +169,22 @@ class WinTerm(object):
         win32.SetConsoleTitle(title)
 
 
-_enabled_vt_processing = False
-_atexit_registered = False
-
-
 def enable_vt_processing():
-    global _enabled_vt_processing, _atexit_registered
-
     if win32.windll is None or not win32.winapi_test():
         return False
 
-    mode = win32.GetConsoleMode(win32.STDOUT)
+    try:
+        mode = win32.GetConsoleMode(win32.STDOUT)
+        if mode & win32.ENABLE_VIRTUAL_TERMINAL_PROCESSING:
+            return True
 
-    if mode & win32.ENABLE_VIRTUAL_TERMINAL_PROCESSING:
-        return True
-
-    if not win32.SetConsoleMode(
-        win32.STDOUT,
-        mode | win32.ENABLE_VIRTUAL_TERMINAL_PROCESSING):
-            return False  # Unsupported
-
-    _enabled_vt_processing = True
-
-    if not _atexit_registered:
-        atexit.register(lambda: restore_vt_processing(True))
-        _atexit_registered = True
-
-    return True
-
-
-def restore_vt_processing(atexit=False):
-    global _enabled_vt_processing, _atexit_registered
-
-    if atexit:
-        _atexit_registered = False
-
-    if win32.windll is None or not win32.winapi_test():
-        return
-
-    if _enabled_vt_processing:
         win32.SetConsoleMode(
             win32.STDOUT,
-            win32.GetConsoleMode(win32.STDOUT) & ~win32.ENABLE_VIRTUAL_TERMINAL_PROCESSING)
-        _enabled_vt_processing = False
+            mode | win32.ENABLE_VIRTUAL_TERMINAL_PROCESSING,
+        )
+
+        mode = win32.GetConsoleMode(win32.STDOUT)
+        if mode & win32.ENABLE_VIRTUAL_TERMINAL_PROCESSING:
+            return True
+    except OSError:
+        return False
