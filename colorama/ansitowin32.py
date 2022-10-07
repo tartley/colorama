@@ -86,9 +86,13 @@ class AnsiToWin32(object):
         # (e.g. Cygwin Terminal). In this case it's up to the terminal
         # to support the ANSI codes.
         conversion_supported = on_windows and winapi_test()
-        native_ansi_supported = not on_windows or enable_vt_processing()
+        try:
+            fd = wrapped.fileno()
+        except Exception:
+            fd = -1
+        system_has_native_ansi = not on_windows or enable_vt_processing(fd)
         have_tty = not self.stream.closed and self.stream.isatty()
-        need_conversion = conversion_supported and not native_ansi_supported
+        need_conversion = conversion_supported and not system_has_native_ansi
 
         # should we strip ANSI sequences from our output?
         if strip is None:

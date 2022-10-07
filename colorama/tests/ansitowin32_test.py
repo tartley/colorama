@@ -1,6 +1,7 @@
 # Copyright Jonathan Hartley 2013. BSD 3-Clause license, see LICENSE file.
 from io import StringIO
 from unittest import TestCase, main
+from contextlib import ExitStack
 
 try:
     from unittest.mock import MagicMock, Mock, patch
@@ -8,6 +9,7 @@ except ImportError:
     from mock import MagicMock, Mock, patch
 
 from ..ansitowin32 import AnsiToWin32, StreamWrapper
+from ..win32 import ENABLE_VIRTUAL_TERMINAL_PROCESSING
 from .utils import osname
 
 
@@ -227,6 +229,51 @@ class AnsiToWin32Test(TestCase):
             for code in data:
                 stream.write(code)
             self.assertEqual(winterm.set_title.call_count, 2)
+
+    def test_native_windows_ansi(self):
+        with ExitStack() as stack:
+            def p(a, b):
+                stack.enter_context(patch(a, b, create=True))
+            # Pretend to be on Windows
+            p("colorama.ansitowin32.os.name", "nt")
+            p("colorama.ansitowin32.winapi_test", lambda: True)
+            p("colorama.win32.winapi_test", lambda: True)
+            p("colorama.winterm.win32.windll", "non-None")
+            p("colorama.winterm.get_osfhandle", lambda _: 1234)
+
+            # Pretend that our mock stream has native ANSI support
+            p(
+                "colorama.winterm.win32.GetConsoleMode",
+                lambda _: ENABLE_VIRTUAL_TERMINAL_PROCESSING,
+            )
+            SetConsoleMode = Mock()
+            p("colorama.winterm.win32.SetConsoleMode", SetConsoleMode)
+
+            stdout = Mock()
+            stdout.closed = False
+            stdout.isatty.return_value = True
+            stdout.fileno.return_value = 1
+
+            # Our fake console says it has native vt support, so AnsiToWin32 should
+            # enable that support and do nothing else.
+            stream = AnsiToWin32(stdout)
+            SetConsoleMode.assert_called_with(1234, ENABLE_VIRTUAL_TERMINAL_PROCESSING)
+            self.assertFalse(stream.strip)
+            self.assertFalse(stream.convert)
+            self.assertFalse(stream.should_wrap())
+
+            # Now let's pretend we're on an old Windows console, that doesn't have
+            # native ANSI support.
+            p("colorama.winterm.win32.GetConsoleMode", lambda _: 0)
+            SetConsoleMode = Mock()
+            p("colorama.winterm.win32.SetConsoleMode", SetConsoleMode)
+
+            stream = AnsiToWin32(stdout)
+            SetConsoleMode.assert_called_with(1234, ENABLE_VIRTUAL_TERMINAL_PROCESSING)
+            self.assertTrue(stream.strip)
+            self.assertTrue(stream.convert)
+            self.assertTrue(stream.should_wrap())
+
 
 if __name__ == '__main__':
     main()

@@ -1,6 +1,12 @@
 # Copyright Jonathan Hartley 2013. BSD 3-Clause license, see LICENSE file.
-from . import win32
+try:
+    from msvcrt import get_osfhandle
+except ImportError:
+    def get_osfhandle(_):
+        raise OSError("This isn't windows!")
 
+
+from . import win32
 
 # from wincon.h
 class WinColor(object):
@@ -169,21 +175,19 @@ class WinTerm(object):
         win32.SetConsoleTitle(title)
 
 
-def enable_vt_processing():
+def enable_vt_processing(fd):
     if win32.windll is None or not win32.winapi_test():
         return False
 
     try:
-        mode = win32.GetConsoleMode(win32.STDOUT)
-        if mode & win32.ENABLE_VIRTUAL_TERMINAL_PROCESSING:
-            return True
-
+        handle = get_osfhandle(fd)
+        mode = win32.GetConsoleMode(handle)
         win32.SetConsoleMode(
-            win32.STDOUT,
+            handle,
             mode | win32.ENABLE_VIRTUAL_TERMINAL_PROCESSING,
         )
 
-        mode = win32.GetConsoleMode(win32.STDOUT)
+        mode = win32.GetConsoleMode(handle)
         if mode & win32.ENABLE_VIRTUAL_TERMINAL_PROCESSING:
             return True
     except OSError:

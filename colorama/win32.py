@@ -4,6 +4,8 @@
 STDOUT = -11
 STDERR = -12
 
+ENABLE_VIRTUAL_TERMINAL_PROCESSING = 0x0004
+
 try:
     import ctypes
     from ctypes import LibraryLoader
@@ -15,8 +17,6 @@ except (AttributeError, ImportError):
     winapi_test = lambda *_: None
 else:
     from ctypes import byref, Structure, c_char, POINTER
-
-    ENABLE_VIRTUAL_TERMINAL_PROCESSING = 0x0004
 
     COORD = wintypes._COORD
 
@@ -167,16 +167,14 @@ else:
     def SetConsoleTitle(title):
         return _SetConsoleTitleW(title)
 
-    def GetConsoleMode(stream_id):
-        handle = _GetStdHandle(stream_id)
+    def GetConsoleMode(handle):
         mode = wintypes.DWORD()
         success = _GetConsoleMode(handle, byref(mode))
         if not success:
             raise ctypes.WinError()
         return mode.value
 
-    def SetConsoleMode(stream_id, mode):
-        handle = _GetStdHandle(stream_id)
+    def SetConsoleMode(handle, mode):
         success = _SetConsoleMode(handle, mode)
         if not success:
             raise ctypes.WinError()
