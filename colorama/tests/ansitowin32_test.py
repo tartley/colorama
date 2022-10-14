@@ -1,7 +1,11 @@
 # Copyright Jonathan Hartley 2013. BSD 3-Clause license, see LICENSE file.
 from io import StringIO
 from unittest import TestCase, main
-from contextlib import ExitStack
+try:
+    from contextlib import ExitStack
+except ImportError:
+    # python 2
+    from contextlib2 import ExitStack
 
 try:
     from unittest.mock import MagicMock, Mock, patch

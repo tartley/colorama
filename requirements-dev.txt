@@ -1,3 +1,4 @@
 mock>=1.0.1;python_version<"3.3"
 twine>=3.1.1
+contextlib2;python_version<"3"
 -e .
