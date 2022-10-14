@@ -13,13 +13,12 @@
 # Exit on error
 set -eu -o pipefail
 
-syspython=python3.8
+syspython=python3
 bin="$HOME/.virtualenvs/colorama/bin"
-version=$($bin/python setup.py --version)
 sandbox=test-release-playground
 
 # Upload to the test PyPI.
-$bin/twine upload --repository testpypi dist/colorama-$version-* \
+$bin/twine upload --repository testpypi dist/colorama-* \
     || echo "  > Expect a 400 if package was already uploaded."
 
 # cd elsewhere so we cannot import from local source.
@@ -29,6 +28,11 @@ mkdir -p $sandbox
 
     # Create a temporary disposable virtualenv.
     $syspython -m venv --clear venv
+
+    # voodoo sleep. I saw the following install fail, due to expected version
+    # not being listed at test.pypi.org, but then a few seconds later, re-run
+    # manually. it worked fine.
+    sleep 5
 
     # Install the package we just uploaded.
     # (--extra-index-url for this project's requirements)
@@ -40,4 +44,3 @@ mkdir -p $sandbox
 
 # Tidy up
 rm -rf $sandbox
-

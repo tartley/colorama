@@ -66,53 +66,75 @@ target.
 
 ## Release checklist
 
-TODO: Add the use of release candidate versions to this checklist.
-
 1. Check the CHANGELOG is updated with everything since the last release.
-2. Remove the '-pre' suffix from `__version__` in `colorama/__init.py__.py`.
+   Update CHANGELOG.rst with the new release version (move the comment for
+   "Current release")
+
+2. First we'll make a candidate release. Ensure  the '.rc1' suffix is
+   present on `__version__` in `colorama/__init.py__.py`.
+
 3. Run the tests locally on your preferred OS, just to save you from doing
    the following time-consuming steps while there are still obvious problems
    in the code:
 
-   * Windows: `./test.ps1`
-   * Linux: `make test`
+   * Windows:
+     * First allow powershell to execute scripts, see:
+       https://stackoverflow.com/a/32328091
+     * `powershell bootstrap.ps1`
+     * `powershell test.ps1`
+   * Linux:
+     * `make bootstrap`
+     * `make test`
 
 4. Verify you're all committed, merged to master, and pushed to origin (This
    triggers a CI build, which we'll check later on)
 
-5. Build the distributables (sdist and wheel), on either OS:
-
-    * Windows: `.\build.ps1`
-    * Linux: `make build`
-
-6. Test the distributables on both OS. Whichever one you do 2nd will get an
-   HTTP 400 response on uploading to test.pypi.org, but outputs a message
-   saying this is expected and carries on:
-
-   * Windows: `./clean.ps1 && .\bootstrap.ps1 && .\build.ps1 &&
-     .\test-release.ps1`
-   * Linux: `make clean bootstrap build test-release`
-
-    (This currently only tests the wheel, but
-    [should soon test the sdist too](https://github.com/tartley/colorama/issues/286).)
-
-7. Check the [CI builds](https://github.com/tartley/colorama/actions/)
-   are complete and all passing.
-
-8. Upload the distributables to PyPI:
-
-   * On Windows: `.\release.ps1`
-   * On Linux: `make release`
-
-   This [should soon tag the release for you](https://github.com/tartley/colorama/issues/282). Until then:
-
-9. Tag the current commit with the `__version__` from `colorama/__init__.py`.
+5. Tag the current commit with the `__version__` from `colorama/__init__.py`.
    We should start using
    [annotated tags for releases](https://www.tartley.com/posts/til-git-annotated-tags/), so:
 
        git tag -a -m "" $version
        git push --follow-tags
 
-10. Bump the version number in `colorama/__init__.py`, and add the '-pre'
-    suffix again, ready for the next release. Commit and push this (directly to
-    master is fine.)
+6. Build the distributables (sdist and wheel), on either OS:
+
+    * Windows: `.\build.ps1`
+    * Linux: `make build`
+
+7. Test the distributables on both OS. Whichever one you do 2nd will get an
+   HTTP 400 response on uploading to test.pypi.org, but outputs a message
+   saying this is expected and carries on:
+
+   * Windows: `.\test-release.ps1`
+   * Linux: `make test-release`
+
+   (This currently only tests the wheel, but
+   [should soon test the sdist too](https://github.com/tartley/colorama/issues/286).)
+
+8. Check the [CI builds](https://github.com/tartley/colorama/actions/)
+   are complete and all passing.
+
+9. Upload the distributables to PyPI:
+
+   * On Windows: `.\release.ps1`
+   * On Linux: `make release`
+
+10. Test by installing the candidate version from PyPI, and sanity check it with
+    'demo.sh', making sure this is running against the PyPI installation, not
+    local source.
+
+11. Maybe wait a day for anyone using pre-release installs to report any
+    problems?
+
+12. Remove the '.rcX' suffix from `__version__` in
+    `colorama/__init__.py`.
+
+13. Repeat steps 5 to 10, for the actual (non-candidate) release.
+
+14. Bump the version number in `colorama/__init__.py`, and add a 'dev1'
+    suffix, eg:
+
+    `0.4.5dev1`
+
+    so that any build artifacts created are clearly labelled as not a real
+    release. Commit and push this (directly to master is fine.)

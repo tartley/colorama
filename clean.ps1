@@ -1,4 +1,4 @@
-$syspython="python3.8.exe"
+$syspython="python.exe"
 $ve="$HOME\.virtualenvs\colorama"
 
 remove-item -r -fo * -I build,dist,MANIFEST,colorama.egg-info,$ve,sandbox

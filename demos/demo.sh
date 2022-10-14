@@ -27,8 +27,9 @@ rm -f demo04.out
 # Demonstrate the difference between colorama initialized with wrapping on and off.
 python demo05.py
 
-# Demonstrate printing colored, random characters at random positions on the screen
-python demo06.py
+# Skip demo06
+# It is too visually disruptive,
+# making it hard to see whether any of the demos are working correctly.
 
 # Demonstrate cursor relative movement: UP, DOWN, FORWARD, and BACK in colorama.CURSOR
 python demo07.py
