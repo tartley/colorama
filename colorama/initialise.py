@@ -14,6 +14,7 @@ wrapped_stderr = None
 
 atexit_done = False
 
+fixed_windows_console = False
 
 def reset_all():
     if AnsiToWin32 is not None:    # Issue #74: objects might become None at exit
@@ -54,6 +55,29 @@ def deinit():
     if orig_stderr is not None:
         sys.stderr = orig_stderr
 
+
+def just_fix_windows_console():
+    global fixed_windows_console
+
+    if sys.platform != "win32":
+        return
+    if fixed_windows_console:
+        return
+    if wrapped_stdout is not None or wrapped_stderr is not None:
+        # Someone already ran init() and it did stuff, so we won't second-guess them
+        return
+
+    # On newer versions of Windows, AnsiToWin32.__init__ will implicitly enable the
+    # native ANSI support in the console as a side-effect. We only need to actually
+    # replace sys.stdout/stderr if we're in the old-style conversion mode.
+    new_stdout = AnsiToWin32(sys.stdout, convert=None, strip=None, autoreset=False)
+    if new_stdout.convert:
+        sys.stdout = new_stdout
+    new_stderr = AnsiToWin32(sys.stderr, convert=None, strip=None, autoreset=False)
+    if new_stderr.convert:
+        sys.stderr = new_stderr
+
+    fixed_windows_console = True
 
 @contextlib.contextmanager
 def colorama_text(*args, **kwargs):
