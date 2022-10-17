@@ -78,14 +78,6 @@ class InitTest(TestCase):
     def testInitWrapOffIncompatibleWithAutoresetOn(self):
         self.assertRaises(ValueError, lambda: init(autoreset=True, wrap=False))
 
-    @patch('colorama.ansitowin32.winterm', None)
-    @patch('colorama.ansitowin32.winapi_test', lambda *_: True)
-    def testInitOnlyWrapsOnce(self):
-        with osname("nt"):
-            init()
-            init()
-            self.assertWrapped()
-
     @patch('colorama.win32.SetConsoleTextAttribute')
     @patch('colorama.initialise.AnsiToWin32')
     def testAutoResetPassedOn(self, mockATW32, _):
