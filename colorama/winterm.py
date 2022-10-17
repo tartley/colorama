@@ -190,5 +190,6 @@ def enable_vt_processing(fd):
         mode = win32.GetConsoleMode(handle)
         if mode & win32.ENABLE_VIRTUAL_TERMINAL_PROCESSING:
             return True
-    except OSError:
+    # Can get TypeError in testsuite where 'fd' is a Mock()
+    except (OSError, TypeError):
         return False
