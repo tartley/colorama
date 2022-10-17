@@ -40,6 +40,7 @@ class InitTest(TestCase):
 
     @patch('colorama.initialise.reset_all')
     @patch('colorama.ansitowin32.winapi_test', lambda *_: True)
+    @patch('colorama.ansitowin32.enable_vt_processing', lambda *_: False)
     def testInitWrapsOnWindows(self, _):
         with osname("nt"):
             init()
