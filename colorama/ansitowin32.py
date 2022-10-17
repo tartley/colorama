@@ -271,3 +271,7 @@ class AnsiToWin32(object):
                     if params[0] in '02':
                         winterm.set_title(params[1])
         return text
+
+
+    def flush(self):
+        self.wrapped.flush()

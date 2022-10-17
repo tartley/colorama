@@ -3,12 +3,12 @@ import sys
 from unittest import TestCase, main, skipUnless
 
 try:
-    from unittest.mock import patch
+    from unittest.mock import patch, Mock
 except ImportError:
-    from mock import patch
+    from mock import patch, Mock
 
 from ..ansitowin32 import StreamWrapper
-from ..initialise import init
+from ..initialise import init, just_fix_windows_console, _wipe_internal_state_for_tests
 from .utils import osname, replace_by
 
 orig_stdout = sys.stdout
@@ -23,6 +23,7 @@ class InitTest(TestCase):
         self.assertNotWrapped()
 
     def tearDown(self):
+        _wipe_internal_state_for_tests()
         sys.stdout = orig_stdout
         sys.stderr = orig_stderr
 
@@ -40,6 +41,7 @@ class InitTest(TestCase):
 
     @patch('colorama.initialise.reset_all')
     @patch('colorama.ansitowin32.winapi_test', lambda *_: True)
+    @patch('colorama.ansitowin32.enable_vt_processing', lambda *_: False)
     def testInitWrapsOnWindows(self, _):
         with osname("nt"):
             init()
@@ -78,14 +80,6 @@ class InitTest(TestCase):
     def testInitWrapOffIncompatibleWithAutoresetOn(self):
         self.assertRaises(ValueError, lambda: init(autoreset=True, wrap=False))
 
-    @patch('colorama.ansitowin32.winterm', None)
-    @patch('colorama.ansitowin32.winapi_test', lambda *_: True)
-    def testInitOnlyWrapsOnce(self):
-        with osname("nt"):
-            init()
-            init()
-            self.assertWrapped()
-
     @patch('colorama.win32.SetConsoleTextAttribute')
     @patch('colorama.initialise.AnsiToWin32')
     def testAutoResetPassedOn(self, mockATW32, _):
@@ -120,6 +114,75 @@ class InitTest(TestCase):
         mockRegister.reset_mock()
         init()
         self.assertFalse(mockRegister.called)
+
+
+class JustFixWindowsConsoleTest(TestCase):
+    def _reset(self):
+        _wipe_internal_state_for_tests()
+        sys.stdout = orig_stdout
+        sys.stderr = orig_stderr
+
+    def tearDown(self):
+        self._reset()
+
+    @patch("colorama.ansitowin32.winapi_test", lambda: True)
+    def testJustFixWindowsConsole(self):
+        if sys.platform != "win32":
+            # just_fix_windows_console should be a no-op
+            just_fix_windows_console()
+            self.assertIs(sys.stdout, orig_stdout)
+            self.assertIs(sys.stderr, orig_stderr)
+        else:
+            def fake_std():
+                # Emulate stdout=not a tty, stderr=tty
+                # to check that we handle both cases correctly
+                stdout = Mock()
+                stdout.closed = False
+                stdout.isatty.return_value = False
+                stdout.fileno.return_value = 1
+                sys.stdout = stdout
+
+                stderr = Mock()
+                stderr.closed = False
+                stderr.isatty.return_value = True
+                stderr.fileno.return_value = 2
+                sys.stderr = stderr
+
+            for native_ansi in [False, True]:
+                with patch(
+                    'colorama.ansitowin32.enable_vt_processing',
+                    lambda *_: native_ansi
+                ):
+                    self._reset()
+                    fake_std()
+
+                    # Regular single-call test
+                    prev_stdout = sys.stdout
+                    prev_stderr = sys.stderr
+                    just_fix_windows_console()
+                    self.assertIs(sys.stdout, prev_stdout)
+                    if native_ansi:
+                        self.assertIs(sys.stderr, prev_stderr)
+                    else:
+                        self.assertIsNot(sys.stderr, prev_stderr)
+
+                    # second call without resetting is always a no-op
+                    prev_stdout = sys.stdout
+                    prev_stderr = sys.stderr
+                    just_fix_windows_console()
+                    self.assertIs(sys.stdout, prev_stdout)
+                    self.assertIs(sys.stderr, prev_stderr)
+
+                    self._reset()
+                    fake_std()
+
+                    # If init() runs first, just_fix_windows_console should be a no-op
+                    init()
+                    prev_stdout = sys.stdout
+                    prev_stderr = sys.stderr
+                    just_fix_windows_console()
+                    self.assertIs(prev_stdout, sys.stdout)
+                    self.assertIs(prev_stderr, sys.stderr)
 
 
 if __name__ == '__main__':

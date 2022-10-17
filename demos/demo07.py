@@ -16,7 +16,7 @@ def main():
     aba
     3a4
     """
-    colorama.init()
+    colorama.just_fix_windows_console()
     print("aaa")
     print("aaa")
     print("aaa")

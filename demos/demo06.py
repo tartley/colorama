@@ -24,7 +24,7 @@ CHARS = ' ' + printable.strip()
 PASSES = 1000
 
 def main():
-    colorama.init()
+    colorama.just_fix_windows_console()
     pos = lambda y, x: Cursor.POS(x, y)
     # draw a white border.
     print(Back.WHITE, end='')
