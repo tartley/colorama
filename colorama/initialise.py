@@ -6,15 +6,24 @@ import sys
 from .ansitowin32 import AnsiToWin32
 
 
-orig_stdout = None
-orig_stderr = None
+def _wipe_internal_state_for_tests():
+    global orig_stdout, orig_stderr
+    orig_stdout = None
+    orig_stderr = None
 
-wrapped_stdout = None
-wrapped_stderr = None
+    global wrapped_stdout, wrapped_stderr
+    wrapped_stdout = None
+    wrapped_stderr = None
 
-atexit_done = False
+    global atexit_done
+    atexit_done = False
 
-fixed_windows_console = False
+    global fixed_windows_console
+    fixed_windows_console = False
+
+    # no-op if it wasn't registered
+    atexit.unregister(reset_all)
+
 
 def reset_all():
     if AnsiToWin32 is not None:    # Issue #74: objects might become None at exit
@@ -102,3 +111,7 @@ def wrap_stream(stream, convert, strip, autoreset, wrap):
         if wrapper.should_wrap():
             stream = wrapper.stream
     return stream
+
+
+# Use this for initial setup as well, to reduce code duplication
+_wipe_internal_state_for_tests()

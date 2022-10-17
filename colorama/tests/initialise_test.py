@@ -8,7 +8,7 @@ except ImportError:
     from mock import patch
 
 from ..ansitowin32 import StreamWrapper
-from ..initialise import init
+from ..initialise import init, just_fix_windows_console, _wipe_internal_state_for_tests
 from .utils import osname, replace_by
 
 orig_stdout = sys.stdout
@@ -23,6 +23,7 @@ class InitTest(TestCase):
         self.assertNotWrapped()
 
     def tearDown(self):
+        _wipe_internal_state_for_tests()
         sys.stdout = orig_stdout
         sys.stderr = orig_stderr
 
