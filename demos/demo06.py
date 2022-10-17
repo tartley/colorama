@@ -9,7 +9,7 @@ from string import printable
 # Demonstrate printing colored, random characters at random positions on the screen
 
 # Fore, Back and Style are convenience classes for the constant ANSI strings that set
-#     the foreground, background and style. The don't have any magic of their own.
+#     the foreground, background and style. They don't have any magic of their own.
 FORES = [ Fore.BLACK, Fore.RED, Fore.GREEN, Fore.YELLOW, Fore.BLUE, Fore.MAGENTA, Fore.CYAN, Fore.WHITE ]
 BACKS = [ Back.BLACK, Back.RED, Back.GREEN, Back.YELLOW, Back.BLUE, Back.MAGENTA, Back.CYAN, Back.WHITE ]
 STYLES = [ Style.DIM, Style.NORMAL, Style.BRIGHT ]
