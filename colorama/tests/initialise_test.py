@@ -125,6 +125,7 @@ class JustFixWindowsConsoleTest(TestCase):
     def tearDown(self):
         self._reset()
 
+    @patch("colorama.ansitowin32.winapi_test", lambda: True)
     def testJustFixWindowsConsole(self):
         if sys.platform != "win32":
             # just_fix_windows_console should be a no-op
@@ -132,7 +133,7 @@ class JustFixWindowsConsoleTest(TestCase):
             self.assertIs(sys.stdout, orig_stdout)
             self.assertIs(sys.stderr, orig_stderr)
         else:
-            for native_ansi in [False, True]:
+            def fake_std():
                 # Emulate stdout=not a tty, stderr=tty
                 # to check that we handle both cases correctly
                 stdout = Mock()
@@ -147,17 +148,23 @@ class JustFixWindowsConsoleTest(TestCase):
                 stderr.fileno.return_value = 2
                 sys.stderr = stderr
 
+            for native_ansi in [False, True]:
                 with patch(
                     'colorama.ansitowin32.enable_vt_processing',
                     lambda *_: native_ansi
                 ):
+                    self._reset()
+                    fake_std()
+
                     # Regular single-call test
+                    prev_stdout = sys.stdout
+                    prev_stderr = sys.stderr
                     just_fix_windows_console()
-                    self.assertIs(sys.stdout, stdout)
+                    self.assertIs(sys.stdout, prev_stdout)
                     if native_ansi:
-                        self.assertIs(sys.stderr, stderr)
+                        self.assertIs(sys.stderr, prev_stderr)
                     else:
-                        self.assertIsNot(sys.stderr, stderr)
+                        self.assertIsNot(sys.stderr, prev_stderr)
 
                     # second call without resetting is always a no-op
                     prev_stdout = sys.stdout
@@ -167,6 +174,7 @@ class JustFixWindowsConsoleTest(TestCase):
                     self.assertIs(sys.stderr, prev_stderr)
 
                     self._reset()
+                    fake_std()
 
                     # If init() runs first, just_fix_windows_console should be a no-op
                     init()
@@ -175,8 +183,6 @@ class JustFixWindowsConsoleTest(TestCase):
                     just_fix_windows_console()
                     self.assertIs(prev_stdout, sys.stdout)
                     self.assertIs(prev_stderr, sys.stderr)
-
-                    self._reset()
 
 
 if __name__ == '__main__':
