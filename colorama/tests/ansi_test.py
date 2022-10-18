@@ -52,9 +52,9 @@ class AnsiTest(TestCase):
 
         #test full range
         '''
-        for r in range(255):
-            for g in range(255):
-                for b in range(255):
+        for r in range(256):
+            for g in range(256):
+                for b in range(256):
                     self.assertEqual(Fore.RGB(r,g,b), '\033[38;2;'+str(r)+';'+str(g)+';'+str(b)+'m')
         '''
 
@@ -89,9 +89,9 @@ class AnsiTest(TestCase):
 
         #test full range
         '''
-        for r in range(255):
-            for g in range(255):
-                for b in range(255):
+        for r in range(256):
+            for g in range(256):
+                for b in range(256):
                     self.assertEqual(Back.RGB(r,g,b), '\033[48;2;'+str(r)+';'+str(g)+';'+str(b)+'m')
         '''
 
