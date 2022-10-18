@@ -43,6 +43,21 @@ class AnsiTest(TestCase):
         self.assertEqual(Fore.LIGHTCYAN_EX, '\033[96m')
         self.assertEqual(Fore.LIGHTWHITE_EX, '\033[97m')
 
+        # Check RGB function
+        self.assertEqual(Fore.RGB(0,0,0), '\033[38;2;0;0;0m')
+
+        self.assertEqual(Fore.RGB(255,0,0), '\033[38;2;255;0;0m')
+        self.assertEqual(Fore.RGB(0,255,0), '\033[38;2;0;255;0m')
+        self.assertEqual(Fore.RGB(0,0,255), '\033[38;2;0;0;255m')
+
+        #test full range
+        '''
+        for r in range(255):
+            for g in range(255):
+                for b in range(255):
+                    self.assertEqual(Fore.RGB(r,g,b), '\033[38;2;'+str(r)+';'+str(g)+';'+str(b)+'m')
+        '''
+
 
     def testBackAttributes(self):
         self.assertEqual(Back.BLACK, '\033[40m')
@@ -65,11 +80,30 @@ class AnsiTest(TestCase):
         self.assertEqual(Back.LIGHTCYAN_EX, '\033[106m')
         self.assertEqual(Back.LIGHTWHITE_EX, '\033[107m')
 
+        # Check RGB functions
+        self.assertEqual(Back.RGB(0,0,0), '\033[48;2;0;0;0m')
+
+        self.assertEqual(Back.RGB(255,0,0), '\033[48;2;255;0;0m')
+        self.assertEqual(Back.RGB(0,255,0), '\033[48;2;0;255;0m')
+        self.assertEqual(Back.RGB(0,0,255), '\033[48;2;0;0;255m')
+
+        #test full range
+        '''
+        for r in range(255):
+            for g in range(255):
+                for b in range(255):
+                    self.assertEqual(Back.RGB(r,g,b), '\033[48;2;'+str(r)+';'+str(g)+';'+str(b)+'m')
+        '''
+
 
     def testStyleAttributes(self):
         self.assertEqual(Style.DIM, '\033[2m')
         self.assertEqual(Style.NORMAL, '\033[22m')
         self.assertEqual(Style.BRIGHT, '\033[1m')
+
+        #NEGATIVE and UNDERLINE
+        self.assertEqual(Style.UNDERLINE, '\033[4m')
+        self.assertEqual(Style.NEGATIVE, '\033[7m')
 
 
 if __name__ == '__main__':
