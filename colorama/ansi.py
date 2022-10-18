@@ -28,7 +28,7 @@ class AnsiCodes(object):
         # Upon instantiation we define instance attributes, which are the same
         # as the class attributes but wrapped with the ANSI escape sequence
         for name in dir(self):
-            if not name.startswith('_'):
+            if not name.startswith('_') and name != "RGB": # there's probably a better way than this to avoid the methods
                 value = getattr(self, name)
                 setattr(self, name, code_to_chars(value))
 
@@ -66,6 +66,10 @@ class AnsiFore(AnsiCodes):
     LIGHTMAGENTA_EX = 95
     LIGHTCYAN_EX    = 96
     LIGHTWHITE_EX   = 97
+    
+    def RGB(self, r, g, b):
+        return CSI + "38;2;" + str(r) + ";" + str(g) + ";" + str(b) + "m"
+        
 
 
 class AnsiBack(AnsiCodes):
@@ -88,6 +92,9 @@ class AnsiBack(AnsiCodes):
     LIGHTMAGENTA_EX = 105
     LIGHTCYAN_EX    = 106
     LIGHTWHITE_EX   = 107
+    
+    def RGB(self, r, g, b):
+        return CSI + "48;2;" + str(r) + ";" + str(g) + ";" + str(b) + "m"
 
 
 class AnsiStyle(AnsiCodes):
@@ -95,6 +102,11 @@ class AnsiStyle(AnsiCodes):
     DIM       = 2
     NORMAL    = 22
     RESET_ALL = 0
+    UNDERLINE = 4
+    #NOTUNDERLINE=24 # Poor naming
+    NEGATIVE  = 7 # called 'Reverse' on wikipedia
+    #POSITIVE = 27 # called 'Not Reversed' on wikipedia
+    
 
 Fore   = AnsiFore()
 Back   = AnsiBack()
