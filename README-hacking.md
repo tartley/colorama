@@ -74,7 +74,7 @@ target.
    present on `__version__` in `colorama/__init.py__.py`.
 
 3. Run the tests locally on your preferred OS, just to save you from doing
-   the following time-consuming steps while there are still obvious problems
+   the subsequent time-consuming steps while there are still obvious problems
    in the code:
 
    * Windows:
@@ -86,15 +86,15 @@ target.
      * `make bootstrap`
      * `make test`
 
-4. Verify you're all committed, merged to master, and pushed to origin (This
-   triggers a CI build, which we'll check later on)
-
-5. Tag the current commit with the `__version__` from `colorama/__init__.py`.
+4. Tag the current commit with the `__version__` from `colorama/__init__.py`.
    We should start using
    [annotated tags for releases](https://www.tartley.com/posts/til-git-annotated-tags/), so:
 
        git tag -a -m "" $version
        git push --follow-tags
+
+5. Verify you're all committed, merged to master, and pushed to origin (This
+   triggers a CI build, which we'll check later on)
 
 6. Build the distributables (sdist and wheel), on either OS:
 
