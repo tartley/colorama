@@ -15,7 +15,7 @@ help: ## Display help for documented make targets.
 
 virtualenv=~/.virtualenvs/colorama
 pip=$(virtualenv)/bin/pip
-syspython=python3.8
+syspython=python3
 python=$(virtualenv)/bin/python
 twine=$(virtualenv)/bin/twine
 
