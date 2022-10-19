@@ -1,4 +1,25 @@
-0.4.5 Current release
+0.4.6 Current release
+  * Add alternative to 'init()', called 'just_fix_windows_console'. This fixes
+    many longstanding problems with 'init', such as working incorrectly on
+    modern Windows terminals, and wonkiness when init gets called multiple
+    times. The intention is that it just makes all Windows terminals treat ANSI
+    the same way as other terminals do. Many thanks the njsmith for fixing our
+    messes.
+    https://github.com/tartley/colorama/pull/139
+  * Support Windows 10's ANSI/VT console. This didn't exist when Colorama was
+    created, and avoiding us causing havok there is long overdue. Thanks to
+    segeviner for the initial approach, and to njsmith for getting it merged.
+    https://github.com/tartley/colorama/pull/352
+  * Internal overhaul of package metadata declaration, which abolishes our use
+    of the now heavily discouraged setuptools (and hence setup.py, setup.cfg
+    and MANIFEST.in), in favor of hatchling (and hence pyproject.toml),
+    generously contributed by ofek (author of hatchling).
+    This includes dropping support Python3.5 and 3.6, which are EOL, and were
+    already dropped from setuptools, so this should not affect our users.
+    https://github.com/tartley/colorama/pull/338
+  * Attention to detail award to LqdBcnAtWork for a spelling fix in demo06
+    https://github.com/tartley/colorama/pull/353
+0.4.5
   * Catch a racy ValueError that could occur on exit.
   * Create README-hacking.md, for Colorama contributors.
   * Tweak some README unicode characters that don't render correctly on PyPI.
