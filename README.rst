@@ -26,7 +26,6 @@ cursor positioning) work under MS Windows.
 
 If you find Colorama useful, please |donate| to the authors. Thank you!
 
-
 Installation
 ------------
 
@@ -39,7 +38,6 @@ No requirements other than the standard library.
     pip install colorama
     # or
     conda install -c anaconda colorama
-
 
 Description
 -----------
@@ -146,7 +144,6 @@ Most users should depend on ``colorama >= 0.4.6``, and use
 indefinitely for backwards compatibility, but we don't plan to fix any issues
 with it, also for backwards compatibility.
 
-
 Colored Output
 ..............
 
@@ -180,6 +177,10 @@ then consider using one of the above highly capable libraries to generate
 colors, etc, and use Colorama just for its primary purpose: to convert
 those ANSI sequences to also work on Windows:
 
+SIMILARLY, do not send PRs adding the generation of new ANSI types to Colorama.
+We are only interested in converting ANSI codes to win32 API calls, not
+shortcuts like the above to generate ANSI characters.
+
 .. code-block:: python
 
     from colorama import just_fix_windows_console
@@ -205,13 +206,11 @@ These are fairly well supported, but not part of the standard::
     Fore: LIGHTBLACK_EX, LIGHTRED_EX, LIGHTGREEN_EX, LIGHTYELLOW_EX, LIGHTBLUE_EX, LIGHTMAGENTA_EX, LIGHTCYAN_EX, LIGHTWHITE_EX
     Back: LIGHTBLACK_EX, LIGHTRED_EX, LIGHTGREEN_EX, LIGHTYELLOW_EX, LIGHTBLUE_EX, LIGHTMAGENTA_EX, LIGHTCYAN_EX, LIGHTWHITE_EX
 
-
 Cursor Positioning
 ..................
 
 ANSI codes to reposition the cursor are supported. See ``demos/demo06.py`` for
 an example of how to generate them.
-
 
 Init Keyword Args
 .................
@@ -263,7 +262,6 @@ init(wrap=True):
 
         # Python 3
         print(Fore.BLUE + 'blue text on stderr', file=stream)
-
 
 Recognised ANSI Sequences
 .........................
@@ -333,15 +331,17 @@ initial characters, are not recognised or stripped. It would be cool to add
 them though. Let me know if it would be useful for you, via the Issues on
 GitHub.
 
-
 Status & Known Problems
 -----------------------
 
 I've personally only tested it on Windows XP (CMD, Console2), Ubuntu
 (gnome-terminal, xterm), and OS X.
 
-Some presumably valid ANSI sequences aren't recognised (see details below),
-but to my knowledge nobody has yet complained about this. Puzzling.
+Some valid ANSI sequences aren't recognised.
+
+If you're hacking on the code, see `README-hacking.md`_. ESPECIALLY, see the
+explanation there of why we do not want PRs that allow Colorama to generate new
+types of ANSI codes.
 
 See outstanding issues and wish-list:
 https://github.com/tartley/colorama/issues
@@ -351,17 +351,13 @@ I'd love to hear about it on that issues list, would be delighted by patches,
 and would be happy to grant commit access to anyone who submits a working patch
 or two.
 
-If you're hacking on the code, see `README-hacking.md`_.
-
 .. _README-hacking.md: README-hacking.md
-
 
 License
 -------
 
 Copyright Jonathan Hartley & Arnon Yaari, 2013-2020. BSD 3-Clause license; see
 LICENSE file.
-
 
 Professional support
 --------------------
@@ -383,9 +379,10 @@ Professional support
 
 .. _Tidelift Subscription: https://tidelift.com/subscription/pkg/pypi-colorama?utm_source=pypi-colorama&utm_medium=referral&utm_campaign=readme
 
-
 Thanks
 ------
+
+See the CHANGELOG for more thanks!
 
 * Marc Schlaich (schlamar) for a ``setup.py`` fix for Python2.5.
 * Marc Abramowitz, reported & fixed a crash on exit with closed ``stdout``,

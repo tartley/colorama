@@ -66,12 +66,14 @@ target.
 
 ## Release checklist
 
-1. Check the CHANGELOG is updated with everything since the last release.
-   Update CHANGELOG.rst with the new release version (move the comment for
-   "Current release")
+1. Check the CHANGELOG.rst is updated with everything since the last release,
+   including links to merged PRs. Move the "Current release" comment from the
+   previous version number.
 
 2. First we'll make a candidate release. Ensure  the '.rc1' suffix is
-   present on `__version__` in `colorama/__init.py__.py`.
+   present on `__version__` in `colorama/__init.py__.py`, eg:
+
+        __version__ = '0.4.6rc1'
 
 3. Run the tests locally on your preferred OS, just to save you from doing
    the subsequent time-consuming steps while there are still obvious problems
@@ -86,22 +88,25 @@ target.
      * `make bootstrap`
      * `make test`
 
-4. Tag the current commit with the `__version__` from `colorama/__init__.py`.
+4. Verify you're all committed, merged to master.
+
+5. Tag the current commit with the `__version__` from `colorama/__init__.py`.
    We should start using
    [annotated tags for releases](https://www.tartley.com/posts/til-git-annotated-tags/), so:
 
        git tag -a -m "" $version
        git push --follow-tags
 
-5. Verify you're all committed, merged to master, and pushed to origin (This
-   triggers a CI build, which we'll check later on)
+6. Push to origin (This triggers a CI build, which we'll check later on)
 
-6. Build the distributables (sdist and wheel), on either OS:
+        git push origin master
+
+7. Build the distributables (sdist and wheel), on either OS:
 
     * Windows: `.\build.ps1`
     * Linux: `make build`
 
-7. Test the distributables on both OS. Whichever one you do 2nd will get an
+8. Test the distributables on both OS. Whichever one you do 2nd will get an
    HTTP 400 response on uploading to test.pypi.org, but outputs a message
    saying this is expected and carries on:
 
@@ -111,27 +116,27 @@ target.
    (This currently only tests the wheel, but
    [should soon test the sdist too](https://github.com/tartley/colorama/issues/286).)
 
-8. Check the [CI builds](https://github.com/tartley/colorama/actions/)
+9. Check the [CI builds](https://github.com/tartley/colorama/actions/)
    are complete and all passing.
 
-9. Upload the distributables to PyPI:
+10. Upload the distributables to PyPI:
 
    * On Windows: `.\release.ps1`
    * On Linux: `make release`
 
-10. Test by installing the candidate version from PyPI, and sanity check it with
+11. Test by installing the candidate version from PyPI, and sanity check it with
     'demo.sh', making sure this is running against the PyPI installation, not
     local source.
 
-11. Maybe wait a day for anyone using pre-release installs to report any
+12. Maybe wait a day for anyone using pre-release installs to report any
     problems?
 
-12. Remove the '.rcX' suffix from `__version__` in
+13. Remove the '.rcX' suffix from `__version__` in
     `colorama/__init__.py`.
 
-13. Repeat steps 5 to 10, for the actual (non-candidate) release.
+14. Repeat steps 5 to 10, for the actual (non-candidate) release.
 
-14. Bump the version number in `colorama/__init__.py`, and add a 'dev1'
+15. Bump the version number in `colorama/__init__.py`, and add a 'dev1'
     suffix, eg:
 
     `0.4.5dev1`
