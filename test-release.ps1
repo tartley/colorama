@@ -15,6 +15,9 @@ cd sandbox
 # Create a temporary disposable virtualenv.
 & $syspython -m venv --clear venv
 
+# TODO: What is the windows/powershell equivalent of this:
+#    version=$(grep __version__ colorama/__init__.py | cut -d' ' -f3 | tr -d "'")
+
 # Install the package we just uploaded.
 # (--extra-index-url for this project's requirements)
 venv\Scripts\python -m pip --quiet install --index-url https://test.pypi.org/simple --extra-index-url https://pypi.org/simple colorama==$version
