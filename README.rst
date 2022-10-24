@@ -147,20 +147,7 @@ with it, also for backwards compatibility.
 Colored Output
 ..............
 
-Cross-platform printing of colored text can then be done using Colorama's
-constant shorthand for ANSI escape sequences. These are deliberately
-rudimentary, see below.
-
-.. code-block:: python
-
-    from colorama import Fore, Back, Style
-    print(Fore.RED + 'some red text')
-    print(Back.GREEN + 'and with a green background')
-    print(Style.DIM + 'and in dim text')
-    print(Style.RESET_ALL)
-    print('back to normal now')
-
-...or simply by manually printing ANSI sequences from your own code:
+Cross-platform printing of colored text can then be done simply by manually printing ANSI sequences from your own code:
 
 .. code-block:: python
 
@@ -171,15 +158,6 @@ rudimentary, see below.
 such as the venerable `Termcolor <https://pypi.org/project/termcolor/>`_
 the fabulous `Blessings <https://pypi.org/project/blessings/>`_,
 or the incredible `_Rich <https://pypi.org/project/rich/>`_.
-
-If you wish Colorama's Fore, Back and Style constants were more capable,
-then consider using one of the above highly capable libraries to generate
-colors, etc, and use Colorama just for its primary purpose: to convert
-those ANSI sequences to also work on Windows:
-
-SIMILARLY, do not send PRs adding the generation of new ANSI types to Colorama.
-We are only interested in converting ANSI codes to win32 API calls, not
-shortcuts like the above to generate ANSI characters.
 
 .. code-block:: python
 
@@ -192,20 +170,6 @@ shortcuts like the above to generate ANSI characters.
     # then use Termcolor for all colored text output
     print(colored('Hello, World!', 'green', 'on_red'))
 
-Available formatting constants are::
-
-    Fore: BLACK, RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE, RESET.
-    Back: BLACK, RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE, RESET.
-    Style: DIM, NORMAL, BRIGHT, RESET_ALL
-
-``Style.RESET_ALL`` resets foreground, background, and brightness. Colorama will
-perform this reset automatically on program exit.
-
-These are fairly well supported, but not part of the standard::
-
-    Fore: LIGHTBLACK_EX, LIGHTRED_EX, LIGHTGREEN_EX, LIGHTYELLOW_EX, LIGHTBLUE_EX, LIGHTMAGENTA_EX, LIGHTCYAN_EX, LIGHTWHITE_EX
-    Back: LIGHTBLACK_EX, LIGHTRED_EX, LIGHTGREEN_EX, LIGHTYELLOW_EX, LIGHTBLUE_EX, LIGHTMAGENTA_EX, LIGHTCYAN_EX, LIGHTWHITE_EX
-
 Cursor Positioning
 ..................
 
@@ -216,18 +180,6 @@ Init Keyword Args
 .................
 
 ``init()`` accepts some ``**kwargs`` to override default behaviour.
-
-init(autoreset=False):
-    If you find yourself repeatedly sending reset sequences to turn off color
-    changes at the end of every print, then ``init(autoreset=True)`` will
-    automate that:
-
-    .. code-block:: python
-
-        from colorama import init
-        init(autoreset=True)
-        print(Fore.RED + 'some red text')
-        print('automatically back to default color again')
 
 init(strip=None):
     Pass ``True`` or ``False`` to override whether ANSI codes should be
