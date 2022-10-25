@@ -58,5 +58,5 @@ test-release: build ## Test a built release
 .PHONY: test-release
 
 release: ## Upload a built release
-	$(twine) upload dist/colorama-*
+	$(twine) upload --repository=colorama dist/colorama-*
 .PHONY: release

@@ -18,7 +18,7 @@ bin="$HOME/.virtualenvs/colorama/bin"
 sandbox=test-release-playground
 
 # Upload to the test PyPI.
-$bin/twine upload --repository testpypi dist/colorama-* \
+$bin/twine upload --repository colorama-test dist/colorama-* \
     || echo "  > Expect a 400 if package was already uploaded."
 
 # cd elsewhere so we cannot import from local source.

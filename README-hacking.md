@@ -97,16 +97,12 @@ target.
        git tag -a -m "" $version
        git push --follow-tags
 
-6. Push to origin (This triggers a CI build, which we'll check later on)
-
-        git push origin master
-
-7. Build the distributables (sdist and wheel), on either OS:
+6. Build the distributables (sdist and wheel), on either OS:
 
     * Windows: `.\build.ps1`
     * Linux: `make build`
 
-8. Test the distributables on both OS. Whichever one you do 2nd will get an
+7. Test the distributables on both OS. Whichever one you do 2nd will get an
    HTTP 400 response on uploading to test.pypi.org, but outputs a message
    saying this is expected and carries on:
 
@@ -116,27 +112,27 @@ target.
    (This currently only tests the wheel, but
    [should soon test the sdist too](https://github.com/tartley/colorama/issues/286).)
 
-9. Check the [CI builds](https://github.com/tartley/colorama/actions/)
+8. Check the [CI builds](https://github.com/tartley/colorama/actions/)
    are complete and all passing.
 
-10. Upload the distributables to PyPI:
+9. Upload the distributables to PyPI:
 
    * On Windows: `.\release.ps1`
    * On Linux: `make release`
 
-11. Test by installing the candidate version from PyPI, and sanity check it with
+10. Test by installing the candidate version from PyPI, and sanity check it with
     'demo.sh', making sure this is running against the PyPI installation, not
     local source.
 
-12. Maybe wait a day for anyone using pre-release installs to report any
+11. Maybe wait a day for anyone using pre-release installs to report any
     problems?
 
-13. Remove the '.rcX' suffix from `__version__` in
+12. Remove the '.rcX' suffix from `__version__` in
     `colorama/__init__.py`.
 
-14. Repeat steps 4 to 10, for the actual (non-candidate) release.
+13. Repeat steps 4 to 9, for the actual (non-candidate) release.
 
-15. Bump the version number in `colorama/__init__.py`, and add a 'dev1'
+14. Bump the version number in `colorama/__init__.py`, and add a 'dev1'
     suffix, eg:
 
     `0.4.5dev1`
