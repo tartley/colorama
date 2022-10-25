@@ -3,4 +3,5 @@ from .initialise import init, deinit, reinit, colorama_text, just_fix_windows_co
 from .ansi import Fore, Back, Style, Cursor
 from .ansitowin32 import AnsiToWin32
 
-__version__ = '0.4.6rc1'
+__version__ = '0.4.6'
+

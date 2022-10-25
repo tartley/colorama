@@ -134,7 +134,7 @@ target.
 13. Remove the '.rcX' suffix from `__version__` in
     `colorama/__init__.py`.
 
-14. Repeat steps 5 to 10, for the actual (non-candidate) release.
+14. Repeat steps 4 to 10, for the actual (non-candidate) release.
 
 15. Bump the version number in `colorama/__init__.py`, and add a 'dev1'
     suffix, eg:
