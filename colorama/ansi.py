@@ -33,31 +33,53 @@ class AnsiCodes(object):
                 value = getattr(self, name)
                 setattr(self, name, code_to_chars(value))
 
-    @staticmethod
-    def from_rgb(r, g, b):
+    @classmethod
+    def from_rgb(cls, r, g, b):
 
-        return f'\033[38;2;{r};{g};{b}m'
+        if cls == AnsiFore:
 
-    @staticmethod
-    def from_hex(hex: str):
+            ansi_start = '38'
+
+        elif cls == AnsiBack:
+
+            ansi_start = '48'
+
+        else:
+
+            raise TypeError('The from_hex command may only be called from AnsiFore and AnsiBack objects.')
+
+        return f'\033[{ansi_start};2;{r};{g};{b}m'
+
+    @classmethod
+    def from_hex(cls, hex: str):
 
         hex = hex.strip('#')
 
         if len(hex) == 6:
 
-            rgb = tuple(int(single_hex, 16) for single_hex in (hex[0:2], hex[2:4], hex[4:6]))
-
-            return AnsiCodes.from_rgb(*rgb)
+            r, g, b = tuple(int(single_hex, 16) for single_hex in (hex[0:2], hex[2:4], hex[4:6]))
 
         elif len(hex) == 3:
 
-            rgb = tuple(int(single_hex, 16) for single_hex in (hex[0]*2, hex[1]*2, hex[2]*2))
-
-            return AnsiCodes.from_rgb(*rgb)
+            r, g, b = tuple(int(single_hex, 16) for single_hex in (hex[0]*2, hex[1]*2, hex[2]*2))
 
         else:
 
             raise ValueError(f'Hex Error: The given hex code: {hex} is not valid. A hex code should be 6 or 3 characters long.')
+
+        if cls == AnsiFore:
+
+            ansi_start = '38'
+
+        elif cls == AnsiBack:
+
+            ansi_start = '48'
+
+        else:
+
+            raise TypeError('The from_hex command may only be called from AnsiFore and AnsiBack objects.')
+
+        return f'\033[{ansi_start};2;{r};{g};{b}m'
 
 class AnsiCursor(object):
     def UP(self, n=1):
