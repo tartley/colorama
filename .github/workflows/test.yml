@@ -8,6 +8,9 @@ env:
 jobs:
   test:
     runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
     strategy:
       fail-fast: false
       matrix:
@@ -35,7 +38,7 @@ jobs:
       - name: Get pip cache dir
         id: pip-cache
         run: |
-          echo "PIP_DIR=dir::$(pip cache dir)" >> $GITHUB_OUTPUT
+          echo "PIP_DIR=$(pip cache dir)" >> $GITHUB_OUTPUT
 
       - name: Cache
         uses: actions/cache@v3
