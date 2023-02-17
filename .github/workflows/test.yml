@@ -35,12 +35,12 @@ jobs:
       - name: Get pip cache dir
         id: pip-cache
         run: |
-          echo "::set-output name=dir::$(pip cache dir)"
+          echo "PIP_DIR=dir::$(pip cache dir)" >> $GITHUB_OUTPUT
 
       - name: Cache
         uses: actions/cache@v3
         with:
-          path: ${{ steps.pip-cache.outputs.dir }}
+          path: ${{ steps.pip-cache.outputs.PIP_DIR }}
           key:
             ${{ matrix.os }}-${{ matrix.python-version }}-v1-${{ hashFiles('**/tox.ini') }}
           restore-keys: |
