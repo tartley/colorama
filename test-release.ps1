@@ -25,7 +25,6 @@ cd sandbox
 # Create a temporary disposable virtualenv.
 & $syspython -m venv --clear venv
 
-# TODO: What is the windows/powershell equivalent of this:
 $version = (Select-String -Path "../colorama/__init__.py" -Pattern "__version__").Line.Split(' ')[2].Replace("'", "")
 
 # Install the package we just uploaded.
