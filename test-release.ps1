@@ -1,3 +1,13 @@
+# Test the currently built release of Colorama from the dist/ dir.
+# Run this before making a release.
+#
+# Uploads package from the dist/ directory to the *test* PyPI.
+# Create a fresh virtualenvironment and install colorama from test PyPI.
+# Import Colorama and make trivial use of it.
+
+# Exit on error
+$ErrorActionPreference = "Stop"
+
 $syspython="python.exe"
 $ve="$HOME\.virtualenvs\colorama"
 $bin="$ve\Scripts"
@@ -16,11 +26,12 @@ cd sandbox
 & $syspython -m venv --clear venv
 
 # TODO: What is the windows/powershell equivalent of this:
-#    version=$(grep __version__ colorama/__init__.py | cut -d' ' -f3 | tr -d "'")
+$version = (Select-String -Path "../colorama/__init__.py" -Pattern "__version__").Line.Split(' ')[2].Replace("'", "")
 
 # Install the package we just uploaded.
 # (--extra-index-url for this project's requirements)
 venv\Scripts\python -m pip --quiet install --index-url https://test.pypi.org/simple --extra-index-url https://pypi.org/simple colorama==$version
+
 # Import and use colorama from the temp virtualenv.
 venv\Scripts\python.exe -c @"
 import colorama;
@@ -29,3 +40,4 @@ print(colorama.Fore.GREEN + ""OK Colorama "" + colorama.__version__ + "" from te
 "@
 
 cd ..
+Remove-Item -Recurse -Force sandbox 
