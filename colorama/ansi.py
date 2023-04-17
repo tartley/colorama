@@ -12,17 +12,20 @@ BEL = '\a'
 def code_to_chars(code):
     return CSI + str(code) + 'm'
 
+
 def set_title(title):
     return OSC + '2;' + title + BEL
 
+
 def clear_screen(mode=2):
     return CSI + str(mode) + 'J'
+
 
 def clear_line(mode=2):
     return CSI + str(mode) + 'K'
 
 
-class AnsiCodes(object):
+class AnsiCodes():
     def __init__(self):
         # the subclasses declare class attributes which are numbers.
         # Upon instantiation we define instance attributes, which are the same
@@ -33,15 +36,19 @@ class AnsiCodes(object):
                 setattr(self, name, code_to_chars(value))
 
 
-class AnsiCursor(object):
+class AnsiCursor():
     def UP(self, n=1):
         return CSI + str(n) + 'A'
+
     def DOWN(self, n=1):
         return CSI + str(n) + 'B'
+
     def FORWARD(self, n=1):
         return CSI + str(n) + 'C'
+
     def BACK(self, n=1):
         return CSI + str(n) + 'D'
+
     def POS(self, x=1, y=1):
         return CSI + str(y) + ';' + str(x) + 'H'
 
@@ -95,6 +102,7 @@ class AnsiStyle(AnsiCodes):
     DIM       = 2
     NORMAL    = 22
     RESET_ALL = 0
+
 
 Fore   = AnsiFore()
 Back   = AnsiBack()

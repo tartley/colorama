@@ -2,15 +2,14 @@
 from io import StringIO, TextIOWrapper
 from unittest import TestCase, main
 try:
+    from unittest.mock import MagicMock, Mock, patch
+except ImportError:
+    from mock import MagicMock, Mock, patch
+try:
     from contextlib import ExitStack
 except ImportError:
     # python 2
     from contextlib2 import ExitStack
-
-try:
-    from unittest.mock import MagicMock, Mock, patch
-except ImportError:
-    from mock import MagicMock, Mock, patch
 
 from ..ansitowin32 import AnsiToWin32, StreamWrapper
 from ..win32 import ENABLE_VIRTUAL_TERMINAL_PROCESSING
@@ -22,7 +21,7 @@ class StreamWrapperTest(TestCase):
     def testIsAProxy(self):
         mockStream = Mock()
         wrapper = StreamWrapper(mockStream, None)
-        self.assertTrue( wrapper.random_attr is mockStream.random_attr )
+        self.assertTrue(wrapper.random_attr is mockStream.random_attr)
 
     def testDelegatesWrite(self):
         mockStream = Mock()
@@ -35,14 +34,14 @@ class StreamWrapperTest(TestCase):
         mockConverter = Mock()
         s = StringIO()
         with StreamWrapper(s, mockConverter) as fp:
-            fp.write(u'hello')
+            fp.write('hello')
         self.assertTrue(s.closed)
 
     def testProxyNoContextManager(self):
         mockStream = MagicMock()
         mockStream.__enter__.side_effect = AttributeError()
         mockConverter = Mock()
-        with self.assertRaises(AttributeError) as excinfo:
+        with self.assertRaises(AttributeError):
             with StreamWrapper(mockStream, mockConverter) as wrapper:
                 wrapper.write('hello')
 
@@ -57,6 +56,7 @@ class StreamWrapperTest(TestCase):
         stream.detach()
         wrapper = StreamWrapper(stream, None)
         self.assertEqual(wrapper.closed, True)
+
 
 class AnsiToWin32Test(TestCase):
 
@@ -125,8 +125,8 @@ class AnsiToWin32Test(TestCase):
 
     def testWriteAndConvertWritesPlainText(self):
         stream = AnsiToWin32(Mock())
-        stream.write_and_convert( 'abc' )
-        self.assertEqual( stream.wrapped.write.call_args, (('abc',), {}) )
+        stream.write_and_convert('abc')
+        self.assertEqual(stream.wrapped.write.call_args, (('abc',), {}))
 
     def testWriteAndConvertStripsAllValidAnsi(self):
         stream = AnsiToWin32(Mock())
@@ -148,17 +148,17 @@ class AnsiToWin32Test(TestCase):
         ]
         for datum in data:
             stream.wrapped.write.reset_mock()
-            stream.write_and_convert( datum )
+            stream.write_and_convert(datum)
             self.assertEqual(
-               [args[0] for args in stream.wrapped.write.call_args_list],
-               [ ('abc',), ('def',) ]
+                [args[0] for args in stream.wrapped.write.call_args_list],
+                [('abc',), ('def',)]
             )
 
     def testWriteAndConvertSkipsEmptySnippets(self):
         stream = AnsiToWin32(Mock())
         stream.call_win32 = Mock()
-        stream.write_and_convert( '\033[40m\033[41m' )
-        self.assertFalse( stream.wrapped.write.called )
+        stream.write_and_convert('\033[40m\033[41m')
+        self.assertFalse(stream.wrapped.write.called)
 
     def testWriteAndConvertCallsWin32WithParamsAndCommand(self):
         stream = AnsiToWin32(Mock())
@@ -174,8 +174,8 @@ class AnsiToWin32Test(TestCase):
         }
         for datum, expected in data.items():
             stream.call_win32.reset_mock()
-            stream.write_and_convert( datum )
-            self.assertEqual( stream.call_win32.call_args[0], expected )
+            stream.write_and_convert(datum)
+            self.assertEqual(stream.call_win32.call_args[0], expected)
 
     def test_reset_all_shouldnt_raise_on_closed_orig_stdout(self):
         stream = StringIO()
@@ -188,17 +188,17 @@ class AnsiToWin32Test(TestCase):
         stream = StringIO()
         stream.close()
         with \
-            patch("colorama.ansitowin32.os.name", "nt"), \
-            patch("colorama.ansitowin32.winapi_test", lambda: True):
-                converter = AnsiToWin32(stream)
+                patch("colorama.ansitowin32.os.name", "nt"), \
+                patch("colorama.ansitowin32.winapi_test", lambda: True):
+            converter = AnsiToWin32(stream)
         self.assertTrue(converter.strip)
         self.assertFalse(converter.convert)
 
     def test_wrap_shouldnt_raise_on_missing_closed_attr(self):
         with \
-            patch("colorama.ansitowin32.os.name", "nt"), \
-            patch("colorama.ansitowin32.winapi_test", lambda: True):
-                converter = AnsiToWin32(object())
+                patch("colorama.ansitowin32.os.name", "nt"), \
+                patch("colorama.ansitowin32.winapi_test", lambda: True):
+            converter = AnsiToWin32(object())
         self.assertTrue(converter.strip)
         self.assertFalse(converter.convert)
 
@@ -227,7 +227,7 @@ class AnsiToWin32Test(TestCase):
         stream.call_win32('m', (3, 1, 99, 2))
         self.assertEqual(
             [a[0][0] for a in listener.call_args_list],
-            [33, 11, 22] )
+            [33, 11, 22])
 
     def test_osc_codes(self):
         mockStdout = Mock()
@@ -272,7 +272,8 @@ class AnsiToWin32Test(TestCase):
             # Our fake console says it has native vt support, so AnsiToWin32 should
             # enable that support and do nothing else.
             stream = AnsiToWin32(stdout)
-            SetConsoleMode.assert_called_with(1234, ENABLE_VIRTUAL_TERMINAL_PROCESSING)
+            SetConsoleMode.assert_called_with(
+                1234, ENABLE_VIRTUAL_TERMINAL_PROCESSING)
             self.assertFalse(stream.strip)
             self.assertFalse(stream.convert)
             self.assertFalse(stream.should_wrap())
@@ -284,7 +285,8 @@ class AnsiToWin32Test(TestCase):
             p("colorama.winterm.win32.SetConsoleMode", SetConsoleMode)
 
             stream = AnsiToWin32(stdout)
-            SetConsoleMode.assert_called_with(1234, ENABLE_VIRTUAL_TERMINAL_PROCESSING)
+            SetConsoleMode.assert_called_with(
+                1234, ENABLE_VIRTUAL_TERMINAL_PROCESSING)
             self.assertTrue(stream.strip)
             self.assertTrue(stream.convert)
             self.assertTrue(stream.should_wrap())

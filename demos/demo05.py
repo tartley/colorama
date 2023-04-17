@@ -6,17 +6,20 @@
 # The unwrapped cases will be interpreted with ANSI on Unix, but not on Windows.
 
 from __future__ import print_function
+
 import sys
+
 import fixpath
-from colorama import AnsiToWin32, init, Fore
+
+from colorama import AnsiToWin32, Fore, init
 
 init()
-print('%sWrapped yellow going to stdout, via the default print function.' % Fore.YELLOW)
+print(f'{Fore.YELLOW}Wrapped yellow going to stdout, via the default print function.')
 
 init(wrap=False)
-print('%sUnwrapped CYAN going to stdout, via the default print function.' % Fore.CYAN)
-print('%sUnwrapped CYAN, using the file parameter to write via colorama the AnsiToWin32 function.' % Fore.CYAN, file=AnsiToWin32(sys.stdout))
-print('%sUnwrapped RED going to stdout, via the default print function.' % Fore.RED)
+print(f'{Fore.CYAN}Unwrapped CYAN going to stdout, via the default print function.')
+print(f'{Fore.CYAN}Unwrapped CYAN, using the file parameter to write via colorama the AnsiToWin32 function.', file=AnsiToWin32(sys.stdout))
+print(f'{Fore.RED}Unwrapped RED going to stdout, via the default print function.')
 
 init()
-print('%sWrapped RED going to stdout, via the default print function.' % Fore.RED)
+print(f'{Fore.RED}Wrapped RED going to stdout, via the default print function.')

@@ -4,21 +4,23 @@
 # Simple demo of changing foreground, background and brightness.
 
 from __future__ import print_function
+
 import fixpath
-from colorama import just_fix_windows_console, Fore, Back, Style
+
+from colorama import Back, Fore, Style, just_fix_windows_console
 
 just_fix_windows_console()
 
 print(Fore.GREEN + 'green, '
-    + Fore.RED + 'red, '
-    + Fore.RESET + 'normal, '
-    , end='')
+      + Fore.RED + 'red, '
+      + Fore.RESET + 'normal, ',
+      end='')
 print(Back.GREEN + 'green, '
-    + Back.RED + 'red, '
-    + Back.RESET + 'normal, '
-    , end='')
+      + Back.RED + 'red, '
+      + Back.RESET + 'normal, ',
+      end='')
 print(Style.DIM + 'dim, '
-    + Style.BRIGHT + 'bright, '
-    + Style.NORMAL + 'normal'
-    , end=' ')
+      + Style.BRIGHT + 'bright, '
+      + Style.NORMAL + 'normal',
+      end=' ')
 print()

@@ -21,7 +21,6 @@ class AnsiTest(TestCase):
         sys.stdout = stdout_orig
         sys.stderr = stderr_orig
 
-
     def testForeAttributes(self):
         self.assertEqual(Fore.BLACK, '\033[30m')
         self.assertEqual(Fore.RED, '\033[31m')
@@ -43,7 +42,6 @@ class AnsiTest(TestCase):
         self.assertEqual(Fore.LIGHTCYAN_EX, '\033[96m')
         self.assertEqual(Fore.LIGHTWHITE_EX, '\033[97m')
 
-
     def testBackAttributes(self):
         self.assertEqual(Back.BLACK, '\033[40m')
         self.assertEqual(Back.RED, '\033[41m')
@@ -64,7 +62,6 @@ class AnsiTest(TestCase):
         self.assertEqual(Back.LIGHTMAGENTA_EX, '\033[105m')
         self.assertEqual(Back.LIGHTCYAN_EX, '\033[106m')
         self.assertEqual(Back.LIGHTWHITE_EX, '\033[107m')
-
 
     def testStyleAttributes(self):
         self.assertEqual(Style.DIM, '\033[2m')

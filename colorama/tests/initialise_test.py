@@ -3,12 +3,13 @@ import sys
 from unittest import TestCase, main, skipUnless
 
 try:
-    from unittest.mock import patch, Mock
+    from unittest.mock import Mock, patch
 except ImportError:
     from mock import patch, Mock
 
 from ..ansitowin32 import StreamWrapper
-from ..initialise import init, just_fix_windows_console, _wipe_internal_state_for_tests
+from ..initialise import (_wipe_internal_state_for_tests, init,
+                          just_fix_windows_console)
 from .utils import osname, replace_by
 
 orig_stdout = sys.stdout
@@ -31,9 +32,9 @@ class InitTest(TestCase):
         self.assertIsNot(sys.stdout, orig_stdout, 'stdout should be wrapped')
         self.assertIsNot(sys.stderr, orig_stderr, 'stderr should be wrapped')
         self.assertTrue(isinstance(sys.stdout, StreamWrapper),
-            'bad stdout wrapper')
+                        'bad stdout wrapper')
         self.assertTrue(isinstance(sys.stderr, StreamWrapper),
-            'bad stderr wrapper')
+                        'bad stderr wrapper')
 
     def assertNotWrapped(self):
         self.assertIs(sys.stdout, orig_stdout, 'stdout should not be wrapped')
@@ -105,7 +106,6 @@ class InitTest(TestCase):
                 mockATW32.call_args_list[4][1]['autoreset'], False)
             self.assertEqual(
                 mockATW32.call_args_list[5][1]['autoreset'], False)
-
 
     @patch('colorama.initialise.atexit.register')
     def testAtexitRegisteredOnlyOnce(self, mockRegister):
