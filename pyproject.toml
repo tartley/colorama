@@ -63,3 +63,7 @@ include = [
 include = [
     "/colorama/*",
 ]
+
+[tool.mypy]
+strict = true
+exclude = 'demos/*'
