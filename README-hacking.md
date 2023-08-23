@@ -92,7 +92,7 @@ target.
 
 5. Tag the current commit with the `__version__` from `colorama/__init__.py`.
    We should start using
-   [annotated tags for releases](https://www.tartley.com/posts/til-git-annotated-tags/), so:
+   [annotated tags for releases](https://www.tartley.com/posts/git-annotated-tags), so:
 
        git tag -a -m "" $version
        git push --follow-tags
