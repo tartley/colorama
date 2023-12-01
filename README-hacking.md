@@ -44,7 +44,7 @@ fancy new colors, etc, will also work on Windows. This is the main purpose
 of Colorama.
 
 The kinds of submissions we would encourage work towards that goal, or fix
-bugs, or improve compatibility across operating systems or environements.
+bugs, or improve compatibility across operating systems or environments.
 
 ## Makefile and PowerShell scripts
 
