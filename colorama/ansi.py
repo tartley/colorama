@@ -95,6 +95,7 @@ class AnsiStyle(AnsiCodes):
     DIM       = 2
     NORMAL    = 22
     RESET_ALL = 0
+    REVERSE_FORE_BACK = 7
 
 Fore   = AnsiFore()
 Back   = AnsiBack()
