@@ -37,7 +37,7 @@ No requirements other than the standard library.
 
     pip install colorama
     # or
-    conda install -c anaconda colorama
+    conda install -c conda-forge colorama
 
 Description
 -----------
