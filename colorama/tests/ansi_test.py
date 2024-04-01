@@ -67,9 +67,25 @@ class AnsiTest(TestCase):
 
 
     def testStyleAttributes(self):
-        self.assertEqual(Style.DIM, '\033[2m')
-        self.assertEqual(Style.NORMAL, '\033[22m')
+        self.assertEqual(Style.RESET_ALL, '\033[0m')
         self.assertEqual(Style.BRIGHT, '\033[1m')
+        self.assertEqual(Style.DIM, '\033[2m')
+        self.assertEqual(Style.ITALIC, '\033[3m')
+        self.assertEqual(Style.UNDERLINE, '\033[4m')
+        self.assertEqual(Style.SLOWBLINK, '\033[5m')
+        self.assertEqual(Style.RAPIDBLINK, '\033[6m')
+        self.assertEqual(Style.INVERT, '\033[7m')
+        self.assertEqual(Style.HIDE, '\033[8m')
+        self.assertEqual(Style.STRIKETHROUGH, '\033[9m')
+        self.assertEqual(Style.RESET_BRIGHT, '\033[21m')
+        self.assertEqual(Style.DOUBLYUNDERLINED, '\033[21m')
+        self.assertEqual(Style.NORMAL, '\033[22m')
+        self.assertEqual(Style.RESET_ITALIC, '\033[23m')
+        self.assertEqual(Style.RESET_UNDERLINE, '\033[24m')
+        self.assertEqual(Style.RESET_BLINK, '\033[25m')
+        self.assertEqual(Style.RESET_INVERT, '\033[27m')
+        self.assertEqual(Style.REVEAL, '\033[28m')
+        self.assertEqual(Style.RESET_STRIKETHROUGH, '\033[29m')
 
 
 if __name__ == '__main__':

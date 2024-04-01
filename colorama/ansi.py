@@ -91,10 +91,25 @@ class AnsiBack(AnsiCodes):
 
 
 class AnsiStyle(AnsiCodes):
-    BRIGHT    = 1
-    DIM       = 2
-    NORMAL    = 22
-    RESET_ALL = 0
+    RESET_ALL           = 0
+    BRIGHT              = 1
+    DIM                 = 2
+    ITALIC              = 3
+    UNDERLINE           = 4
+    SLOWBLINK           = 5
+    RAPIDBLINK          = 6
+    INVERT              = 7
+    HIDE                = 8
+    STRIKETHROUGH       = 9
+    RESET_BRIGHT        = 21
+    DOUBLYUNDERLINED    = 21
+    NORMAL              = 22
+    RESET_ITALIC        = 23
+    RESET_UNDERLINE     = 24
+    RESET_BLINK         = 25
+    RESET_INVERT        = 27
+    REVEAL              = 28
+    RESET_STRIKETHROUGH = 29
 
 Fore   = AnsiFore()
 Back   = AnsiBack()
