@@ -64,3 +64,39 @@ include = [
 include = [
     "/colorama/*",
 ]
+
+
+[tool.ruff]
+target-version = "py37"
+#line-length = 120
+
+[tool.ruff.format]
+preview = true
+
+[tool.ruff.lint]
+select = [
+    "E",
+    "W", # see: https://pypi.org/project/pycodestyle
+    "F", # see: https://pypi.org/project/pyflakes
+    "I", #see: https://pypi.org/project/isort/
+    "S", # see: https://pypi.org/project/flake8-bandit
+    "UP", # see: https://docs.astral.sh/ruff/rules/#pyupgrade-up
+]
+extend-select = [
+    "B",    # see: https://pypi.org/project/flake8-bugbear
+    "C4",   # see: https://pypi.org/project/flake8-comprehensions
+]
+ignore-init-module-imports = true
+unfixable = ["F401"]
+
+[tool.ruff.lint.pydocstyle]
+# Use Google-style docstrings.
+convention = "google"
+
+[tool.ruff.lint.mccabe]
+# Unlike Flake8, default to a complexity level of 10.
+max-complexity = 10
+
+[tool.codespell]
+#skip = '*.py'
+quiet-level = 3
