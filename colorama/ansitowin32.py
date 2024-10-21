@@ -51,6 +51,9 @@ class StreamWrapper(object):
         if 'PYCHARM_HOSTED' in os.environ:
             if stream is not None and (stream is sys.__stdout__ or stream is sys.__stderr__):
                 return True
+        # Detect if we are running in a jupyter notebook which supports ANSI colors
+        elif "JPY_PARENT_PID" in os.environ:
+            return False
         try:
             stream_isatty = stream.isatty
         except AttributeError:
