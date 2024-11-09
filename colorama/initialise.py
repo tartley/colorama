@@ -85,10 +85,10 @@ def just_fix_windows_console():
     # replace sys.stdout/stderr if we're in the old-style conversion mode.
     new_stdout = AnsiToWin32(sys.stdout, convert=None, strip=None, autoreset=False)
     if new_stdout.convert:
-        sys.stdout = new_stdout
+        sys.stdout = new_stdout.stream
     new_stderr = AnsiToWin32(sys.stderr, convert=None, strip=None, autoreset=False)
     if new_stderr.convert:
-        sys.stderr = new_stderr
+        sys.stderr = new_stderr.stream
 
     fixed_windows_console = True
 
