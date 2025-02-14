@@ -95,7 +95,7 @@ def just_fix_windows_console():
         if sys.stdout.isatty() and isinstance(sys.stdout, io.FileIO):
             sys.stdout.reconfigure(encoding=console_encoding_out)
 
-        if sys.stdin.isatty() and isinstance(sys.stdout, io.FileIO):
+        if sys.stdin.isatty() and isinstance(sys.stdin, io.FileIO):
             try:
                 sys.stdin.reconfigure(encoding=console_encoding_in)
             except io.UnsupportedOperation as exc:
