@@ -89,13 +89,13 @@ def just_fix_windows_console():
         console_encoding_in = MICROSOFT_CODEPAGE_ENCODING[GetConsoleCP()]
         console_encoding_out = MICROSOFT_CODEPAGE_ENCODING[GetConsoleOutputCP()]
 
-        if sys.stderr.isatty():
+        if sys.stderr.isatty() and isinstance(sys.stderr, io.FileIO):
             sys.stderr.reconfigure(encoding=console_encoding_out)
 
-        if sys.stdout.isatty():
+        if sys.stdout.isatty() and isinstance(sys.stdout, io.FileIO):
             sys.stdout.reconfigure(encoding=console_encoding_out)
 
-        if sys.stdin.isatty():
+        if sys.stdin.isatty() and isinstance(sys.stdout, io.FileIO):
             try:
                 sys.stdin.reconfigure(encoding=console_encoding_in)
             except io.UnsupportedOperation as exc:
