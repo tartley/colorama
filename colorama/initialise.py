@@ -80,7 +80,7 @@ def just_fix_windows_console():
         return
 
     # allow this fix to be run multiple times
-    if (platform.python_implementation() != 'CPython' and sys.version_info >= (3, 6)):
+    if not (platform.python_implementation() == 'CPython' and sys.version_info >= (3, 6)):
         # CPython is hard-coded to use UTF-16 for Windows Console IO:
         # https://github.com/python/cpython/blob/v3.13.2/Modules/_io/winconsoleio.c#L1092
         # But other implementations tend not to handle this at all:
