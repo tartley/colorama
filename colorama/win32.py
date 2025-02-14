@@ -1,5 +1,7 @@
 # Copyright Jonathan Hartley 2013. BSD 3-Clause license, see LICENSE file.
 
+from . import windows_437
+
 # from winbase.h
 STDOUT = -11
 STDERR = -12
@@ -201,7 +203,7 @@ else:
 
 # https://learn.microsoft.com/en-us/windows/win32/intl/code-page-identifiers
 MICROSOFT_CODEPAGE_ENCODING = {
-  437: 'cp437',
+  437: 'x-windows-437',
 
   708: 'iso-8859-6',
   709: 'iso-9036',
