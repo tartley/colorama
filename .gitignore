@@ -1,10 +1,13 @@
 *.pyc
 *.egg-info
-MANIFEST
-dist
-tags
+.coverage
+.tox/
+/MANIFEST
+/build/
+/dist/
+/sandbox/
+/tags
 virtualenv
-build
 
 # PyCharm
 .idea

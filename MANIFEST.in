@@ -1,3 +1,0 @@
-include LICENSE.txt CHANGELOG.rst
-recursive-include demos *.py *.bat *.sh
-

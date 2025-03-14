@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+
+# Test the currently built release of Colorama from the dist/ dir.
+# Run this before making a release.
+#
+# This should be run on Windows, because Colorama is mostly a no-op elsewhere.
+# Hmmm, this script should probably be a .bat file then? Nah, WSL FTW.
+#
+# Uploads package from the dist/ directory to the *test* PyPI.
+# Create a fresh virtualenvironment and install colorama from test PyPI.
+# Import Colorama and make trivial use of it.
+
+# Exit on error
+set -eu -o pipefail
+
+syspython=python3
+bin="$HOME/.virtualenvs/colorama/bin"
+sandbox=test-release-playground
+
+# Upload to the test PyPI.
+$bin/twine upload --repository colorama-test dist/colorama-* \
+    || echo "  > Expect a 400 if package was already uploaded."
+
+# cd elsewhere so we cannot import from local source.
+mkdir -p $sandbox
+(
+    # Create a temporary disposable virtualenv.
+    $syspython -m venv --clear $sandbox/venv
+
+    # voodoo sleep. I saw the following install fail, due to expected version
+    # not being listed at test.pypi.org, but then a few seconds later, re-run
+    # manually, it worked fine.
+    sleep 5
+
+    version=$(grep __version__ colorama/__init__.py | cut -d' ' -f3 | tr -d "'")
+
+    cd $sandbox
+
+    # Install the package we just uploaded.
+    # (--extra-index-url for this project's requirements)
+    venv/bin/python -m pip --quiet install --index-url https://test.pypi.org/simple --extra-index-url https://pypi.org/simple colorama==$version
+
+    # Import and use Colorama from the temp virtualenv.
+    venv/bin/python -c "import colorama; colorama.init(); print(colorama.Fore.GREEN + \"OK: Colorama\", colorama.__version__, \"from test pypi install.\")"
+)
+
+# Tidy up
+rm -rf $sandbox

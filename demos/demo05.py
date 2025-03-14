@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # Copyright Jonathan Hartley 2013. BSD 3-Clause license, see LICENSE file.
 
-# Demonstrate the difference between colorama intialized with wrapping on and off.
+# Demonstrate the difference between colorama initialized with wrapping on and off.
 # The point of the demonstration is to show how the ANSI wrapping on Windows can be disabled.
 # The unwrapped cases will be interpreted with ANSI on Unix, but not on Windows.
 

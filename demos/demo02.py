@@ -5,9 +5,9 @@
 
 from __future__ import print_function
 import fixpath
-from colorama import init, Fore, Back, Style
+from colorama import just_fix_windows_console, Fore, Back, Style
 
-init()
+just_fix_windows_console()
 
 print(Fore.GREEN + 'green, '
     + Fore.RED + 'red, '
@@ -22,4 +22,3 @@ print(Style.DIM + 'dim, '
     + Style.NORMAL + 'normal'
     , end=' ')
 print()
-
