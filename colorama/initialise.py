@@ -3,7 +3,7 @@ import atexit
 import contextlib
 import sys
 
-from .ansitowin32 import AnsiToWin32
+from .ansitowin32 import AnsiToWin32, StreamWrapper
 
 
 def _wipe_internal_state_for_tests():
@@ -47,7 +47,7 @@ def init(autoreset=False, convert=None, strip=None, wrap=True):
 
     if sys.stdout is None:
         wrapped_stdout = None
-    elif not isinstance(sys.stdout, AnsiToWin32):
+    elif not isinstance(sys.stdout, StreamWrapper):
         sys.stdout = wrapped_stdout = \
             wrap_stream(orig_stdout, convert, strip, autoreset, wrap)
     else:
@@ -55,7 +55,7 @@ def init(autoreset=False, convert=None, strip=None, wrap=True):
         wrapped_stdout = sys.stdout
     if sys.stderr is None:
         wrapped_stderr = None
-    elif not isinstance(sys.stderr, AnsiToWin32):
+    elif not isinstance(sys.stderr, StreamWrapper):
         sys.stderr = wrapped_stderr = \
             wrap_stream(orig_stderr, convert, strip, autoreset, wrap)
     else:
