@@ -205,7 +205,7 @@ else:
 
 # https://learn.microsoft.com/en-us/windows/win32/intl/code-page-identifiers
 MICROSOFT_CODEPAGE_ENCODING = {
-  437: 'x-windows-437' if not (sys.platform == 'win32' and sys.getwindowsversion().build >= 22000) else 'cp437',
+  437: 'x-windows-437',
 
   708: 'iso-8859-6',
   709: 'iso-9036',
