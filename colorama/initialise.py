@@ -34,14 +34,23 @@ def reset_all():
         AnsiToWin32(orig_stdout).reset_all()
 
 
-def init(autoreset=False, convert=None, strip=None, wrap=True):
 
+_initialized = False
+
+def init(autoreset=False, convert=None, strip=None, wrap=True):
     if not wrap and any([autoreset, convert, strip]):
         raise ValueError('wrap=False conflicts with any other arg=True')
 
     global wrapped_stdout, wrapped_stderr
     global orig_stdout, orig_stderr
+    global _initialized
 
+    if _initialized:
+        raise ValueError("Calling init() twice will result in recursion.")
+    
+    if not _initialized:
+        _initialized = True
+    
     orig_stdout = sys.stdout
     orig_stderr = sys.stderr
 
@@ -60,6 +69,7 @@ def init(autoreset=False, convert=None, strip=None, wrap=True):
     if not atexit_done:
         atexit.register(reset_all)
         atexit_done = True
+
 
 
 def deinit():
