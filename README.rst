@@ -412,3 +412,4 @@ See the CHANGELOG for more thanks!
   to include Python 3.3 and 3.4
 * Andy Neff for fixing RESET of LIGHT_EX colors.
 * Jonathan Hartley for the initial idea and implementation.
+
