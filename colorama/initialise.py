@@ -1,9 +1,13 @@
 # Copyright Jonathan Hartley 2013. BSD 3-Clause license, see LICENSE file.
 import atexit
 import contextlib
+import io
+import logging
+import platform
 import sys
 
 from .ansitowin32 import AnsiToWin32
+from .win32 import GetConsoleCP, GetConsoleOutputCP, MICROSOFT_CODEPAGE_ENCODING
 
 
 def _wipe_internal_state_for_tests():
@@ -70,6 +74,30 @@ def just_fix_windows_console():
 
     if sys.platform != "win32":
         return
+
+    # allow this fix to be run multiple times
+    if not (platform.python_implementation() == 'CPython' and sys.version_info >= (3, 6)):
+        # CPython is hard-coded to use UTF-16 for Windows Console IO:
+        # https://github.com/python/cpython/blob/v3.13.2/Modules/_io/winconsoleio.c#L1092
+        # But other implementations tend not to handle this at all:
+        # https://github.com/pypy/pypy/issues/2999
+
+        console_encoding_in = MICROSOFT_CODEPAGE_ENCODING[GetConsoleCP()]
+        console_encoding_out = MICROSOFT_CODEPAGE_ENCODING[GetConsoleOutputCP()]
+
+        if sys.stderr.isatty() and isinstance(sys.stderr.buffer.raw, io.FileIO):
+            sys.stderr.reconfigure(encoding=console_encoding_out)
+
+        if sys.stdout.isatty() and isinstance(sys.stdout.buffer.raw, io.FileIO):
+            sys.stdout.reconfigure(encoding=console_encoding_out)
+
+        if sys.stdin.isatty() and isinstance(sys.stdin.buffer.raw, io.FileIO):
+            try:
+                sys.stdin.reconfigure(encoding=console_encoding_in)
+            except io.UnsupportedOperation as exc:
+                if sys.stdin.encoding != console_encoding_in:
+                    logging.warning(exc)
+
     if fixed_windows_console:
         return
     if wrapped_stdout is not None or wrapped_stderr is not None:
