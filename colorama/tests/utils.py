@@ -4,7 +4,12 @@ from io import StringIO
 import sys
 import os
 
+try:
+    from unittest.mock import Mock
+except ImportError:
+    from mock import Mock
 
+    
 class StreamTTY(StringIO):
     def isatty(self):
         return True
@@ -12,6 +17,13 @@ class StreamTTY(StringIO):
 class StreamNonTTY(StringIO):
     def isatty(self):
         return False
+
+class StreamNonTTYWithFileNo(StringIO):
+    def isatty(self):
+        return False
+
+    def fileno(self):
+        return 10
 
 @contextmanager
 def osname(name):
