@@ -3,7 +3,6 @@
 
 # Simple demo of changing foreground, background and brightness.
 
-from __future__ import print_function
 import fixpath
 from colorama import just_fix_windows_console, Fore, Back, Style
 

@@ -3,7 +3,6 @@
 
 # Demonstrate the different behavior when autoreset is True and False.
 
-from __future__ import print_function
 import fixpath
 from colorama import init, Fore, Back, Style
 

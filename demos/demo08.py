@@ -1,4 +1,3 @@
-from __future__ import print_function
 import fixpath
 from colorama import colorama_text, Fore
 

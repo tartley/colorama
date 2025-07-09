@@ -4,7 +4,6 @@
 # print grid of all colors and brightnesses
 # uses stdout.write to write chars with no newline nor spaces between them
 # This should run more-or-less identically on Windows and Unix.
-from __future__ import print_function
 import sys
 
 # Add parent dir to sys path, so the following 'import colorama' always finds

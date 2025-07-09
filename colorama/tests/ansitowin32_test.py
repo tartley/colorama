@@ -1,16 +1,8 @@
 # Copyright Jonathan Hartley 2013. BSD 3-Clause license, see LICENSE file.
 from io import StringIO, TextIOWrapper
 from unittest import TestCase, main
-try:
-    from contextlib import ExitStack
-except ImportError:
-    # python 2
-    from contextlib2 import ExitStack
-
-try:
-    from unittest.mock import MagicMock, Mock, patch
-except ImportError:
-    from mock import MagicMock, Mock, patch
+from unittest.mock import MagicMock, Mock, patch
+from contextlib import ExitStack
 
 from ..ansitowin32 import AnsiToWin32, StreamWrapper
 from ..win32 import ENABLE_VIRTUAL_TERMINAL_PROCESSING
@@ -35,7 +27,7 @@ class StreamWrapperTest(TestCase):
         mockConverter = Mock()
         s = StringIO()
         with StreamWrapper(s, mockConverter) as fp:
-            fp.write(u'hello')
+            fp.write('hello')
         self.assertTrue(s.closed)
 
     def testProxyNoContextManager(self):

@@ -1,5 +1,4 @@
 # Copyright Jonathan Hartley 2013. BSD 3-Clause license, see LICENSE file.
-from __future__ import print_function
 import fixpath
 import colorama
 from colorama import Fore, Back, Style, Cursor

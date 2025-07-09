@@ -29,7 +29,7 @@ If you find Colorama useful, please |donate| to the authors. Thank you!
 Installation
 ------------
 
-Tested on CPython 2.7, 3.7, 3.8, 3.9, 3.10, 3.11 and 3.12 and PyPy 2.7 and 3.8.
+Tested on CPython 3.9, 3.10, 3.11, 3.12, 3.13 and PyPy 3.11.
 
 No requirements other than the standard library.
 
@@ -257,10 +257,6 @@ init(wrap=True):
         init(wrap=False)
         stream = AnsiToWin32(sys.stderr).stream
 
-        # Python 2
-        print >>stream, Fore.BLUE + 'blue text on stderr'
-
-        # Python 3
         print(Fore.BLUE + 'blue text on stderr', file=stream)
 
 Recognised ANSI Sequences
