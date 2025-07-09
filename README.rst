@@ -29,7 +29,7 @@ If you find Colorama useful, please |donate| to the authors. Thank you!
 Installation
 ------------
 
-Tested on CPython 2.7, 3.7, 3.8, 3.9, 3.10, 3.11 and 3.12 and PyPy 2.7 and 3.8.
+Tested on CPython 3.7, 3.8, 3.9, 3.10, 3.11 and 3.12 and PyPy 3.8.
 
 No requirements other than the standard library.
 
