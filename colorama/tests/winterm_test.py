@@ -1,11 +1,7 @@
 # Copyright Jonathan Hartley 2013. BSD 3-Clause license, see LICENSE file.
 import sys
 from unittest import TestCase, main, skipUnless
-
-try:
-    from unittest.mock import Mock, patch
-except ImportError:
-    from mock import Mock, patch
+from unittest.mock import Mock, patch
 
 from ..winterm import WinColor, WinStyle, WinTerm
 

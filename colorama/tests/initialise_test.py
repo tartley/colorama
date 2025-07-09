@@ -1,11 +1,7 @@
 # Copyright Jonathan Hartley 2013. BSD 3-Clause license, see LICENSE file.
 import sys
 from unittest import TestCase, main, skipUnless
-
-try:
-    from unittest.mock import patch, Mock
-except ImportError:
-    from mock import patch, Mock
+from unittest.mock import patch, Mock
 
 from ..ansitowin32 import StreamWrapper
 from ..initialise import init, just_fix_windows_console, _wipe_internal_state_for_tests

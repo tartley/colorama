@@ -257,10 +257,6 @@ init(wrap=True):
         init(wrap=False)
         stream = AnsiToWin32(sys.stderr).stream
 
-        # Python 2
-        print >>stream, Fore.BLUE + 'blue text on stderr'
-
-        # Python 3
         print(Fore.BLUE + 'blue text on stderr', file=stream)
 
 Recognised ANSI Sequences

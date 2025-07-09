@@ -5,7 +5,6 @@
 # The point of the demonstration is to show how the ANSI wrapping on Windows can be disabled.
 # The unwrapped cases will be interpreted with ANSI on Unix, but not on Windows.
 
-from __future__ import print_function
 import sys
 import fixpath
 from colorama import AnsiToWin32, init, Fore
