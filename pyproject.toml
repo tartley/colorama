@@ -9,7 +9,7 @@ name = "colorama"
 description = "Cross-platform colored terminal text."
 readme = "README.rst"
 license = "BSD-3-Clause"
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 authors = [
     { name = "Jonathan Hartley", email = "tartley@tartley.com" },
 ]
@@ -32,7 +32,6 @@ classifiers = [
     "Programming Language :: Python",
     "Programming Language :: Python :: 3 :: Only",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
