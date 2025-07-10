@@ -1,4 +1,4 @@
-Copyright (c) 2010 Jonathan Hartley
+Copyright (c) 2025 Jonathan Hartley
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
