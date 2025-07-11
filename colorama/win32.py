@@ -16,7 +16,7 @@ except (AttributeError, ImportError):
     SetConsoleTextAttribute = lambda *_: None
     winapi_test = lambda *_: None
 else:
-    from ctypes import byref, Structure, c_char, POINTER
+    from ctypes import POINTER, Structure, byref, c_char
 
     COORD = wintypes._COORD
 

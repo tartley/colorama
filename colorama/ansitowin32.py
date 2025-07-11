@@ -1,12 +1,11 @@
 # Copyright Jonathan Hartley 2013. BSD 3-Clause license, see LICENSE file.
+import os
 import re
 import sys
-import os
 
-from .ansi import AnsiFore, AnsiBack, AnsiStyle, Style, BEL
-from .winterm import enable_vt_processing, WinTerm, WinColor, WinStyle
-from .win32 import windll, winapi_test
-
+from .ansi import BEL, AnsiBack, AnsiFore, AnsiStyle, Style
+from .win32 import winapi_test, windll
+from .winterm import WinColor, WinStyle, WinTerm, enable_vt_processing
 
 winterm = None
 if windll is not None:

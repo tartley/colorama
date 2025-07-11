@@ -9,7 +9,8 @@ import sys
 # Add parent dir to sys path, so the following 'import colorama' always finds
 # the local source in preference to any installed version of colorama.
 import fixpath
-from colorama import just_fix_windows_console, Fore, Back, Style
+
+from colorama import Back, Fore, Style, just_fix_windows_console
 
 just_fix_windows_console()
 

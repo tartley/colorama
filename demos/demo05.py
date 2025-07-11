@@ -6,8 +6,10 @@
 # The unwrapped cases will be interpreted with ANSI on Unix, but not on Windows.
 
 import sys
+
 import fixpath
-from colorama import AnsiToWin32, init, Fore
+
+from colorama import AnsiToWin32, Fore, init
 
 init()
 print(f'{Fore.YELLOW}Wrapped yellow going to stdout, via the default print function.')

@@ -18,12 +18,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
-      - run: pip install --upgrade pip wheel
+      - run: pip install --upgrade pip
       - run: pip install black codespell flake8 flake8-bugbear
-                         isort mypy pytest
+                         mypy pytest
       - run: black --check . || true
       - run: codespell  # --ignore-words-list="" --skip="*.css,*.js,*.lock"
-      - run: isort --check-only --profile black . || true
       - run: pip install -r requirements.txt
       - run: mkdir --parents --verbose .mypy_cache
       - run: mypy --ignore-missing-imports --install-types --non-interactive . || true

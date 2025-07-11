@@ -1,9 +1,11 @@
 # Copyright Jonathan Hartley 2013. BSD 3-Clause license, see LICENSE file.
-import fixpath
-import colorama
-from colorama import Fore, Back, Style, Cursor
-from random import randint, choice
+from random import choice, randint
 from string import printable
+
+import fixpath
+
+import colorama
+from colorama import Back, Cursor, Fore, Style
 
 # Demonstrate printing colored, random characters at random positions on the screen
 
