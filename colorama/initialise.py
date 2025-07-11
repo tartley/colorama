@@ -32,23 +32,26 @@ def reset_all():
 
 def init(autoreset=False, convert=None, strip=None, wrap=True):
 
+    if wrap not in [True, False, "stdout", "stderr"]:
+        raise ValueError('wrap must be one of: True, False, stdout, stderr')
+
     if not wrap and any([autoreset, convert, strip]):
         raise ValueError('wrap=False conflicts with any other arg=True')
 
     global wrapped_stdout, wrapped_stderr
     global orig_stdout, orig_stderr
 
-    orig_stdout = sys.stdout
-    orig_stderr = sys.stderr
-
     if sys.stdout is None:
         wrapped_stdout = None
-    else:
+    elif wrap != "stderr":
+        orig_stdout = sys.stdout
         sys.stdout = wrapped_stdout = \
             wrap_stream(orig_stdout, convert, strip, autoreset, wrap)
+
     if sys.stderr is None:
         wrapped_stderr = None
-    else:
+    elif wrap != "stdout":
+        orig_stderr = sys.stderr
         sys.stderr = wrapped_stderr = \
             wrap_stream(orig_stderr, convert, strip, autoreset, wrap)
 
@@ -98,9 +101,9 @@ def colorama_text(*args, **kwargs):
 
 
 def reinit():
-    if wrapped_stdout is not None:
+    if orig_stdout is not None and wrapped_stdout is not None:
         sys.stdout = wrapped_stdout
-    if wrapped_stderr is not None:
+    if orig_stderr is not None and wrapped_stderr is not None:
         sys.stderr = wrapped_stderr
 
 
