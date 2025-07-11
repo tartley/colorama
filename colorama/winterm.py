@@ -8,6 +8,7 @@ except ImportError:
 
 from . import win32
 
+
 # from wincon.h
 class WinColor:
     BLACK   = 0

@@ -1,8 +1,8 @@
 # Copyright Jonathan Hartley 2013. BSD 3-Clause license, see LICENSE file.
+from contextlib import ExitStack
 from io import StringIO, TextIOWrapper
 from unittest import TestCase, main
 from unittest.mock import MagicMock, Mock, patch
-from contextlib import ExitStack
 
 from ..ansitowin32 import AnsiToWin32, StreamWrapper
 from ..win32 import ENABLE_VIRTUAL_TERMINAL_PROCESSING

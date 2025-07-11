@@ -16,7 +16,7 @@ except (AttributeError, ImportError):
     SetConsoleTextAttribute = lambda *_: None
     winapi_test = lambda *_: None
 else:
-    from ctypes import byref, Structure, c_char, POINTER
+    from ctypes import POINTER, Structure, byref, c_char
 
     COORD = wintypes._COORD
 
@@ -30,12 +30,12 @@ else:
             ("dwMaximumWindowSize", COORD),
         ]
         def __str__(self):
-            return '(%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d)' % (
-                self.dwSize.Y, self.dwSize.X
-                , self.dwCursorPosition.Y, self.dwCursorPosition.X
-                , self.wAttributes
-                , self.srWindow.Top, self.srWindow.Left, self.srWindow.Bottom, self.srWindow.Right
-                , self.dwMaximumWindowSize.Y, self.dwMaximumWindowSize.X
+            return (
+                f"({self.dwSize.Y},{self.dwSize.X},"
+                f"{self.dwCursorPosition.Y},{self.dwCursorPosition.X},"
+                f"{self.wAttributes},"
+                f"{self.srWindow.Top},{self.srWindow.Left},{self.srWindow.Bottom},{self.srWindow.Right},"
+                f"{self.dwMaximumWindowSize.Y},{self.dwMaximumWindowSize.X})"
             )
 
     _GetStdHandle = windll.kernel32.GetStdHandle

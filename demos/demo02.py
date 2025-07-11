@@ -4,7 +4,8 @@
 # Simple demo of changing foreground, background and brightness.
 
 import fixpath
-from colorama import just_fix_windows_console, Fore, Back, Style
+
+from colorama import Back, Fore, Style, just_fix_windows_console
 
 just_fix_windows_console()
 

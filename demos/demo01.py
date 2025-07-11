@@ -9,7 +9,8 @@ import sys
 # Add parent dir to sys path, so the following 'import colorama' always finds
 # the local source in preference to any installed version of colorama.
 import fixpath
-from colorama import just_fix_windows_console, Fore, Back, Style
+
+from colorama import Back, Fore, Style, just_fix_windows_console
 
 just_fix_windows_console()
 
@@ -29,18 +30,18 @@ NAMES = {
 # show the color names
 sys.stdout.write('        ')
 for foreground in FORES:
-    sys.stdout.write('%s%-7s' % (foreground, NAMES[foreground]))
+    sys.stdout.write(f'{foreground}{NAMES[foreground]:<7}')
 print()
 
 # make a row for each background color
 for background in BACKS:
-    sys.stdout.write('%s%-7s%s %s' % (background, NAMES[background], Back.RESET, background))
+    sys.stdout.write(f'{background}{NAMES[background]:<7}{Back.RESET} {background}')
     # make a column for each foreground color
     for foreground in FORES:
         sys.stdout.write(foreground)
         # show dim, normal bright
         for brightness in STYLES:
-            sys.stdout.write('%sX ' % brightness)
+            sys.stdout.write(f'{brightness}X ')
         sys.stdout.write(Style.RESET_ALL + ' ' + background)
     print(Style.RESET_ALL)
 

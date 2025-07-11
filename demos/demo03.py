@@ -4,7 +4,8 @@
 # Demonstrate the different behavior when autoreset is True and False.
 
 import fixpath
-from colorama import init, Fore, Back, Style
+
+from colorama import Back, Fore, Style, init
 
 init(autoreset=True)
 print(Fore.CYAN + Back.MAGENTA + Style.BRIGHT + 'Line 1: colored, with autoreset=True')

@@ -1,5 +1,6 @@
 import fixpath
-from colorama import colorama_text, Fore
+
+from colorama import Fore, colorama_text
 
 
 def main():

@@ -1,12 +1,14 @@
 # https://www.youtube.com/watch?v=F5a8RLY2N8M&list=PL1_riyn9sOjcKIAYzo7f8drxD-Yg9La-D&index=61
 # Generic colorama demo using command line arguments
 # By George Ogden
-from colorama import Fore, Back, Style, init
 import argparse
+
+from colorama import Back, Fore, Style, init
+
 parser = argparse.ArgumentParser("colorama demo")
 
 def format(module):
-    return list(map(lambda x: x.lower(),module.__dict__.keys()))
+    return [x.lower() for x in module.__dict__.keys()]
 
 def find(module,item):
     return module.__dict__[item.upper()]
