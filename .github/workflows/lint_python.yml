@@ -24,8 +24,6 @@ jobs:
       - run: bandit --recursive --skip B311 .
       - run: black --check . || true
       - run: codespell  # --ignore-words-list="" --skip="*.css,*.js,*.lock"
-      - run: flake8 . --count --exit-zero --max-complexity=10 --max-line-length=88
-                      --show-source --statistics
       - run: isort --check-only --profile black . || true
       - run: pip install -r requirements.txt
       - run: mkdir --parents --verbose .mypy_cache
