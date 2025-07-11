@@ -276,6 +276,7 @@ The only ANSI sequences that Colorama converts into win32 calls are::
     ESC [ 0 m       # reset all (colors and brightness)
     ESC [ 1 m       # bright
     ESC [ 2 m       # dim (looks same as normal brightness)
+    ESC [ 7 m       # swap foreground and background
     ESC [ 22 m      # normal brightness
 
     # FOREGROUND:

@@ -132,6 +132,7 @@ class AnsiToWin32:
         if self.convert and winterm:
             return {
                 AnsiStyle.RESET_ALL: (winterm.reset_all, ),
+                AnsiStyle.REVERSE_FORE_BACK: (winterm.reverse_fore_back, ),
                 AnsiStyle.BRIGHT: (winterm.style, WinStyle.BRIGHT),
                 AnsiStyle.DIM: (winterm.style, WinStyle.NORMAL),
                 AnsiStyle.NORMAL: (winterm.style, WinStyle.NORMAL),
