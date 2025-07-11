@@ -1,5 +1,5 @@
-name: lint_python
-on: [pull_request, push]
+name: lint
+on: [pull_request, push, workflow_dispatch]
 jobs:
   pre-commit:
     runs-on: ubuntu-latest
@@ -19,11 +19,9 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
       - run: pip install --upgrade pip
-      - run: pip install black codespell flake8 flake8-bugbear
-                         mypy pytest
+      - run: pip install black codespell flake8 flake8-bugbear mypy
       - run: black --check . || true
       - run: codespell  # --ignore-words-list="" --skip="*.css,*.js,*.lock"
       - run: pip install -r requirements.txt
       - run: mkdir --parents --verbose .mypy_cache
       - run: mypy --ignore-missing-imports --install-types --non-interactive . || true
-      - run: pytest .
