@@ -1,21 +1,35 @@
-# https://www.youtube.com/watch?v=F5a8RLY2N8M&list=PL1_riyn9sOjcKIAYzo7f8drxD-Yg9La-D&index=61
-# Generic colorama demo using command line arguments
-# By George Ogden
-from colorama import Fore, Back, Style, init
-import argparse
-parser = argparse.ArgumentParser("colorama demo")
+from __future__ import print_function
+import fixpath
+import colorama
+import sys
+import time
 
-def format(module):
-    return list(map(lambda x: x.lower(),module.__dict__.keys()))
+# Demonstrate cursor saving, restoring and positioning: SAVE, RESTORE and POS in colorama.Cursor
 
-def find(module,item):
-    return module.__dict__[item.upper()]
+save = colorama.Cursor.SAVE
+restore = colorama.Cursor.RESTORE
+pos = colorama.Cursor.POS
 
-parser.add_argument("-c","--colour",choices=format(Fore),default="RESET")
-parser.add_argument("-b","--background",choices=format(Back),default="RESET")
-parser.add_argument("-s","--style",choices=format(Style),default="RESET_ALL")
-parser.add_argument("-t","--text",default="Lorem ipsum dolor sit amet")
+blue = colorama.Back.BLUE
+reset = colorama.Back.RESET
 
-args = parser.parse_args()
+def main():
+    """
+    expected output:
+    Current state is shown at top
+    Progress is shown at the current cursor position
+    """
+    colorama.init()
+    for i in range(1, 10):
+        sys.stdout.write("Step {}: ".format(i))
+        for j in range(1, 10):
+            sys.stdout.write(str(j))
+            sys.stdout.write(save() + pos(10, 1) + blue + "  State {}.{}  ".format(i, j) + restore() + reset)
+            sys.stdout.flush()
+            time.sleep(0.02)
+        print()
 
-print(find(Style,args.style) + find(Fore,args.colour) + find(Back,args.background) + args.text + Style.RESET_ALL)
+
+if __name__ == '__main__':
+    main()
+

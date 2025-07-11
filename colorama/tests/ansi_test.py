@@ -2,7 +2,7 @@
 import sys
 from unittest import TestCase, main
 
-from ..ansi import Back, Fore, Style
+from ..ansi import Back, Cursor, Fore, Style
 from ..ansitowin32 import AnsiToWin32
 
 stdout_orig = sys.stdout
@@ -70,6 +70,11 @@ class AnsiTest(TestCase):
         self.assertEqual(Style.DIM, '\033[2m')
         self.assertEqual(Style.NORMAL, '\033[22m')
         self.assertEqual(Style.BRIGHT, '\033[1m')
+
+
+    def testCursorMethods(self):
+        self.assertEqual(Cursor.SAVE(), '\033[s')
+        self.assertEqual(Cursor.RESTORE(), '\033[u')
 
 
 if __name__ == '__main__':
