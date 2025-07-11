@@ -62,3 +62,13 @@ include = [
 include = [
     "/colorama/*",
 ]
+
+[tool.ruff]
+fix = true
+
+lint.select = [
+  "E9",   # pycodestyle errors
+  "F63",  # Pyflakes
+  "F7",   # Pyflakes
+  "F82",  # Pyflakes
+]
