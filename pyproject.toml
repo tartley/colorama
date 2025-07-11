@@ -73,4 +73,5 @@ lint.select = [
   "F63",  # Pyflakes
   "F7",   # Pyflakes
   "F82",  # Pyflakes
+  "UP",   # pyupgrade
 ]

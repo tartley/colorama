@@ -27,15 +27,15 @@ def main():
     pos = lambda y, x: Cursor.POS(x, y)
     # draw a white border.
     print(Back.WHITE, end='')
-    print('%s%s' % (pos(MINY, MINX), ' '*MAXX), end='')
+    print('{}{}'.format(pos(MINY, MINX), ' '*MAXX), end='')
     for y in range(MINY, 1+MAXY):
-        print('%s %s ' % (pos(y, MINX), pos(y, MAXX)), end='')
-    print('%s%s' % (pos(MAXY, MINX), ' '*MAXX), end='')
+        print(f'{pos(y, MINX)} {pos(y, MAXX)} ', end='')
+    print('{}{}'.format(pos(MAXY, MINX), ' '*MAXX), end='')
     # draw some blinky lights for a while.
     for _ in range(PASSES):
-        print('%s%s%s%s%s' % (pos(randint(1+MINY,MAXY-1), randint(1+MINX,MAXX-1)), choice(FORES), choice(BACKS), choice(STYLES), choice(CHARS)), end='')
+        print(f'{pos(randint(1+MINY,MAXY-1), randint(1+MINX,MAXX-1))}{choice(FORES)}{choice(BACKS)}{choice(STYLES)}{choice(CHARS)}', end='')
     # put cursor to top, left, and set color to white-on-black with normal brightness.
-    print('%s%s%s%s' % (pos(MINY, MINX), Fore.WHITE, Back.BLACK, Style.NORMAL), end='')
+    print(f'{pos(MINY, MINX)}{Fore.WHITE}{Back.BLACK}{Style.NORMAL}', end='')
 
 if __name__ == '__main__':
     main()
