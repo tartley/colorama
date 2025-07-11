@@ -170,7 +170,7 @@ class AnsiToWin32:
                 AnsiBack.LIGHTCYAN_EX: (winterm.back, WinColor.CYAN, True),
                 AnsiBack.LIGHTWHITE_EX: (winterm.back, WinColor.GREY, True),
             }
-        return dict()
+        return {}
 
     def write(self, text):
         if self.strip or self.convert:
@@ -242,7 +242,7 @@ class AnsiToWin32:
                     func_args = self.win32_calls[param]
                     func = func_args[0]
                     args = func_args[1:]
-                    kwargs = dict(on_stderr=self.on_stderr)
+                    kwargs = {'on_stderr': self.on_stderr}
                     func(*args, **kwargs)
         elif command in 'J':
             winterm.erase_screen(params[0], on_stderr=self.on_stderr)

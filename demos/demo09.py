@@ -6,7 +6,7 @@ import argparse
 parser = argparse.ArgumentParser("colorama demo")
 
 def format(module):
-    return list(map(lambda x: x.lower(),module.__dict__.keys()))
+    return [x.lower() for x in module.__dict__.keys()]
 
 def find(module,item):
     return module.__dict__[item.upper()]

@@ -32,7 +32,7 @@ def main():
         print('%s %s ' % (pos(y, MINX), pos(y, MAXX)), end='')
     print('%s%s' % (pos(MAXY, MINX), ' '*MAXX), end='')
     # draw some blinky lights for a while.
-    for i in range(PASSES):
+    for _ in range(PASSES):
         print('%s%s%s%s%s' % (pos(randint(1+MINY,MAXY-1), randint(1+MINX,MAXX-1)), choice(FORES), choice(BACKS), choice(STYLES), choice(CHARS)), end='')
     # put cursor to top, left, and set color to white-on-black with normal brightness.
     print('%s%s%s%s' % (pos(MINY, MINX), Fore.WHITE, Back.BLACK, Style.NORMAL), end='')

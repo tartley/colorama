@@ -67,6 +67,7 @@ include = [
 fix = true
 
 lint.select = [
+  "C4",   # flake8-comprehensions
   "C90",  # McCabe complexity
   "E9",   # pycodestyle errors
   "F63",  # Pyflakes
