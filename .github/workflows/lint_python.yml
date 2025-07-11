@@ -1,6 +1,18 @@
 name: lint_python
 on: [pull_request, push]
 jobs:
+  pre-commit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - uses: tox-dev/action-pre-commit-uv@v1
+
   lint_python:
     runs-on: ubuntu-latest
     steps:
