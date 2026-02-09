@@ -1,6 +1,7 @@
 # Copyright Jonathan Hartley 2013. BSD 3-Clause license, see LICENSE file.
 import atexit
 import contextlib
+import os
 import sys
 
 from .ansitowin32 import AnsiToWin32
@@ -30,10 +31,28 @@ def reset_all():
         AnsiToWin32(orig_stdout).reset_all()
 
 
+def _env_to_bool(value):
+    '''Return True if an environment variable is set to a non-empty value.'''
+    return value is not None and value != ''
+
+
 def init(autoreset=False, convert=None, strip=None, wrap=True):
 
     if not wrap and any([autoreset, convert, strip]):
         raise ValueError('wrap=False conflicts with any other arg=True')
+
+    # Support NO_COLOR and FORCE_COLOR environment variables.
+    # See https://no-color.org/ and https://force-color.org/
+    # Only apply env var defaults when the caller hasn't explicitly set
+    # strip or convert, to preserve backward compatibility.
+    if strip is None and convert is None:
+        force_color = _env_to_bool(os.environ.get('FORCE_COLOR'))
+        no_color = _env_to_bool(os.environ.get('NO_COLOR'))
+        if force_color:
+            # FORCE_COLOR wins over NO_COLOR when both are set.
+            strip = False
+        elif no_color:
+            strip = True
 
     global wrapped_stdout, wrapped_stderr
     global orig_stdout, orig_stderr
