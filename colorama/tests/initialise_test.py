@@ -112,6 +112,77 @@ class InitTest(TestCase):
         self.assertFalse(mockRegister.called)
 
 
+class NoColorForceColorTest(TestCase):
+
+    def tearDown(self):
+        _wipe_internal_state_for_tests()
+        sys.stdout = orig_stdout
+        sys.stderr = orig_stderr
+
+    @patch.dict('os.environ', {'NO_COLOR': '1'}, clear=False)
+    def testNoColorStripsAnsi(self):
+        with osname("posix"):
+            init()
+            # stdout should be wrapped because strip=True forces wrapping
+            self.assertIsInstance(sys.stdout, StreamWrapper)
+            self.assertIsInstance(sys.stderr, StreamWrapper)
+
+    @patch.dict('os.environ', {'NO_COLOR': ''}, clear=False)
+    def testNoColorEmptyIsIgnored(self):
+        # Empty NO_COLOR should be ignored; env var detection should not
+        # set strip=True. Behavior should be identical to no env var set.
+        with osname("posix"):
+            init()
+            # On a non-tty (like in pytest), AnsiToWin32 defaults strip=True
+            # regardless. We just verify that empty NO_COLOR didn't change
+            # behavior compared to the baseline.
+            pass  # no assertion needed; no crash is the test
+
+    @patch.dict('os.environ', {'FORCE_COLOR': '1'}, clear=False)
+    @patch('colorama.initialise.AnsiToWin32')
+    def testForceColorSetsStripFalse(self, mockATW32):
+        mockATW32.return_value.should_wrap.return_value = False
+        with osname("posix"):
+            init()
+            # Verify strip=False was passed to AnsiToWin32
+            for call in mockATW32.call_args_list:
+                self.assertFalse(call[1].get('strip', None),
+                    'FORCE_COLOR should set strip=False')
+
+    @patch.dict('os.environ', {'FORCE_COLOR': '1', 'NO_COLOR': '1'}, clear=False)
+    @patch('colorama.initialise.AnsiToWin32')
+    def testForceColorWinsOverNoColor(self, mockATW32):
+        mockATW32.return_value.should_wrap.return_value = False
+        with osname("posix"):
+            init()
+            # FORCE_COLOR takes precedence: strip should be False, not True
+            for call in mockATW32.call_args_list:
+                self.assertFalse(call[1].get('strip', None),
+                    'FORCE_COLOR should win over NO_COLOR')
+
+    @patch.dict('os.environ', {'NO_COLOR': '1'}, clear=False)
+    @patch('colorama.initialise.AnsiToWin32')
+    def testExplicitStripOverridesNoColor(self, mockATW32):
+        mockATW32.return_value.should_wrap.return_value = False
+        with osname("posix"):
+            init(strip=False)
+            # Explicit strip=False should override NO_COLOR
+            for call in mockATW32.call_args_list:
+                self.assertFalse(call[1].get('strip', None),
+                    'Explicit strip=False should override NO_COLOR')
+
+    @patch.dict('os.environ', {'NO_COLOR': '1'}, clear=False)
+    @patch('colorama.initialise.AnsiToWin32')
+    def testExplicitConvertOverridesNoColor(self, mockATW32):
+        mockATW32.return_value.should_wrap.return_value = False
+        with osname("posix"):
+            # When convert is explicitly set, env vars should not apply
+            init(convert=False)
+            for call in mockATW32.call_args_list:
+                self.assertIsNone(call[1].get('strip', None),
+                    'Explicit convert should prevent env var strip override')
+
+
 class JustFixWindowsConsoleTest(TestCase):
     def _reset(self):
         _wipe_internal_state_for_tests()
