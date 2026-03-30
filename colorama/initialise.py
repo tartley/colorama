@@ -1,6 +1,7 @@
 # Copyright Jonathan Hartley 2013. BSD 3-Clause license, see LICENSE file.
 import atexit
 import contextlib
+import os
 import sys
 
 from .ansitowin32 import AnsiToWin32
@@ -30,6 +31,37 @@ def reset_all():
         AnsiToWin32(orig_stdout).reset_all()
 
 
+def _apply_color_env(convert, strip, environ):
+    """Apply NO_COLOR / FORCE_COLOR environment variable semantics.
+
+    Precedence (highest to lowest):
+      1. Explicit ``convert`` / ``strip`` arguments (not None) — caller wins.
+      2. ``FORCE_COLOR`` — enable color even on non-tty outputs.
+      3. ``NO_COLOR`` — strip ANSI from all wrapped streams.
+
+    Only the wrapped standard streams are affected; token constants
+    (``Fore``, ``Back``, ``Style``) are left unchanged.
+
+    Returns ``(convert, strip)`` possibly adjusted by env vars.
+    """
+    force_color = "FORCE_COLOR" in environ
+    no_color = "NO_COLOR" in environ
+
+    if force_color:
+        # FORCE_COLOR wins over NO_COLOR when both are set.
+        if convert is None:
+            convert = False   # let ANSI pass through as-is; no Win32 conversion
+        if strip is None:
+            strip = False     # do NOT strip color codes
+    elif no_color:
+        if strip is None:
+            strip = True      # remove ANSI sequences from output
+        if convert is None:
+            convert = False   # no Win32 conversion (we are stripping anyway)
+
+    return convert, strip
+
+
 def init(autoreset=False, convert=None, strip=None, wrap=True):
 
     if not wrap and any([autoreset, convert, strip]):
@@ -40,6 +72,9 @@ def init(autoreset=False, convert=None, strip=None, wrap=True):
 
     orig_stdout = sys.stdout
     orig_stderr = sys.stderr
+
+    # Honour NO_COLOR / FORCE_COLOR unless the caller explicitly set convert/strip.
+    convert, strip = _apply_color_env(convert, strip, os.environ)
 
     if sys.stdout is None:
         wrapped_stdout = None
