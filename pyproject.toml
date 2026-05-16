@@ -62,3 +62,21 @@ include = [
 include = [
     "/colorama/*",
 ]
+
+[tool.ruff]
+fix = true
+
+lint.select = [
+  "C4",   # flake8-comprehensions
+  "C90",  # McCabe complexity
+  "E9",   # pycodestyle errors
+  "F63",  # Pyflakes
+  "F7",   # Pyflakes
+  "F82",  # Pyflakes
+  "I",    # isort
+  "S",    # flake8-bandit
+  "UP",   # pyupgrade
+]
+lint.ignore = [
+  "S311",   # suspicious-non-cryptographic-random-usage
+]

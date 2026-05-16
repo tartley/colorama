@@ -1,4 +1,5 @@
 import fixpath
+
 import colorama
 
 # Demonstrate cursor relative movement: UP, DOWN, FORWARD, and BACK in colorama.CURSOR

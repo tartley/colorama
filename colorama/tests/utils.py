@@ -1,8 +1,8 @@
 # Copyright Jonathan Hartley 2013. BSD 3-Clause license, see LICENSE file.
+import os
+import sys
 from contextlib import contextmanager
 from io import StringIO
-import sys
-import os
 
 
 class StreamTTY(StringIO):

@@ -1,10 +1,10 @@
 # Copyright Jonathan Hartley 2013. BSD 3-Clause license, see LICENSE file.
 import sys
 from unittest import TestCase, main, skipUnless
-from unittest.mock import patch, Mock
+from unittest.mock import Mock, patch
 
 from ..ansitowin32 import StreamWrapper
-from ..initialise import init, just_fix_windows_console, _wipe_internal_state_for_tests
+from ..initialise import _wipe_internal_state_for_tests, init, just_fix_windows_console
 from .utils import osname, replace_by
 
 orig_stdout = sys.stdout
