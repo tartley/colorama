@@ -1,3 +1,9 @@
+Colorama
+========
+
+.. image:: https://assets.piptrends.com/get-last-month-downloads-badge/colorama.svg
+    :alt: colorama Downloads Last Month by pip Trends
+    :target: https://piptrends.com/package/colorama
 .. image:: https://img.shields.io/pypi/v/colorama.svg
     :target: https://pypi.org/project/colorama/
     :alt: Latest Version
@@ -10,8 +16,8 @@
     :target: https://github.com/tartley/colorama/actions/workflows/test.yml
     :alt: Build Status
 
-Colorama
-========
+
+
 
 Makes ANSI escape character sequences (for producing colored terminal text and
 cursor positioning) work under MS Windows.
