@@ -237,6 +237,13 @@ class AnsiToWin32Test(TestCase):
                 stream.write(code)
             self.assertEqual(winterm.set_title.call_count, 2)
 
+    @patch('colorama.ansitowin32.winterm', None)
+    def test_osc_codes_without_winterm(self):
+        mockStdout = Mock()
+        stream = AnsiToWin32(mockStdout, convert=False, strip=True)
+        stream.write('\033]0;test title\x07')
+        stream.write('\033]2;test title\x07')
+
     def test_native_windows_ansi(self):
         with ExitStack() as stack:
             def p(a, b):
