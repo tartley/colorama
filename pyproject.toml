@@ -1,6 +1,6 @@
 [build-system]
 requires = [
-    "hatchling>=0.25.1",
+    "hatchling>=1.27.0",
 ]
 build-backend = "hatchling.build"
 
@@ -9,6 +9,7 @@ name = "colorama"
 description = "Cross-platform colored terminal text."
 readme = "README.rst"
 license = "BSD-3-Clause"
+license-files = ["LICENSE.txt"]
 requires-python = ">=3.9"
 authors = [
     { name = "Jonathan Hartley", email = "tartley@tartley.com" },
@@ -27,7 +28,6 @@ classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Environment :: Console",
     "Intended Audience :: Developers",
-    "License :: OSI Approved :: BSD License",
     "Operating System :: OS Independent",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3 :: Only",
