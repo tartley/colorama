@@ -1,5 +1,9 @@
 # Copyright Jonathan Hartley 2013. BSD 3-Clause license, see LICENSE file.
 
+import sys
+
+from . import windows_437
+
 # from winbase.h
 STDOUT = -11
 STDERR = -12
@@ -105,6 +109,14 @@ else:
     ]
     _SetConsoleMode.restype = wintypes.BOOL
 
+    _GetConsoleOutputCP = windll.kernel32.GetConsoleOutputCP
+    _GetConsoleOutputCP.argtypes = []
+    _GetConsoleOutputCP.restype = wintypes.UINT
+
+    _GetConsoleCP = windll.kernel32.GetConsoleCP
+    _GetConsoleCP.argtypes = []
+    _GetConsoleCP.restype = wintypes.UINT
+
     def _winapi_test(handle):
         csbi = CONSOLE_SCREEN_BUFFER_INFO()
         success = _GetConsoleScreenBufferInfo(
@@ -178,3 +190,124 @@ else:
         success = _SetConsoleMode(handle, mode)
         if not success:
             raise ctypes.WinError()
+
+    def GetConsoleCP():
+        codepage = _GetConsoleCP()
+        if not codepage:
+            raise ctypes.WinError()
+        return codepage
+
+    def GetConsoleOutputCP():
+        codepage = _GetConsoleOutputCP()
+        if not codepage:
+            raise ctypes.WinError()
+        return codepage
+
+# https://learn.microsoft.com/en-us/windows/win32/intl/code-page-identifiers
+MICROSOFT_CODEPAGE_ENCODING = {
+  437: 'x-windows-437',
+
+  708: 'iso-8859-6',
+  709: 'iso-9036',
+  932: 'shift_jis',
+  936: 'gb2312',
+  950: 'big5',
+  1047: 'x-ebcdic-latin1',
+  1140: 'x-ebcdic-us-ca-eu',
+  1141: 'x-ebcdic-de-eu',
+  1142: 'x-ebcdic-dk-no-eu',
+  1143: 'x-ebcdic-fi-se-eu',
+  1144: 'x-ebcdic-it-eu',
+  1145: 'x-ebcdic-es-eu',
+  1146: 'x-ebcdic-gb-eu',
+  1147: 'x-ebcdic-fr-eu',
+  1148: 'x-ebcdic-int-eu',
+  1149: 'x-ebcdic-is-eu',
+  1200: 'utf-16le',
+  1201: 'utf-16be',
+  1250: 'windows-1250',
+  1251: 'windows-1251',
+  1252: 'windows-1252',
+  1253: 'windows-1253',
+  1254: 'windows-1254',
+  1255: 'windows-1255',
+  1256: 'windows-1256',
+  1257: 'windows-1257',
+  1258: 'windows-1258',
+  1361: 'johab',
+  10000: 'macintosh',
+  10001: 'x-mac-japanese',
+  10002: 'x-mac-trad-chinese',
+  10003: 'x-mac-korean',
+  10004: 'mac-arabic',
+  10005: 'x-mac-hebrew',
+  10006: 'mac-greek',
+  10007: 'mac-cyrillic',
+  10008: 'x-mac-simp-chinese',
+  10010: 'mac-romanian',
+  10017: 'x-mac-ukrainian',
+  10021: 'x-mac-thai',
+  10029: 'mac-centeuro',
+  10079: 'mac-iceland',
+  10081: 'mac-turkish',
+  10082: 'mac-croatian',
+  12000: 'utf-32le',
+  12001: 'utf-32be',
+  20000: 'x-chinese-cns',
+  20001: 'x-cp20001',
+  20002: 'x-chinese-eten',
+  20105: 'x-ia5',
+  20106: 'x-ia5-german',
+  20107: 'x-ia5-swedish',
+  20108: 'x-ia5-norwegian',
+  20127: 'us-ascii',
+  20277: 'x-ebcdic-dk-no',
+  20278: 'x-ebcdic-fi-se',
+  20280: 'x-ebcdic-it',
+  20284: 'x-ebcdic-es',
+  20285: 'x-ebcdic-gb',
+  20290: 'x-ebcdic-jp-kana',
+  20297: 'x-ebcdic-fr',
+  20420: 'x-ebcdic-ar1',
+  20423: 'x-ebcdic-gr',
+  20833: 'x-ebcdic-koreanextended',
+  20838: 'x-ebcdic-thai',
+  20866: 'koi8-r',
+  20932: 'euc-jp',
+  20936: 'x-cp20936',
+  20949: 'x-cp20949',
+  21866: 'koi8-u',
+  28591: 'iso-8859-1',
+  28592: 'iso-8859-2',
+  28593: 'iso-8859-3',
+  28594: 'iso-8859-4',
+  28595: 'iso-8859-5',
+  28596: 'iso-8859-6',
+  28597: 'iso-8859-7',
+  28598: 'iso-8859-8',
+  28599: 'iso-8859-9',
+  28603: 'iso-8859-13',
+  28605: 'iso-8859-15',
+  38598: 'iso-8859-8-i',
+  50220: 'iso-2022-jp',
+  50221: 'csiso2022jp',
+  50222: 'iso-2022-jp',
+  50225: 'iso-2022-kr',
+  50227: 'x-cp50227',
+  51932: 'euc-jp',
+  51936: 'euc-cn',
+  51949: 'euc-kr',
+  52936: 'hz-gb-2312',
+  54936: 'gb18030',
+  57002: 'x-iscii-de',
+  57003: 'x-iscii-be',
+  57004: 'x-iscii-ta',
+  57005: 'x-iscii-te',
+  57006: 'x-iscii-as',
+  57007: 'x-iscii-or',
+  57008: 'x-iscii-ka',
+  57009: 'x-iscii-ma',
+  57010: 'x-iscii-gu',
+  57011: 'x-iscii-pa',
+  65000: 'utf-7',
+  65001: 'utf-8'}
