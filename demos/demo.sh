@@ -36,3 +36,6 @@ python demo07.py
 
 # Demonstrate the use of a context manager instead of manually using init and deinit
 python demo08.py
+
+# Demonstrate cursor saving, loading and positioning: SAVE, LOAD and POS in colorama.Cursor
+python demo09.py

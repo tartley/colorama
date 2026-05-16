@@ -83,10 +83,12 @@ class WinTerm:
     def set_console(self, attrs=None, on_stderr=False):
         if attrs is None:
             attrs = self.get_attrs()
-        handle = win32.STDOUT
-        if on_stderr:
-            handle = win32.STDERR
+        handle = self.get_handle(on_stderr)
         win32.SetConsoleTextAttribute(handle, attrs)
+
+    @staticmethod
+    def get_handle(on_stderr=False):
+        return win32.STDERR if on_stderr else win32.STDOUT
 
     def get_position(self, handle):
         position = win32.GetConsoleScreenBufferInfo(handle).dwCursorPosition
@@ -96,31 +98,38 @@ class WinTerm:
         position.Y += 1
         return position
 
+    def get_cursor_position(self, on_stderr=False, adjust=True):
+        handle = self.get_handle(on_stderr)
+        info = win32.GetConsoleScreenBufferInfo(handle)
+        position = info.dwCursorPosition
+        # Because Windows coordinates are 0-based,
+        # and win32.SetConsoleCursorPosition expects 1-based.
+        y, x = position.Y + 1, position.X + 1
+        if adjust:
+            window = info.srWindow
+            y -= window.Top
+            x -= window.Left
+        return y, x
+
     def set_cursor_position(self, position=None, on_stderr=False):
         if position is None:
             # I'm not currently tracking the position, so there is no default.
             # position = self.get_position()
             return
-        handle = win32.STDOUT
-        if on_stderr:
-            handle = win32.STDERR
+        handle = self.get_handle(on_stderr)
         win32.SetConsoleCursorPosition(handle, position)
 
     def cursor_adjust(self, x, y, on_stderr=False):
-        handle = win32.STDOUT
-        if on_stderr:
-            handle = win32.STDERR
-        position = self.get_position(handle)
-        adjusted_position = (position.Y + y, position.X + x)
+        (cy, cx) = self.get_cursor_position(on_stderr, adjust=False)
+        adjusted_position = (cy + y, cx + x)
+        handle = self.get_handle(on_stderr)
         win32.SetConsoleCursorPosition(handle, adjusted_position, adjust=False)
 
     def erase_screen(self, mode=0, on_stderr=False):
         # 0 should clear from the cursor to the end of the screen.
         # 1 should clear from the cursor to the beginning of the screen.
         # 2 should clear the entire screen, and move cursor to (1,1)
-        handle = win32.STDOUT
-        if on_stderr:
-            handle = win32.STDERR
+        handle = self.get_handle(on_stderr)
         csbi = win32.GetConsoleScreenBufferInfo(handle)
         # get the number of character cells in the current buffer
         cells_in_screen = csbi.dwSize.X * csbi.dwSize.Y
@@ -150,9 +159,7 @@ class WinTerm:
         # 0 should clear from the cursor to the end of the line.
         # 1 should clear from the cursor to the beginning of the line.
         # 2 should clear the entire line.
-        handle = win32.STDOUT
-        if on_stderr:
-            handle = win32.STDERR
+        handle = self.get_handle(on_stderr)
         csbi = win32.GetConsoleScreenBufferInfo(handle)
         if mode == 0:
             from_coord = csbi.dwCursorPosition
