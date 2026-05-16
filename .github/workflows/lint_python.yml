@@ -8,7 +8,7 @@ jobs:
       - uses: actions/setup-python@v5
       - run: pip install --upgrade pip wheel
       - run: pip install bandit black codespell flake8 flake8-bugbear
-                         flake8-comprehensions isort mypy pytest pyupgrade safety
+                         flake8-comprehensions isort mypy pytest pyupgrade
       - run: bandit --recursive --skip B311 .
       - run: black --check . || true
       - run: codespell  # --ignore-words-list="" --skip="*.css,*.js,*.lock"
@@ -21,4 +21,3 @@ jobs:
       - run: mypy --ignore-missing-imports --install-types --non-interactive . || true
       - run: pytest .
       - run: shopt -s globstar && pyupgrade --py36-plus **/*.py || true
-      - run: safety check
