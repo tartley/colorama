@@ -2,6 +2,7 @@
 import re
 import sys
 import os
+from threading import Lock
 
 from .ansi import AnsiFore, AnsiBack, AnsiStyle, Style, BEL
 from .winterm import enable_vt_processing, WinTerm, WinColor, WinStyle
@@ -12,6 +13,7 @@ winterm = None
 if windll is not None:
     winterm = WinTerm()
 
+winterm_lock = Lock()
 
 class StreamWrapper:
     '''
@@ -173,13 +175,17 @@ class AnsiToWin32:
         return dict()
 
     def write(self, text):
-        if self.strip or self.convert:
-            self.write_and_convert(text)
-        else:
-            self.wrapped.write(text)
-            self.wrapped.flush()
-        if self.autoreset:
-            self.reset_all()
+        try:
+            winterm_lock.acquire()
+            if self.strip or self.convert:
+                self.write_and_convert(text)
+            else:
+                self.wrapped.write(text)
+                self.wrapped.flush()
+            if self.autoreset:
+                self.reset_all()
+        finally:
+            winterm_lock.release()
 
 
     def reset_all(self):
