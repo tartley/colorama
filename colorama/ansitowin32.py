@@ -8,6 +8,7 @@ from .winterm import enable_vt_processing, WinTerm, WinColor, WinStyle
 from .win32 import windll, winapi_test
 
 
+INSIDE_PYDEV = 'sitecustomize' in sys.modules #for avoid ansi-escape replacing when runngin inside eclipse-pydev
 winterm = None
 if windll is not None:
     winterm = WinTerm()
@@ -197,11 +198,12 @@ class AnsiToWin32:
         '''
         cursor = 0
         text = self.convert_osc(text)
-        for match in self.ANSI_CSI_RE.finditer(text):
-            start, end = match.span()
-            self.write_plain_text(text, cursor, start)
-            self.convert_ansi(*match.groups())
-            cursor = end
+        if not INSIDE_PYDEV: #avoid ansi-escape replacing when inside eclipse-pydev
+            for match in self.ANSI_CSI_RE.finditer(text):
+                start, end = match.span()
+                self.write_plain_text(text, cursor, start)
+                self.convert_ansi(*match.groups())
+                cursor = end
         self.write_plain_text(text, cursor, len(text))
 
 
