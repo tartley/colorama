@@ -21,6 +21,9 @@ def _wipe_internal_state_for_tests():
     global fixed_windows_console
     fixed_windows_console = False
 
+    global _init_count
+    _init_count = 0
+
     # no-op if it wasn't registered
     atexit.unregister(reset_all)
 
@@ -37,9 +40,16 @@ def init(autoreset=False, convert=None, strip=None, wrap=True):
 
     global wrapped_stdout, wrapped_stderr
     global orig_stdout, orig_stderr
+    global _init_count
 
-    orig_stdout = sys.stdout
-    orig_stderr = sys.stderr
+    _init_count += 1
+
+    # Only capture the original streams on the first init so that deinit()
+    # always restores the real originals, not a previously-wrapped version.
+    if orig_stdout is None:
+        orig_stdout = sys.stdout
+    if orig_stderr is None:
+        orig_stderr = sys.stderr
 
     if sys.stdout is None:
         wrapped_stdout = None
@@ -59,10 +69,23 @@ def init(autoreset=False, convert=None, strip=None, wrap=True):
 
 
 def deinit():
-    if orig_stdout is not None:
-        sys.stdout = orig_stdout
-    if orig_stderr is not None:
-        sys.stderr = orig_stderr
+    global orig_stdout, orig_stderr
+    global wrapped_stdout, wrapped_stderr
+    global _init_count
+
+    if _init_count > 0:
+        _init_count -= 1
+
+    # Only restore original streams when the last init() has been undone.
+    if _init_count == 0:
+        if orig_stdout is not None:
+            sys.stdout = orig_stdout
+            orig_stdout = None
+        if orig_stderr is not None:
+            sys.stderr = orig_stderr
+            orig_stderr = None
+        wrapped_stdout = None
+        wrapped_stderr = None
 
 
 def just_fix_windows_console():
