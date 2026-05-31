@@ -38,8 +38,10 @@ def init(autoreset=False, convert=None, strip=None, wrap=True):
     global wrapped_stdout, wrapped_stderr
     global orig_stdout, orig_stderr
 
-    orig_stdout = sys.stdout
-    orig_stderr = sys.stderr
+    if orig_stdout is None:
+        orig_stdout = sys.stdout
+    if orig_stderr is None:
+        orig_stderr = sys.stderr
 
     if sys.stdout is None:
         wrapped_stdout = None
@@ -54,7 +56,7 @@ def init(autoreset=False, convert=None, strip=None, wrap=True):
 
     global atexit_done
     if not atexit_done:
-        atexit.register(reset_all)
+        atexit.register(deinit)
         atexit_done = True
 
 
