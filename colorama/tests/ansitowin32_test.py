@@ -237,6 +237,15 @@ class AnsiToWin32Test(TestCase):
                 stream.write(code)
             self.assertEqual(winterm.set_title.call_count, 2)
 
+    def test_osc_codes_not_converted_when_stripping(self):
+        # Issue #407: with strip=True and convert=False (e.g. no PTY on Linux),
+        # OSC title sequences must be stripped without touching winterm, which
+        # is None on non-Windows platforms. Calling it would raise AttributeError.
+        mockStdout = Mock()
+        with patch('colorama.ansitowin32.winterm', None):
+            stream = AnsiToWin32(mockStdout, strip=True, convert=False)
+            stream.write('\033]2;colorama_test_title\x07')  # must not raise
+
     def test_native_windows_ansi(self):
         with ExitStack() as stack:
             def p(a, b):
