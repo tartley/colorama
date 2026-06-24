@@ -259,8 +259,6 @@ class AnsiToWin32:
 
     def convert_osc(self, text):
         for match in self.ANSI_OSC_RE.finditer(text):
-            start, end = match.span()
-            text = text[:start] + text[end:]
             paramstring, command = match.groups()
             if command == BEL:
                 if paramstring.count(";") == 1:
@@ -268,9 +266,9 @@ class AnsiToWin32:
                     # 0 - change title and icon (we will only change title)
                     # 1 - change icon (we don't support this)
                     # 2 - change title
-                    if params[0] in '02':
+                    if self.convert and winterm and params[0] in ('0', '2'):
                         winterm.set_title(params[1])
-        return text
+        return self.ANSI_OSC_RE.sub('', text)
 
 
     def flush(self):
