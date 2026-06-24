@@ -282,5 +282,26 @@ class AnsiToWin32Test(TestCase):
             self.assertTrue(stream.should_wrap())
 
 
+    def test_osc_multiple_sequences_stripped_correctly(self):
+        # convert_osc must strip all OSC sequences even when several appear in
+        # a single string.  The old implementation mutated `text` inside the
+        # finditer loop, so positions from the second match referred to the
+        # already-shortened string and left garbage behind.
+        mockStdout = Mock()
+        stream = AnsiToWin32(mockStdout, strip=True, convert=False)
+        two_oscs = 'Hello\033]0;Title One\aWorld\033]2;Title Two\aEnd'
+        result = stream.convert_osc(two_oscs)
+        self.assertEqual(result, 'HelloWorldEnd')
+
+    def test_osc_strips_without_crash_when_winterm_none(self):
+        # On non-Windows, winterm is None.  convert_osc must not crash when it
+        # encounters an OSC title sequence and winterm is unavailable.
+        with patch('colorama.ansitowin32.winterm', None):
+            mockStdout = Mock()
+            stream = AnsiToWin32(mockStdout, strip=True, convert=False)
+            result = stream.convert_osc('\033]2;My Title\aText')
+            self.assertEqual(result, 'Text')
+
+
 if __name__ == '__main__':
     main()
