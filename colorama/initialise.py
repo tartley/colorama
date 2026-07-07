@@ -31,9 +31,17 @@ def reset_all():
 
 
 def init(autoreset=False, convert=None, strip=None, wrap=True):
-
     if not wrap and any([autoreset, convert, strip]):
         raise ValueError('wrap=False conflicts with any other arg=True')
+
+    # Check NO_COLOR and FORCE_COLOR environment variables
+    # (https://no-color.org/ and https://force-color.org/)
+    if strip is None:
+        import os
+        if os.environ.get('NO_COLOR') is not None:
+            strip = True
+        elif os.environ.get('FORCE_COLOR') is not None:
+            strip = False
 
     global wrapped_stdout, wrapped_stderr
     global orig_stdout, orig_stderr
