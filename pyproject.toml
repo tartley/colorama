@@ -62,3 +62,6 @@ include = [
 include = [
     "/colorama/*",
 ]
+exclude = [
+    "/colorama/tests",
+]
