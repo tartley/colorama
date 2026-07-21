@@ -1,4 +1,6 @@
 0.4.6 Current release
+  * Exclude the test suite from wheel distributions, as requested in issue
+    #405.
   * https://github.com/tartley/colorama/pull/139 Add alternative to 'init()',
     called 'just_fix_windows_console'. This fixes many longstanding problems
     with 'init', such as working incorrectly on modern Windows terminals, and
