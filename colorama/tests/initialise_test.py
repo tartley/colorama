@@ -183,3 +183,19 @@ class JustFixWindowsConsoleTest(TestCase):
 
 if __name__ == '__main__':
     main()
+
+
+def test_env_color_overrides_no_color():
+    from colorama.initialise import _env_color_overrides
+    c, s = _env_color_overrides(None, None, env={"NO_COLOR": "1"})
+    assert c is False and s is True
+
+def test_env_color_overrides_force_color_wins():
+    from colorama.initialise import _env_color_overrides
+    c, s = _env_color_overrides(None, None, env={"NO_COLOR": "1", "FORCE_COLOR": "1"})
+    assert s is False
+
+def test_env_color_overrides_explicit_wins():
+    from colorama.initialise import _env_color_overrides
+    c, s = _env_color_overrides(True, False, env={"NO_COLOR": "1"})
+    assert c is True and s is False

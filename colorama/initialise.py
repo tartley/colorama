@@ -30,10 +30,34 @@ def reset_all():
         AnsiToWin32(orig_stdout).reset_all()
 
 
+def _env_color_overrides(convert, strip, env=None):
+    """Apply NO_COLOR / FORCE_COLOR when convert/strip are left as None.
+
+    Precedence (issue #415):
+    - Explicit ``convert`` / ``strip`` arguments always win.
+    - If both FORCE_COLOR and NO_COLOR are set, FORCE_COLOR wins.
+    - FORCE_COLOR forces color (strip=False); NO_COLOR strips ANSI (strip=True).
+    """
+    import os
+    if env is None:
+        env = os.environ
+    if convert is not None or strip is not None:
+        return convert, strip
+    force = bool(env.get('FORCE_COLOR', ''))
+    no_color = bool(env.get('NO_COLOR', ''))
+    if force:
+        return convert, False  # ensure ANSI not stripped
+    if no_color:
+        return False, True  # do not convert; strip ANSI
+    return convert, strip
+
+
 def init(autoreset=False, convert=None, strip=None, wrap=True):
 
     if not wrap and any([autoreset, convert, strip]):
         raise ValueError('wrap=False conflicts with any other arg=True')
+
+    convert, strip = _env_color_overrides(convert, strip)
 
     global wrapped_stdout, wrapped_stderr
     global orig_stdout, orig_stderr
