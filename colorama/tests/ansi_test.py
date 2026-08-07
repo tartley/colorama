@@ -1,5 +1,6 @@
 # Copyright Jonathan Hartley 2013. BSD 3-Clause license, see LICENSE file.
 import sys
+from typing import Optional
 from unittest import TestCase, main
 
 from ..ansi import Back, Fore, Style
@@ -64,6 +65,15 @@ class AnsiTest(TestCase):
         self.assertEqual(Back.LIGHTMAGENTA_EX, '\033[105m')
         self.assertEqual(Back.LIGHTCYAN_EX, '\033[106m')
         self.assertEqual(Back.LIGHTWHITE_EX, '\033[107m')
+
+
+    def testAnsiCodesCanBeUsedAsTypingTypes(self):
+        self.assertIsInstance(Back, type)
+
+        def colored_background(color: Optional[Back] = Back.RED):
+            return color
+
+        self.assertEqual(colored_background(), Back.RED)
 
 
     def testStyleAttributes(self):

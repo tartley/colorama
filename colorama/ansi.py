@@ -96,7 +96,15 @@ class AnsiStyle(AnsiCodes):
     NORMAL    = 22
     RESET_ALL = 0
 
-Fore   = AnsiFore()
-Back   = AnsiBack()
-Style  = AnsiStyle()
+
+def _make_ansi_codes_type(codes):
+    """Return a type whose attributes are the rendered values from *codes*."""
+    attributes = vars(codes).copy()
+    attributes['__module__'] = __name__
+    return type(codes.__class__.__name__, (), attributes)
+
+
+Fore   = _make_ansi_codes_type(AnsiFore())
+Back   = _make_ansi_codes_type(AnsiBack())
+Style  = _make_ansi_codes_type(AnsiStyle())
 Cursor = AnsiCursor()
