@@ -51,6 +51,7 @@ test: ## Run tests
 
 build: ## Build a release (sdist and wheel)
 	$(python) -m build
+	$(python) tools/check_wheel_contents.py dist/*.whl
 .PHONY: build
 
 test-release: build ## Test a built release
