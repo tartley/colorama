@@ -2,7 +2,7 @@
 import sys
 from unittest import TestCase, main
 
-from ..ansi import Back, Fore, Style
+from ..ansi import Back, Fore, Style, Cursor
 from ..ansitowin32 import AnsiToWin32
 
 stdout_orig = sys.stdout
@@ -70,6 +70,29 @@ class AnsiTest(TestCase):
         self.assertEqual(Style.DIM, '\033[2m')
         self.assertEqual(Style.NORMAL, '\033[22m')
         self.assertEqual(Style.BRIGHT, '\033[1m')
+
+    def testCursorHappyPath(self):
+        self.assertEqual(Cursor.UP(2), '\033[2A')
+        self.assertEqual(Cursor.DOWN(0), '\033[0B')
+        self.assertEqual(Cursor.FORWARD(3), '\033[3C')
+        self.assertEqual(Cursor.BACK(1), '\033[1D')
+        self.assertEqual(Cursor.POS(4, 5), '\033[5;4H')
+
+    def testCursorParamsValidated(self):
+        # Floats/bools previously interpolated into CSI (e.g. \033[1.5A / TrueA).
+        for bad in (1.5, True, False, '1', None):
+            with self.assertRaises(TypeError):
+                Cursor.UP(bad)
+            with self.assertRaises(TypeError):
+                Cursor.POS(bad, 1)
+            with self.assertRaises(TypeError):
+                Cursor.POS(1, bad)
+        with self.assertRaises(ValueError):
+            Cursor.UP(-1)
+        with self.assertRaises(ValueError):
+            Cursor.POS(-1, 1)
+        with self.assertRaises(ValueError):
+            Cursor.POS(1, -2)
 
 
 if __name__ == '__main__':
