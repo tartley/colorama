@@ -33,17 +33,30 @@ class AnsiCodes:
                 setattr(self, name, code_to_chars(value))
 
 
+def _cursor_int(value, name='n'):
+    """Validate a cursor movement/position parameter as a non-negative int.
+
+    ANSI CSI sequences expect integer parameters. Floats, bools, and negatives
+    previously produced garbage like ``\\x1b[1.5A`` / ``\\x1b[TrueA``.
+    """
+    if isinstance(value, bool) or not isinstance(value, int):
+        raise TypeError('%s must be an int, not %s' % (name, type(value).__name__))
+    if value < 0:
+        raise ValueError('%s must be >= 0, not %r' % (name, value))
+    return value
+
+
 class AnsiCursor:
     def UP(self, n=1):
-        return CSI + str(n) + 'A'
+        return CSI + str(_cursor_int(n)) + 'A'
     def DOWN(self, n=1):
-        return CSI + str(n) + 'B'
+        return CSI + str(_cursor_int(n)) + 'B'
     def FORWARD(self, n=1):
-        return CSI + str(n) + 'C'
+        return CSI + str(_cursor_int(n)) + 'C'
     def BACK(self, n=1):
-        return CSI + str(n) + 'D'
+        return CSI + str(_cursor_int(n)) + 'D'
     def POS(self, x=1, y=1):
-        return CSI + str(y) + ';' + str(x) + 'H'
+        return CSI + str(_cursor_int(y, 'y')) + ';' + str(_cursor_int(x, 'x')) + 'H'
 
 
 class AnsiFore(AnsiCodes):
