@@ -3,7 +3,7 @@ import atexit
 import contextlib
 import sys
 
-from .ansitowin32 import AnsiToWin32
+from .ansitowin32 import AnsiToWin32, StreamWrapper
 
 
 def _wipe_internal_state_for_tests():
@@ -106,6 +106,8 @@ def reinit():
 
 def wrap_stream(stream, convert, strip, autoreset, wrap):
     if wrap:
+        if isinstance(stream, StreamWrapper):
+            return stream
         wrapper = AnsiToWin32(stream,
             convert=convert, strip=strip, autoreset=autoreset)
         if wrapper.should_wrap():
