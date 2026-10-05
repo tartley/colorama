@@ -47,6 +47,7 @@ dynamic = [
 
 [project.urls]
 Homepage = "https://github.com/tartley/colorama"
+Changelog = "https://github.com/tartley/colorama/blob/master/CHANGELOG.rst"
 
 [tool.hatch.version]
 path = "colorama/__init__.py"
