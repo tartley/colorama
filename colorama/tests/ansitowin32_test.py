@@ -23,6 +23,36 @@ class StreamWrapperTest(TestCase):
         wrapper.write('hello')
         self.assertTrue(mockConverter.write.call_args, (('hello',), {}))
 
+    def testWritelinesUsesTheConverter(self):
+        converter = Mock()
+        wrapped = Mock()
+        wrapper = StreamWrapper(wrapped, converter)
+        wrapper.writelines(iter(['first\n', '\033[31msecond\033[0m\n']))
+        self.assertEqual(
+            converter.write.call_args_list,
+            [(("first\n",), {}), (("\033[31msecond\033[0m\n",), {})])
+        wrapped.writelines.assert_not_called()
+
+    def testWritelinesMatchesRepeatedWrites(self):
+        for strip, autoreset in ((True, False), (False, False), (False, True)):
+            with self.subTest(strip=strip, autoreset=autoreset):
+                lines = ['\033[31mred\033[0m\n', 'plain', '\n']
+                actual, expected = StringIO(), StringIO()
+                converter = AnsiToWin32(actual, strip=strip, convert=False,
+                                       autoreset=autoreset)
+                reference = AnsiToWin32(expected, strip=strip, convert=False,
+                                       autoreset=autoreset)
+                self.assertIsNone(converter.stream.writelines(iter(lines)))
+                for line in lines:
+                    reference.stream.write(line)
+                self.assertEqual(actual.getvalue(), expected.getvalue())
+
+    def testWritelinesEmptyIteratorDoesNotWrite(self):
+        converter = Mock()
+        wrapper = StreamWrapper(Mock(), converter)
+        self.assertIsNone(wrapper.writelines(iter(())))
+        converter.write.assert_not_called()
+
     def testDelegatesContext(self):
         mockConverter = Mock()
         s = StringIO()

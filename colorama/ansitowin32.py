@@ -46,6 +46,10 @@ class StreamWrapper:
     def write(self, text):
         self.__convertor.write(text)
 
+    def writelines(self, lines):
+        for line in lines:
+            self.write(line)
+
     def isatty(self):
         stream = self.__wrapped
         if 'PYCHARM_HOSTED' in os.environ:
