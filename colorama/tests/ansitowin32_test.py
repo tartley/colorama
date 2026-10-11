@@ -208,6 +208,29 @@ class AnsiToWin32Test(TestCase):
         for datum, expected in data.items():
             self.assertEqual(stream.extract_params('m', datum), expected)
 
+    def test_cursor_zero_parameters_use_default(self):
+        stream = AnsiToWin32(Mock(), convert=True)
+        with patch('colorama.ansitowin32.winterm') as winterm:
+            for command, adjustment in [('A', (0, -1)), ('B', (0, 1)),
+                                         ('C', (1, 0)), ('D', (-1, 0))]:
+                with self.subTest(command=command):
+                    stream.write('\033[0' + command)
+                    winterm.cursor_adjust.assert_called_with(
+                        *adjustment, on_stderr=stream.on_stderr)
+            for command in 'Hf':
+                for parameters in ('0;0', ';0', '0;'):
+                    with self.subTest(command=command, parameters=parameters):
+                        stream.write('\033[' + parameters + command)
+                        winterm.set_cursor_position.assert_called_with(
+                            (1, 1), on_stderr=stream.on_stderr)
+
+    def test_cursor_nonzero_parameters_are_preserved(self):
+        stream = AnsiToWin32(Mock())
+        self.assertEqual(stream.extract_params('A', '2'), (2,))
+        self.assertEqual(stream.extract_params('H', '2;3'), (2, 3))
+        for command in 'JKm':
+            self.assertEqual(stream.extract_params(command, '0'), (0,))
+
     def testCallWin32UsesLookup(self):
         listener = Mock()
         stream = AnsiToWin32(listener)

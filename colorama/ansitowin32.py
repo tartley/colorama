@@ -219,7 +219,7 @@ class AnsiToWin32:
 
     def extract_params(self, command, paramstring):
         if command in 'Hf':
-            params = tuple(int(p) if len(p) != 0 else 1 for p in paramstring.split(';'))
+            params = tuple((int(p) or 1) if p else 1 for p in paramstring.split(';'))
             while len(params) < 2:
                 # defaults:
                 params = params + (1,)
@@ -231,6 +231,8 @@ class AnsiToWin32:
                     params = (0,)
                 elif command in 'ABCD':
                     params = (1,)
+            elif command in 'ABCD':
+                params = tuple(p or 1 for p in params)
 
         return params
 
