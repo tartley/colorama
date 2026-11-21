@@ -52,11 +52,9 @@ class StreamWrapper:
             if stream is not None and (stream is sys.__stdout__ or stream is sys.__stderr__):
                 return True
         try:
-            stream_isatty = stream.isatty
-        except AttributeError:
+            return stream.isatty()
+        except (AttributeError, OSError, ValueError):
             return False
-        else:
-            return stream_isatty()
 
     @property
     def closed(self):
