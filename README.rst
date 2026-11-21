@@ -209,8 +209,24 @@ These are fairly well supported, but not part of the standard::
 Cursor Positioning
 ..................
 
-ANSI codes to reposition the cursor are supported. See ``demos/demo06.py`` for
-an example of how to generate them.
+Use ``Cursor`` to generate ANSI escape sequences for moving the cursor::
+
+    from colorama import Cursor, just_fix_windows_console
+
+    just_fix_windows_console()
+    print(Cursor.POS(10, 5) + "Text at column 10, row 5")
+
+The available helpers are:
+
+* ``Cursor.UP(n=1)`` and ``Cursor.DOWN(n=1)``: move up or down by ``n`` rows.
+* ``Cursor.FORWARD(n=1)`` and ``Cursor.BACK(n=1)``: move right or left by ``n`` columns.
+* ``Cursor.POS(x=1, y=1)``: move to column ``x``, row ``y``. Coordinates start at
+  ``(1, 1)`` in the top-left corner; the column comes first in the Python call.
+
+Use positive integer distances and coordinates. These helpers return strings;
+the cursor moves when you write them to a terminal. They can be combined with
+``Fore``, ``Back`` and ``Style`` in the same output. See ``demos/demo06.py`` for
+a complete example using ``Cursor.POS``.
 
 Init Keyword Args
 .................
