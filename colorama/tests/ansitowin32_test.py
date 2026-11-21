@@ -38,6 +38,43 @@ class StreamWrapperTest(TestCase):
             with StreamWrapper(mockStream, mockConverter) as wrapper:
                 wrapper.write('hello')
 
+    def testIsattyHandlesStreamErrors(self):
+        for error in (OSError, ValueError):
+            with self.subTest(error=error):
+                stream = Mock()
+                stream.isatty.side_effect = error('terminal status unavailable')
+                self.assertFalse(StreamWrapper(stream, None).isatty())
+
+    def testIsattyOnClosedStream(self):
+        stream = StringIO()
+        stream.close()
+        self.assertFalse(StreamWrapper(stream, None).isatty())
+
+    def testIsattyPreservesStreamResult(self):
+        for result in (True, False):
+            with self.subTest(result=result):
+                stream = Mock()
+                stream.isatty.return_value = result
+                self.assertEqual(StreamWrapper(stream, None).isatty(), result)
+        self.assertFalse(StreamWrapper(object(), None).isatty())
+
+    def testIsattyPropagatesUnexpectedErrors(self):
+        stream = Mock()
+        stream.isatty.side_effect = RuntimeError('unexpected error')
+        with self.assertRaises(RuntimeError):
+            StreamWrapper(stream, None).isatty()
+
+    @osname('posix')
+    def testConverterHandlesUnsupportedIsatty(self):
+        for error in (OSError, ValueError):
+            with self.subTest(error=error):
+                stream = Mock()
+                stream.closed = False
+                stream.isatty.side_effect = error('terminal status unavailable')
+                converter = AnsiToWin32(stream)
+                self.assertTrue(converter.strip)
+                self.assertFalse(converter.convert)
+
     def test_closed_shouldnt_raise_on_closed_stream(self):
         stream = StringIO()
         stream.close()
