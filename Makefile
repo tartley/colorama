@@ -43,7 +43,7 @@ tags: ## Create tags file
 .PHONY: tags
 
 test: ## Run tests
-	$(python) -m unittest discover -p *_test.py
+	$(python) -W default -m unittest discover -p *_test.py
 .PHONY: test
 
 
