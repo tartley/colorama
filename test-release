@@ -24,9 +24,6 @@ $bin/twine upload --repository colorama-test dist/colorama-* \
 # cd elsewhere so we cannot import from local source.
 mkdir -p $sandbox
 (
-    # Create a temporary disposable virtualenv.
-    $syspython -m venv --clear $sandbox/venv
-
     # voodoo sleep. I saw the following install fail, due to expected version
     # not being listed at test.pypi.org, but then a few seconds later, re-run
     # manually, it worked fine.
@@ -36,12 +33,19 @@ mkdir -p $sandbox
 
     cd $sandbox
 
-    # Install the package we just uploaded.
-    # (--extra-index-url for this project's requirements)
-    venv/bin/python -m pip --quiet install --index-url https://test.pypi.org/simple --extra-index-url https://pypi.org/simple colorama==$version
-
-    # Import and use Colorama from the temp virtualenv.
-    venv/bin/python -c "import colorama; colorama.init(); print(colorama.Fore.GREEN + \"OK: Colorama\", colorama.__version__, \"from test pypi install.\")"
+    for artifact in wheel sdist; do
+        # Separate environments prevent one installed format satisfying the other.
+        $syspython -m venv --clear "venv-$artifact"
+        python="venv-$artifact/bin/python"
+        if [ "$artifact" = wheel ]; then
+            format=--only-binary=colorama
+        else
+            format=--no-binary=colorama
+        fi
+        # Do not reuse a wheel cached from an earlier sdist build.
+        "$python" -m pip --quiet install --no-cache-dir "$format" --index-url https://test.pypi.org/simple --extra-index-url https://pypi.org/simple "colorama==$version"
+        "$python" -c "import colorama; assert colorama.__version__ == '$version'; colorama.init(); print(colorama.Fore.GREEN + 'OK: Colorama', colorama.__version__, 'from $artifact test pypi install:', colorama.__file__)"
+    done
 )
 
 # Tidy up
