@@ -27,7 +27,10 @@ def _wipe_internal_state_for_tests():
 
 def reset_all():
     if AnsiToWin32 is not None:    # Issue #74: objects might become None at exit
-        AnsiToWin32(orig_stdout).reset_all()
+        if orig_stdout is not None:
+            AnsiToWin32(orig_stdout).reset_all()
+        if orig_stderr is not None and orig_stderr is not orig_stdout:
+            AnsiToWin32(orig_stderr).reset_all()
 
 
 def init(autoreset=False, convert=None, strip=None, wrap=True):
