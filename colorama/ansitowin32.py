@@ -195,8 +195,14 @@ class AnsiToWin32:
         sequences from the text, and optionally converting them into win32
         calls.
         '''
+        if '\033' not in text:
+            if text:
+                self.wrapped.write(text)
+                self.wrapped.flush()
+            return
         cursor = 0
-        text = self.convert_osc(text)
+        if '\033]' in text:
+            text = self.convert_osc(text)
         for match in self.ANSI_CSI_RE.finditer(text):
             start, end = match.span()
             self.write_plain_text(text, cursor, start)
@@ -207,7 +213,8 @@ class AnsiToWin32:
 
     def write_plain_text(self, text, start, end):
         if start < end:
-            self.wrapped.write(text[start:end])
+            chunk = text if start == 0 and end == len(text) else text[start:end]
+            self.wrapped.write(chunk)
             self.wrapped.flush()
 
 
@@ -242,8 +249,7 @@ class AnsiToWin32:
                     func_args = self.win32_calls[param]
                     func = func_args[0]
                     args = func_args[1:]
-                    kwargs = dict(on_stderr=self.on_stderr)
-                    func(*args, **kwargs)
+                    func(*args, on_stderr=self.on_stderr)
         elif command in 'J':
             winterm.erase_screen(params[0], on_stderr=self.on_stderr)
         elif command in 'K':
@@ -258,6 +264,8 @@ class AnsiToWin32:
 
 
     def convert_osc(self, text):
+        if '\033]' not in text:
+            return text
         for match in self.ANSI_OSC_RE.finditer(text):
             start, end = match.span()
             text = text[:start] + text[end:]
